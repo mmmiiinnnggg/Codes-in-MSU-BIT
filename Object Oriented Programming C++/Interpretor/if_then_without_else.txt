@@ -1,0 +1,6 @@
+program
+var a,N:int;
+begin
+a:=0;  N:=10;
+if a<N then write(a)
+end@
