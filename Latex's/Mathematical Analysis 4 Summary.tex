@@ -1,0 +1,446 @@
+\documentclass{article}
+\usepackage[T2A]{fontenc}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[russian]{babel}
+\usepackage{xeCJK}% 调用 xeCJK 宏包
+\setCJKmainfont{SimHei}
+
+\begin{document}
+\author{Сюй Минчуань}
+\title{Обзор математического анализа \uppercase\expandafter{\romannumeral4}}
+\maketitle
+\tableofcontents
+\newpage
+\section{Интегралы, зависящие от параметров}
+\subsection{Собственные интегралы, зависящие от параметра (ИЗП). Лек.1}
+	Рассмотрим функцию $f$, определённую на $\Pi=[a\leqslant x\leqslant b] \times[c\leqslant y\leqslant d]$. Пусть $\forall y \in[c, d]$ существует интеграл по $x$ $\int_{a}^{b} f(x,y)dx$. Тогда можно сказать, что на $[c,d]$ определена функция
+	\begin{equation}
+	\label{1}
+	J(y)=\int_{a}^{b} f(x,y)dx
+	\end{equation}
+	называемая \textbf{собственным интегралом, зависящим от параметра}.\\
+	\textbf{Теорема о непрерывности собственных ИЗП} Если функция $f\in \mathcal{C}(\Pi)$, то ИЗП (\ref{1}) непрерывен на $\Pi$ (даже равномерно непрерывен по Теореме Кантора.)\\
+	\textbf{Теорема об интегрируемости собственных ИЗП} Если $f\in \mathcal{C}(\Pi)$, то $J(y)$ интегрируема на $[c,d]$, причем интегрирование можно проводить под знаком интеграла, т.е.
+	\begin{equation}
+	\label{2}
+	\int_{a}^{b} J(y)dy=\int_{c}^{d}(\int_{a}^{b} f(x,y)dx)dy=\int_{a}^{b}(\int_{c}^{d} f(x,y)dy)dx
+	\end{equation}
+	\textbf{Теорема о дифференцируемости собственных ИЗП} Если $f\in \mathcal{C}(\Pi)$ и $\frac{\partial{f}}{\partial{y}}(x,y)\in \mathcal{C}(\Pi)$, то $J(y)$ дифференцируема на $[c,d]$ и справедлива формула
+	\begin{equation}
+	\label{3}
+	J'(y)=\int_{a}^{b} {f}_{y}'(x,y)dx
+	\end{equation}
+	\\
+	Рассмотрим функцию $f$, определённую на $\Pi$. Пусть внутри него лежат две кривые: $x=\alpha(y), x=\beta(y)$. Рассмотрим область $D=\{\alpha(y)\le x \le \beta(y),c\le y\le d\}=[\alpha(y)\le x \le \beta(y)]\times[c\le y\le d]$. Пусть $\forall y \in[c, d]$ существует интеграл 
+	\begin{equation}
+	\label{4}
+	J(y)=\int_{\alpha(y)}^{\beta(y)} f(x,y)dx
+	\end{equation}
+	\textbf{Теорема о непрерывности собственных ИЗП - 2} Если функция $f\in \mathcal{C}(\Pi)$, а функции $\alpha,\beta\in \mathcal{C}[c,d]$, то ИЗП (\ref{4}) непрерывна на $[c,d]$.\\
+	\textbf{Теорема о дифференцируемости собственных ИЗП - 2} Пусть $f\in \mathcal{C}(\Pi)$ и $\frac{\partial{f}}{\partial{y}}(x,y)\in \mathcal{C}(\Pi)$, а $\alpha(y)$ и $\beta(y)$ дифференцируемы на $[c,d]$ Тогда функция $J(y)$, определенная формулой (\ref{4}) дифференцируема на $[c,d]$, причем её производная вычисляется по \textbf{формуле Эйлера}: 
+	\begin{equation}
+	\label{5}
+	J'(y)=\int_{\alpha(y)}^{\beta(y)} {f}_{y}'(x,y)dx+\beta'(y)f(\beta(y),y)-\alpha'(y)f(\alpha(y),y)
+	\end{equation}
+\subsection{Признаки равномерной сходимости несобственных ИЗП (Вейерштрасса, Дирихле-Абеля, Дини). Лек.2}
+	\textbf{Несобственные интегралов 1-го рода}\\
+	Пусть функция $f$ определена в полуполосе ${\Pi}_{\infty}=[a\le x<+\infty)\times[c\le y\le d]$ и $\forall y\in[c,d]$ сходится по $x$ \textbf{несобственный интеграл}
+	\begin{equation}
+	\label{2.1}
+	J(y)=\int_{a}^{+\infty} f(x,y)dx
+	\end{equation}
+	Будем говорить, что \emph{сходящийся} при $\forall y\in[c,d]$ несобственный интеграл (\ref{2.1}) называется \textbf{равномерно сходящимся} по $y$ на $[c,d]$, если
+	\begin{equation}
+	\label{2.2}
+	\forall \varepsilon>0, \exists A(\varepsilon)>a: \forall R\ge A(\varepsilon)\,\text{и}\,\forall y\in[c,d] \Rightarrow |\int_{R}^{+\infty} f(x,y)dx|<\varepsilon.
+	\end{equation}
+	Обозначение: $\int_{a}^{+\infty} f(x,y)dx \stackrel{[c,d]}{\rightrightarrows}$.\\
+	\textbf{Несобственные интегралов 2-го рода - лек.3}\\
+	Предположим, что функция $ f(x, y) $ определена и ограничена в полуоткрытом прямоугольнике $ \Pi=[a \leqslant x<b] \times[c \leqslant y \leqslant d] $ и что $ \forall y \in[c, d] $ сходится несобственный интеграл второго рода $ \int_{a}^{b} f(x, y) d x$, т.е. $\exists \lim _{\varepsilon \rightarrow 0+0} \int_{a}^{b-\varepsilon} f(x, y) d x$\\
+	Будем называть несобственный интеграл $ \int_{a}^{b} f(x, y) d x$ \textbf{равномерно сходящимся} на сегменте $ [c, d]$,  если он сходится $ \forall y \in[c, d]$, и справедливо
+	\begin{equation}
+	\label{2.3}
+	\forall \varepsilon>0, \exists \delta(\varepsilon)>0: \forall \alpha, 0<\alpha<\delta(\varepsilon), \forall y \in[c, d] \Rightarrow\left|\int_{b-\alpha}^{b} f(x, y) d x\right|<\varepsilon
+	\end{equation}
+	\textbf{Критерий Коши равномерной сходимости} Для того, чтобы несобственный интеграл (\ref{2.1}) сходился равномерно необходимо и достаточно, чтобы выполнялось \text{условие Коши}:
+	\begin{equation}
+	\label{2.4}
+	\forall \varepsilon>0, \exists A(\varepsilon)>a: \forall R',R''\ge A(\varepsilon)\,\text{и}\,\forall y\in[c,d] \Rightarrow |\int_{R'}^{R''} f(x,y)dx|<\varepsilon.
+	\end{equation}
+	\textbf{Признак Вейерштрасса} Пусть\\
+	1) функция $f(x,y)$ определена в $\Pi_{\infty}$ и для $\forall y \in[c,d]$  интегрируема по $x$ на $[a, R]$ для $\forall R \geqslant a$.\\
+	2) Пусть функция $g(x)$ также интегрируема на $[a, R]$ и для неё сходится несобственный интеграл $\int_{a}^{+\infty} g(x) d x$.\\
+	3) Пусть, наконец, всюду в полуполосе $\Pi_{\infty}$ справедливо неравенство  $0 \leqslant|f(x, y)| \leqslant g(x)$. \\
+	Тогда несобственный интеграл (\ref{2.1}) сходится по $y$ равномерно на $[c,d]$.\\
+	\textbf{Следствие признака Вейерштрасса} Пусть функция $\varphi(x, y) $ определена и ограничена в $ \Pi_{\infty}$, и для $ \forall y \in[c, d] $ и $ \forall R>a $ интегрируема по $x$ на $ [a, R] $.  Пусть, кроме того, функция $ \psi(x) $ допускает сходимость $ \int_{a}^{+\infty}|\psi(x)| d x $. Тогда $ \int_{a}^{+\infty} \varphi(x) \cdot \psi(x) d x \stackrel{[c, d]}{\rightrightarrows}$ по $y$. \\
+	\textbf{Признак Дини} Пусть \\
+	1) функция $ f=f(x, y) $ непрерывна и неотрицательна в $ \Pi_{\infty} $. \\
+	2) Пусть также несобственный интеграл $ \int_{a}^{+\infty} f(x, y) d x $ сходится $ \forall y \in[c, d] $. \\
+	3) Определяемая им функция $ J(y) $ является непрерывной на $ [c, d] $. \\
+	Тогда сходимость несобственного интеграла $ J(y) $ является равномерной на $ [c, d]$.\\ 
+	\textbf{Признак Дирихле} Пусть для функций $ f=f(x, y) $ и $ g=g(x, y) $ выполнено:\\
+	1) $ g \stackrel{[c, d]}{\rightrightarrows} 0 $ при $ x \rightarrow+\infty$\\ 
+	2) $ g$ монотонна по $ x $ для $ \forall y \in[c, d]$\\ 
+	3) $\forall R>a, \forall y \in[c, d] \exists M>0:\left|\int_{a}^{R} f(x, y) d x\right| \leqslant M $\\
+	(Частичный интеграл от функции $ f $ равномерно ограничен)\\
+	Torдa  $\int_{a}^{+\infty} f(x, y) g(x, y) d x \stackrel{[c, d]}{\rightrightarrows}$.\\
+	\textbf{Признак Абеля} Пусть для функций $ f=f(x, y) $ и $ g=g(x, y) $ выполнено:\\
+	1) $ \int_{a}^{\infty} f(x, y) d x \stackrel{[c,d]}{\rightrightarrows} 0 $ по $ y$, при $ x \rightarrow+\infty$.\\ 
+	2) Функция $ g $ ограничена и монотонна по $ x $.\\ 
+	Torдa $ \int_{a}^{+\infty} f(x, y) g(x, y) d x \stackrel{[c, d]}{\rightrightarrows} $.\\
+\subsection{Непрерывность и интегрируемость несобственных ИЗП на отрезке. Лек.3}
+	\textbf{Непрерывность несобственных ИЗП на отрезке} Пусть $ f=f(x, y) $ непрерывна на $ \Pi_{\infty}$,  а несобственный интеграл $ J(y)=\int_{a}^{\infty} f(x, y) d x \stackrel{[c, d]}{\rightrightarrows} $.  Torдa $ J(y) \in \mathcal{C}[c, d]$.\\
+	\textbf{Интегрируемость несобственных ИЗП на отрезке} Пусть $ f=f(x, y) $ непрерывна на $ \Pi_{\infty}$, а несобственный интеграл $J(y)=\int_{a}^{\infty} f(x, y) d x \stackrel{[c,d]}{\rightrightarrows}$. Тогда $J(y)$ интегрируема на $[c,d]$, причем интегрирование можно проводить под знаком интеграла, т.е. справедлива формула:
+	\begin{equation}
+	\label{3.1}
+	\int_{c}^{d} J(y) d y=\int_{a}^{+\infty}\left(\int_{c}^{d} f(x, y) d y\right) d x
+	\end{equation}
+	
+\subsection{Дифференцируемость несобственных ИЗП. Лек.3}
+	\textbf{Дифференцируемость несобственных ИЗП на отрезке} Пусть функции $ f=f(x, y) $ и $ \frac{\partial f}{\partial y}(x, y) $ непрерывны в $ \Pi_{\infty} $. И, если интеграл $ \int_{a}^{+\infty} f_{y}^{\prime}(x, y) d x \stackrel{[c, d]}{\rightrightarrows}$, a caм несобственный интеграл $ \int_{a}^{+\infty} f(x, y) d x $ сходится в некоторой точке $ y \in[c, d]$, то $ J(y) $ имеет производную на $ [c, d]$, и
+	\begin{equation}
+	\label{4.1}
+	J'(y)=\int_{a}^{+\infty} {f}_{y}'(x,y)dx
+	\end{equation}
+\subsection{Интегрируемость несобственных ИЗП на полупрямой. Лек.3}
+	\textbf{Интегрируемость несобственных ИЗП на полупрямой} Пусть $ f=f(x, y) $ непрерывна и неотрицательна в четверти плоскости $ \{(x, y) \mid x \geqslant a, y \geqslant c\}$. Пусть также\\ 
+	1) интеграл $ J(y)=\int_{a}^{+\infty} f(x, y) d x $ сходится $\forall y \geqslant c$, и определённая им функция непрерывна.\\
+	2) интеграл $ K(x)=\int_{c}^{+\infty} f(x, y) d y $ сходится $\forall x \geqslant a$, и определённая им функция непрерывна.\\ Тогда, если сходится один из двух интегралов:
+	\begin{equation}
+	\begin{aligned}
+	\int_{a}^{+\infty} K(x)dx&=\int_{a}^{+\infty}dx\int_{c}^{+\infty}f(x, y)dy,\\
+	\int_{c}^{+\infty} J(y)dy &= \int_{c}^{+\infty}dy\int_{a}^{+\infty} f(x, y) d x
+	\end{aligned}
+	\label{5.1}
+	\end{equation}
+	то сходится и второй из этих интегралов, причём они равны друг другу.
+\subsection{Вычисление интеграла Дирихле. Задача 3812.1}
+	\textbf{Интеграл Дирихле}\\
+	\begin{equation}
+	\label{6.1}
+	D(\beta)=\int_{0}^{+\infty} \frac{\sin\beta x}{x}dx=\pi/2sgn\beta
+	\end{equation}
+	Рассмотирим интеграл вида
+	\begin{equation}
+	\label{6.2}
+	I(\alpha)=\int_{0}^{+\infty} {e}^{-\alpha x}\frac{\sin\beta x}{x}dx, \alpha \ge 0
+	\end{equation}
+	1) Пусть $\beta>0$. Зафиксируем произвольный $\beta$ и покажем, что $I(\alpha)\rightrightarrows$ при $\alpha \in [0,+\infty)$.\\
+	1. ${e}^{-\alpha x}/x \rightrightarrows 0$ при $x\rightarrow +\infty$, так как ($0\le {e}^{-\alpha x}/x\le 1/x$, и по признаку Вейерштрасса).\\
+	2. ${e}^{-\alpha x}/x$ монотонно убывает по $x$.\\ 
+	3. $|\int_{0}^{A} \sin\beta xdx|=|1/\beta(1-\cos \beta A)|\le 2/\beta$, то есть частичный интеграл равномерно ограничен.\\
+	Тогда по признаку Дирихле $I(\alpha)$ сходится равномерно при $\alpha\ge 0$.\\
+	Следовательно $I(\alpha) \in \mathcal{C}[0,+\infty)$. \\
+	\\
+	Заметим, что $\lim_{x\rightarrow +0} {e}^{-\alpha x} \frac{\sin \beta x}{x}=\beta$. Тогда мы вычисляем производную от функции $I(\alpha)$ под знаком интеграла. Это обеспечивается\\ 
+	1) $|\frac{\partial}{\partial{\alpha}} {e}^{-\alpha x}\frac{\sin \beta x}{x}|=|{e}^{-\alpha x}\sin \beta x|\le {e}^{{\alpha}_{0}x}$ при $\alpha\ge {\alpha}_{0}>0$ и ${\alpha}_{0}$ произвольный, a $\int_{0}^{+\infty} {e}^{{\alpha}_{0}x}dx$ сходится, затем по признаку Вейерштрасса.
+	2) Сам интеграл $I(\alpha)=\int_{0}^{+\infty} {e}^{-\alpha x}\frac{\sin\beta x}{x}dx$ при любом фиксированном значении $\alpha$, так как ${e}^{-\alpha x}/x$ монотонно убывает по $x$ и стремится к $0$, a $\sin\beta x$ имеет ограниченную первообразную, поэтому по признаку Дирихле этот несобственный интеграл сходится при некотором(фактически при любом) $\alpha$.
+	\\
+	\\
+	Используя интегрирование по частям, мы получим $I'(\alpha)=\int_{0}^{+\infty} \frac{\partial}{\partial{\alpha}} {e}^{-\alpha x}\frac{\sin \beta x}{x}dx=-\beta/({\alpha}^{2}+{\beta}^{2})$. Интегрируем $I'(\alpha)$, получим $I(\alpha)=\int_{0}^{+\infty} -\beta/({\alpha}^{2}+{\beta}^{2})d\alpha=-\arctan\alpha/\beta+C$. Так как $|I(\alpha)|\le \beta\int_{0}^{+\infty} {e}^{-\alpha x}dx=\beta/\alpha$ и пусть $\alpha\rightarrow +\infty$, получим $\lim_{\alpha \rightarrow+\infty} I(\alpha)=0$. Из этого получим $C=\pi/2$. Тогда $I(\alpha)=-\arctan\alpha/\beta+\pi/2.$\\
+	Теперь $D(\beta)=I(0)=\pi/2$.\\
+	2) Пусть $\beta<0$, тогда $D(\beta)=-D(-\beta)=-\pi/2$\\
+	3) Пусть $\beta<0$, тогда очевидно $D(0)=0$.\\
+	\\
+	В итоге, $D(\beta)=\pi/2sgn\beta$.
+\subsection{Свойства $\Gamma$-функции Эйлера. Лек.4}
+	\textbf{Гамма-функцией} Эйлера, или \textbf{интегралом Эйлера второго рода} называется функция от одного параметра $ p$: 
+	\begin{equation}
+	\label{7.1}
+	\Gamma(p)=\int_{0}^{+\infty} x^{p-1} e^{-x} d x
+	\end{equation}
+	\textbf{Свойства $\Gamma$-функции}\\
+	1) $\Gamma$-функция существует при $p>0$.\\
+	2) $\Gamma(p)$ непрерывна при $p>0$.\\
+	3) \textbf{Формула приведения} $\forall p>0, \Gamma(p+1)=p\Gamma(p)$.\\
+	4) $\Gamma(n+1)=n!,n\in \mathbb{N}$.\\
+    5) $\Gamma(1/2)=\sqrt{\pi}$.\\
+	6) \textbf{Дифференцирование по параметру} Для любых $ 0<p_{0} \leqslant p \leqslant p_{1}<+\infty $ и $ n \in \mathbb{N} $ гамма-функция $ n $ раз дифференцируема по параметру, причем справедлива формула
+	\begin{equation}
+	\label{7.2}
+	\frac{d^{n}}{d p^{n}} \int_{0}^{+\infty} e^{-t} t^{p-1} d t=\int_{0}^{+\infty} \frac{d^{n}}{d p^{n}}\left(e^{-t} t^{p-1}\right) d t=\int_{0}^{+\infty} e^{-t} t^{p-1} \ln ^{n} t d t
+	\end{equation}
+\subsection{Свойства $B$-функции Эйлера. Связь между эйлеровыми интегралами. Лек.4}
+	\textbf{Бета-функцией} Эйлера, или {интегралом Эйлера первого рода} называется функция, зависящая от параметров $ p $ и $ q$: 
+	\begin{equation}
+	\label{8.1}
+	B(p, q)=\int_{0}^{1} x^{p-1}(1-x)^{q-1} d x
+	\end{equation}
+	\textbf{Свойства $B$-функции}\\
+	1) $B$-функция существует при $p,q>0$.\\
+	2) $B(p,q)$ непрерывна при $p,q>0$.\\
+	3) \textbf{Симметрия} $\forall p,q>0, B(p,q)=B(q,p)$.\\
+	4) \textbf{Формула приведения} 
+	\begin{equation}
+	\label{8.2}
+	\begin{aligned}
+	B(p+1,q)&=\frac{p}{p+q} B(p,q),\\
+	B(p,q+1)&=\frac{q}{p+q} B(p,q)
+	\end{aligned}
+	\end{equation}
+	5) При $\forall p>0,\forall n\in \mathbb{N}$:
+	\begin{equation}
+	\label{8.3}
+	B(p,n)=\frac{(n-1)!}{p(p+1)\ldots(p+n-1)}
+	\end{equation}
+	Если $p\in \mathbb{N}$, то 
+	\begin{equation}
+	\label{8.4}
+	B(p,n)=\frac{(n-1)!(p-1)!}{(p+n-1)!}
+	\end{equation}
+	\textbf{Связь между эйлеровыми интегралами}\\
+	При $p,q>0$ справедливо 
+	\begin{equation}
+	\label{8.5}
+	B(p, q)=\frac{\Gamma(p)\Gamma(q)}{\Gamma(p+q)}
+	\end{equation}
+\subsection{Асимптотическая формула для функции $\Gamma(\lambda+1),\lambda\rightarrow+\infty$. Формула Стирлинга. Лек.5}
+	\textbf{Формула Стирлинга} Пусть $ \lambda \in \mathbb{N} $. Тогда для $ \lambda !$ справедлива следующая асимптотическая
+	оценкa:
+	\begin{equation}
+	\label{9.2}
+	\lambda !=\left(\frac{\lambda}{e}\right)^{\lambda} \cdot \sqrt{2 \pi \lambda}\left(1+\gamma_{\lambda}\right)
+	\end{equation}
+	где $\gamma_{\lambda}=\frac{1}{12 \lambda}+\frac{1}{228 \lambda^{2}}-\frac{139}{51840 \lambda^{3}}-\frac{571}{2448320 \lambda^{4}}+\underline{O}\left(\frac{1}{\lambda^{5}}\right)$
+	
+	 
+\section{Теория рядов Фурье}
+\subsection{Ортонормированные системы. Задача о наилучшем приближении элемента евклидова пространства. Лек.6}
+	Система элементов $ \left\{\psi_{j}\right\} \in L $ называется \textbf{ортонормированной}, если $ \left(\psi_{j}, \psi_{k}\right)=\delta_{j}^{k} $ - символ Кронекера.\\	
+	\textbf{Пример} Важным примером такой системы является система
+	\begin{equation}
+	\label{1-1}
+	\left\{\frac{1}{\sqrt{2 \pi}}, \frac{\cos k x}{\sqrt{\pi}}, \frac{\sin k x}{\sqrt{\pi}}\right\}
+	\end{equation}
+	в $L[-\pi, \pi] $ и $ [-\pi, \pi]$, где $ k=1,2,3, \ldots$, которая называется \textbf{тригонометрической системой функций}.\\
+	\\
+	Пусть $\{{\psi}_{j}\}$ произвольная ортонормированная система. Фиксируем $\forall n\in \mathbb{N}$ и рассмотрим сумму $\sum_{j=1}^{n} {c}_{j}{\psi}{j}$.\\
+	\textbf{Отклонение элемента $g$ от $f$} в псевдоевклидовом пространстве называют число $||f-g||$.\\
+	Требуется найти $\min_{{c}_{k}} ||f-\sum_{j=1}^{n} {c}_{j}{\psi}{j}||$. Оказывается, при ${c}_{k}={f}_{k}=(f,{\psi}_{k})$ достигается минимум.\\
+	Ряд $\sum_{k=1}^{\infty} {f}_{k}{\psi}_{k}$ называется \textbf{рядом Фурье} функции $f$ по ортонормированной системе $\{{\psi}_{k}\}$.\\
+	${f}_{k}=(f,{\psi}_{k})$ - 、\textbf{коэффициенты ряда Фурье}.\\
+	$\sum_{k=1}^{n} {f}_{k}{\psi}_{k}$ - \textbf{$n$-ая частичная сумма ряда Фурье}.\\
+	\textbf{Тождество Бесселя} $\min_{{c}_{k}} {||f-\sum_{j=1}^{n} {c}_{j}{\psi}{j}||}^{2}={||f||}^{2}-\sum_{k=1}^{n}{{f}_{k}}^{2}$. Это справедливо $\forall f\in L$ и для любой ортонормированной системы $\{{\psi}_{k}\}$.\\
+	$\forall f\in L$ и для любой ортонормированной системы $\{{\psi}_{k}\}$ справедливо \textbf{неравенство Бесселя}: $\sum_{k=1}^{\infty}{{f}_{k}}^{2}\le {||f||}^{2}$.\\
+	Тригонометрический ряд Фурье обычно принято записывать немного в другом виде, а именно:
+	\begin{equation}
+	\label{1-2}
+	\begin{aligned}
+	\frac{{a}_{0}}{2}&+\sum_{k=1}^{\infty} ({a}_{k} \cos kx+{b}_{k} \sin kx),\\
+	{a}_{0}&=\frac{1}{\pi} \int_{-\pi}^{\pi} f(x)dx,\\ {a}_{k}&=\frac{1}{\pi} \int_{-\pi}^{\pi} f(x)\cos{k}_{x}dx,\\
+	{b}_{k}&=\frac{1}{\pi} \int_{-\pi}^{\pi} f(x)\sin{k}_{x}dx.
+	\end{aligned}
+	\end{equation}
+	
+\subsection{Замкнутость и полнота ортонормированных систем. Лек.7}
+	Ортонормированная система $\{{\psi}_{k}\}$ в псевдоевклидовом пространстве называется \textbf{замкнутой}, если для любого произвольного элеиента этого пространства 
+	\begin{equation}
+	\label{2-1}
+	\forall \varepsilon>0,\exists n\in \mathbb{N},\exists {c}_{1},\ldots,{c}_{n}: ||f-\sum_{j=1}^{n} {c}_{j}{\psi}_{j}||<\varepsilon.
+	\end{equation}
+	Ортонормированная система $\{{\psi}_{k}\}$ в псевдоевклидовом пространстве называется \textbf{полной}, если из $\forall k\in \mathbb{N},f\perp{\psi}_{k}$ следует $f\equiv0$. То есть если любой элемент пространства ортогональный ко всем элементам $\{{\psi}_{k}\}$ обязательно является нулевым.\\
+	\\
+	\textbf{Равенство Парсеваля} В псевдоевклидовом пространстве для замкнутой систеиы неравенство Бесселя переходит в тождество, а именно:
+	\begin{equation}
+	\label{2-2}
+	\sum_{k=1}^{\infty}{{f}_{k}}^{2}\le {||f||}^{2} \Rightarrow \sum_{k=1}^{\infty}{{f}_{k}}^{2}={||f||}^{2}
+	\end{equation}
+	\textbf{Теорема} Если ортонормированная система $\left\{\psi_{k}\right\} $ в произвольном псевдоевклидовом пространстве $ \mathcal{L} $ является замкнутой, то $ \forall f \in \mathcal{L} $ его ряд Фурье сходится к $ f $ по норме $\mathcal{L}$, т.е.
+	\begin{equation}
+	\label{2-3}
+	\lim _{n \rightarrow \infty}\left\|f-\sum_{k=1}^{n} f_{k} \psi_{k}\right\|_{\mathcal{L}}=0
+	\end{equation}
+	в $\mathcal{L}[-\pi,\pi]$ выполнено
+	\begin{equation}
+	\label{2-4}
+	\left\|f-\sum_{k=1}^{n} f_{k} \psi_{k}\right\|_{\mathcal{L}}=\sqrt{\int_{-\pi}^{\pi} {(f(x)-\sum_{k=1}^{n} {f}_{k}{\psi}_{k}(x))}^{2}dx}
+	\end{equation}
+	Это \textbf{сходимость в среднем ряда Фурье} этой функции.\\
+	\\
+	\textbf{Теорема} B евклидовом пространстве $ \mathcal{L} $ всякая замкнутая ортонормированная система $ \left\{\psi_{k}\right\} $ является полной.\\
+	\textbf{Теорема} Для полной ортонормированной системы в евклидовом пространстве $ \mathcal{L} $ два различных элемента $ f $ и $ g $ не могут иметь совпадающих для всех номеров коэффициентов Фурье по этой системе.\\
+	
+\subsection{Теорема Фейера. Лек.8}
+	Пусть $f$ - $2\pi$-периодическая функция, для тригонометрического ряда Фурье имеем
+	\begin{equation}
+	\label{2-5}
+	{S}_{n}(x,f)=\frac{{a}_{0}}{2}+\sum_{k=1}^{n}({a}_{k}\cos kx+{b}_{k}\sin kx)
+	\end{equation}
+	Будем называть \textbf{чезаровскими средними} для тригонометрического ряда Фурье выражение
+	\begin{equation}
+	\label{2-6}
+	{\sigma}_{n}(x,f)=\frac{{S}_{0}(x,f)+{S}_{1}(x,f)+\ldots+{S}_{n-1}(x,f)}{n}
+	\end{equation}
+	\textbf{Утверждения} Справедливы
+	\begin{equation}
+	\label{2-7}
+	\begin{aligned}
+	{S}_{n}(x,f)&=\frac{1}{\pi}\int_{-\pi}^{\pi} f(x+t)\underbrace{\frac{\sin(n+\frac{1}{2})t}{2\sin\frac{t}{2}}}_{\text{ядро Дирихле}}dt\\
+	{\sigma}_{n}(x,f)&=\frac{1}{n\pi}\int_{-\pi}^{\pi} f(x+t)\underbrace{\frac{{\sin}^{2}\frac{tn}{2}}{2{\sin}^{2}\frac{t}{2}}}_{\text{ядро Фейера}}dt
+	\end{aligned}
+	\end{equation}
+	Удобнее обозначать ядро Фейера и ядро Дирихле как
+	\begin{equation}
+	\label{2-8}
+	\begin{aligned}
+	{D}_{n}(t)&=\frac{\sin(n+\frac{1}{2})t}{2\sin\frac{t}{2}}\\
+	{\Phi}_{n}(t)&=\frac{{\sin}^{2}\frac{tn}{2}}{2{\sin}^{2}\frac{t}{2}}
+	\end{aligned}
+	\end{equation}
+	\textbf{Теорема Фейера} Функция $f(x)\in \mathcal{C}[-\pi,\pi]$ и $f(-\pi)=f(\pi)$ тогда и только тогда, когда ${\sigma}_{n}(x,f)\stackrel{[-\pi,\pi]}{\rightrightarrows}f(x), n\rightarrow+\infty$
+\subsection{Замкнутость тригонометрической системы. Следствия из замкнутости. Лек.8-9}
+	\textbf{Теорема} Тригонометрическая система функций\footnote{Ортогональная система, не ортонормированная} замкнута в псевдоевклидовом пространстве\footnote{Всякое евклидово пространство является псевдоевклидовым.} $\mathcal{L}[-\pi,\pi]$, и тем более в евклидовом пространстве $\mathcal{\hat{C}}[-\pi,\pi]$.\footnote{ $\hat{\mathcal{C}}[a, b]$ -  пространство кусочно-непрерывных на $[a, b] $ функций, имеющих конечное число разрывов $\uppercase\expandafter{\romannumeral1}$-ого рода в точках $ x_{1}, x_{2}, \ldots, x_{n} \in[a, b] $.}\\
+	\textbf{Следствия к теореме}\\
+	1) Для $ \forall f \in L $ неравенство Бесселя для тригонометрической системы функций переходит в равенство Парсеваля.
+	\begin{equation}
+	\frac{a_{0}^{2}}{2}+\sum_{k=1}^{\infty}\left(a_{k}^{2}+b_{k}^{2}\right)=\frac{1}{\pi} \int_{-\pi}^{\pi} f^{2}(x) d x
+	\end{equation}
+	2) Для $ \forall f \in L $ ее тригонометрический ряд Фурье сходится к ней в среднеквадратичном(в среднем).\\
+	3) Для $ \forall f \in L $ ее тригонометрический ряд Фурье можно интегрировать почленно.\\
+	4) Тригонометрическая система функций является полной в евклидовом пространстве $ \mathcal{C}[-\pi, \pi]$, но она не является полной в псевдоевклидовом пространстве $ L[-\pi, \pi] $.\\
+	5) Все коэффициенты Фурье двух различных кусочно-непрерывных на $[-\pi,\pi] $ функций $ f $ и $ g $ не могут совпадать.\\  
+\subsection{Теоремы Вейерштрасса о равномерном приближении непрерывной функции. Лек.8}
+	Будем называть \textbf{тригонометрическим многочленом} конечную линейную комбинацию $\sin$ и $\cos$, т.e.
+	\begin{equation}
+	T(x)=a_{0}+\sum_{k=1}^{n}\left(a_{k} \cos k x+b_{k} \sin k x\right)	
+	\end{equation}
+	\textbf{Теорема Вейерштрасса} Пусть $ f(x) \in \mathcal{C}[-\pi, \pi] $ и $ f(-\pi)=f(\pi) $. Тогда
+	\begin{equation}
+	\forall\varepsilon>0\, \exists T(x): \forall x \in[-\pi, \pi] \Rightarrow|f(x)-T(x)|<\varepsilon
+	\end{equation}
+	\textbf{Теорема о приближении непрерывной функции алгебраическими многочленами} Если $ f(x) \in \mathcal{C}[a, b] $, то 
+	\begin{equation}
+	\forall\varepsilon>0\, \exists P(x): \forall x \in[a, b] \Rightarrow|f(x)-P(x)|<\varepsilon
+	\end{equation}
+	где $P(x)$ - алгебраический многочлен.
+\subsection{Локальная теорема Фейера. Лек.9}
+	\textbf{Локальная теорема Фейера} Пусть $f(x)\quad2\pi$ - периодична и интегрируема по любому конечному отрезку. Пусть также существуют конечные пределы $ f\left(x_{0} \pm 0\right) $. Тогда чезаровские средние частичных сумм тригонометрического ряда Фурье этой функции сходятся в этой точке к полусумме односторонних пределов:
+	\begin{equation}
+	\sigma_{n}\underset{n \rightarrow \infty}{\longrightarrow}\left(x_{0}, f\right) \frac{f\left(x_{0}+0\right)+f\left(x_{0}-0\right)}{2}
+	\end{equation}
+	\textbf{Сходимость тригонометрического ряда Фурье в точке} Пусть $f(x)\quad2\pi$ - периодична и интегрируема, и пусть её тригонометрический ряд Фурье сходится\footnote{В Теореме Римана из лек.11 не говорится сходимость в точке, там теорема Римана горовит, от чего зависит сходимость ряда Фурье.} в точке $ x_{0}$, в которой $ f $ непрерывна. Тогда
+	\begin{equation}
+	S_{n}\left(x_{0}, f\right) \underset{n \rightarrow \infty}{\longrightarrow} f\left(x_{0}\right)
+	\end{equation}
+	Если функция $ f $ имеет в точке $ x_{0} $ разрыв первого рода, то
+	\begin{equation}
+	S_{n}\left(x_{0}, f\right)=\frac{f\left(x_{0}+0\right)+f\left(x_{0}-0\right)}{2}
+	\end{equation}	
+\subsection{Простейшие условия равномерной сходимости и почленной дифференцируемости рядов Фурье. Лек.9}
+	\textbf{Теорема Карлесона} Если функция $ f $ допускает понимаемый в смысле Лебега интеграл $ \int_{-\pi}^{\pi} f^{2}(x) d x$, то тригонометрический ряд Фурье этой функции сходится к ней почти всюду на отрезке $ [-\pi, \pi]$.\\
+	Из теоремы Карлесона вытекает, что тригонометрический ряд Фурье любой интегрируемой на $ [-\pi, \pi] $ по Риману функции $ f $ сходится к ней почти всюду на этом отрезке.\\
+	\\
+	Будем говорить, что функция $ f $ имеет на отрезке $ [-\pi, \pi] $ \textbf{кусочно-непрерывную производную}, если $ \exists f^{\prime} $ существует во всех внутренних точках этого отрезка за исключением, быть может конечного их числа, в каждой из которых $ f^{\prime} $ имеет конечный правый и левый пределы и, кроме того, существуют пределы: $ \lim _{x \rightarrow-\pi+0} f^{\prime}(x) $ и $ \lim _{x \rightarrow \pi-0} f^{\prime}(x)$.\\
+	Будем говорить, что функция $ f $ имеет на $ [-\pi, \pi] $ кусочно-непрерывную производную порядка $ n>1$, если функция $ f^{(n-1)} $ имеет на этом отрезке кусочно-непрерывную функцию.\\
+	\textbf{Простейшие условия равномерной сходимости} Пусть $ f \in \mathcal{C}[-\pi, \pi], f(-\pi)=f(\pi)$ и $f$ имеет кусочно-непрерывную производную. Тогда её тригонометрический ряд Фурье сходится к ней равномерно на $ [-\pi, \pi] $. Более того, равномерно сходится и ряд, состоящий из модулей:
+	\begin{equation}
+	\frac{\left|a_{0}\right|}{2}+\sum_{n=1}^{\infty}\left(\left|a_{n}\right||\cos n x|+\left|b_{n}\right||\sin n x|\right)
+	\end{equation}
+	\\
+	Предположим теперь, что выполнены следующие условия\\
+	\begin{equation}
+	\label{7-1}
+	\begin{aligned}
+	&(1) f(x) \, \text{и} \, f^{(k)}(x) \, \text{для} \, k=\overline{1, m} \, \text{непрерывны на} \, [-\pi, \pi] . \\
+	&(2)  f^{(m+1)}(x) \, \text{кусочно-непрерывна на} \, [-\pi, \pi].\\
+	&(3)  f(-\pi)=f(\pi), f^{\prime}(-\pi)=f^{\prime}(\pi), \ldots, f^{(m)}(-\pi)=f^{(m)}(\pi).\\
+	\end{aligned}
+	\end{equation}
+	\textbf{Теорема о почленном дифференцировании ряда Фурье} Пусть для функции $ f $ выполнены условия (\ref{7-1}). Тогда ряд Фурье этой функции можно дифференцировать почленно $ m $ раз. Причем ряд, полученный $ m $ -кратным дифференцированием, сходится равномерно на $ [-\pi, \pi] $ к соответствующей производной.\\
+\subsection{Уточнённые условия равномерной сходимости ряда Фурье. Лек.10}
+	Пусть функция $ f $ непрерывна на отрезке $ [-\pi, \pi]$. Назовем \textbf{модулем непрерывности} функции $ f $ на $ [-\pi, \pi]$ величину
+	\begin{equation}
+	\begin{aligned}
+	\omega(\delta, f)&=\sup _{x^{\prime}, x^{\prime \prime} \in[-\pi,  \pi],|x'-x''|<\delta}\left|f\left(x^{\prime}\right)-f\left(x^{\prime \prime}\right)\right|\\
+	&=\sup _{x, h+x \in[-\pi, \pi],|x'-x''|<\delta}|f(x+h)-f(x)|
+	\end{aligned}
+	\end{equation}
+	\\
+	Предположим, что кроме того, функция  $ f \quad 2\pi$ - периодична и интегрируема на отрезке $ [-\pi-\delta, \pi+\delta] $ для некоторого $ \delta $. Назовем величину
+	\begin{equation}
+	\widehat{\omega}(\delta, f)=\sup _{x, x+h \in[-\pi, \pi],|h|<\delta} \int_{-\pi}^{\pi}|f(x)-f(x+h)| d x
+	\end{equation}
+	\textbf{интегральным модулем непрерывности}.
+	\\
+	\textbf{Утверждение 1.} Пусть функция $ f \quad 2\pi$ - периодична и интегрируема по любому конечному отрезку, а $ g(t) $ интегрируема по $ [-\pi, \pi] $. Тогда тригонометрические коэффициенты Фурье функции $ F_{x}(t)=f(x+t) g(t)$
+	\begin{equation}
+	a_{n}(x)=\frac{1}{\pi} \int_{-\pi}^{\pi} f(x+t) g(t) \cos n t d t, \quad b_{n}(x)=\frac{1}{\pi} \int_{-\pi}^{\pi} f(x+t) g(t) \sin n t d t 
+	\end{equation}
+	стремятся к $0$ при $ n \rightarrow \infty $ равномерно по $ x $ на $ [-\pi, \pi] $.\\
+	\textbf{Утверждение 2.} Пусть функция $ f \quad 2\pi$ - периодична и интегрируема по любому конечному oтpeзky, a $ g(t) $ интегрируема по $ [-\pi, \pi] $.  Тогда
+	\begin{equation}
+	c_{n}(x)=\frac{1}{\pi} \int_{-\pi}^{\pi} f(x+t) g(t) \sin t\left(n+\frac{1}{2}\right) d t \stackrel{[-\pi, \pi]}{\rightrightarrows} 0 \text { при } n \rightarrow \infty
+	\end{equation}
+	\textbf{Утверждение 3.} Пусть функция $ f \quad 2\pi$ - периодична и интегрируема по любому конечному oтpeзky, а $ \delta $ - фиксированное число $ 0<\delta<\pi $. Тогда функциональные последовательности $ \widehat{c}_{n}(x), c_{n}^{+}(x), c_{n}^{-}(x) $ стремятся к $0$ равномерно по $ x $ на $ [-\pi, \pi] $ при $ n \rightarrow \infty$ 
+\subsection{Условие сходимости тригонометрического ряда Фурье в точке. Сходимость ряда Фурье кусочно-гельдеровой функции. Лек.12}
+	Будем говорить, что функция $ f $ удовлетворяет \textbf{условию Гёльдера с показателем $ \alpha(0<\alpha \leqslant 1) $ в точке $ x $ справа}, если выполнены два условия:\\
+	1) $\exists f(x+0)<\infty$,\\
+	2) $\exists M, \delta>0:|f(x+t)-f(x+0)| \leqslant M \cdot|t|^{\alpha}$ при $ \forall t, 0<t<\delta$.\\ 
+	Будем говорить, что функция $ f $ удовлетворяет \textbf{условию Гёльдера с показателем $ \alpha(0<\alpha \leqslant 1) $ в точке $ x $ слева}, если выполнены два условия:\\
+	1) $ \exists f(x-0)<\infty$,\\ 
+	2) $ \exists M, \delta>0:|f(x+t)-f(x-0)| \leqslant M \cdot|t|^{\alpha} $ при $ \forall t,-\delta<t<0$.\\
+	\\
+	\textbf{Теорема о условии сходимости тригонометрического ряда Фурье в точке} Пусть функция $ f \quad 2\pi$ - периодична, интегрируема по любому конечному отрезку и удовлетворяет условию Гёльдера в точке ${x}_{0}$ с показателем $ \alpha_{1}   \left(0<\alpha_{1} \leqslant 1\right) $ справа и с показателем $ \alpha_{2}\left(0<\alpha_{2} \leqslant 1\right) $ слева. Тогда ее тригонометрический ряд Фурье сходится в точке ${x}_{0}$ к числу $ \hat{f}\left(x_{0}\right)$, где $\hat{f}\left(x_{0}\right)=\frac{f\left(x_{0}-0\right)+f\left(x_{0}+0\right)}{2}$.\\  
+	\\
+	Рассмотрим функцию $ f \in \mathcal{C}[-\pi, \pi]$.	Будем говорить, что $ f $ принадлежит \textbf{классу Гёльдера с показателем} $ \alpha   (0<\alpha \leqslant 1)$ (и обозначать это как $ f \in \mathcal{C}^{\alpha}[-\pi, \pi])$,  если $ \omega(\delta, f)=\underline{O}(\delta^{\alpha})$, т.е.
+	\begin{equation}
+	\exists M>0, \delta>0: \sup _{\left|x_{1}-x_{2}\right|<\delta}\left|f\left(x_{1}\right)-f\left(x_{2}\right)\right| \leqslant M \delta^{\alpha}
+	\end{equation}
+	Будем называть непрерывную функцию $f$ принадлежащей \textbf{классу Дини-Липшица}\footnote{\textbf{Теорема Дини-Липшица} Пусть $ f \in \mathrm{C}[-\pi, \pi], f(-\pi)=f(\pi) $ и $ f $ принадлежит классу Дини-Липшица на $ [-\pi, \pi] $. Тогда $ S_{n}(x, f) \Rightarrow f(x) $ при $ n \rightarrow \infty$.\\
+	\textbf{Теорема} Пусть $ f \in \mathcal{C}^{\alpha}[-\pi, \pi] $ и $ f(-\pi)=f(\pi)$. $ Тогда  S_{n}(x, f) \stackrel{[-\pi, \pi]}{\rightrightarrows} f(x) $ при $ n \rightarrow \infty $.\\
+	\textbf{Теорема} Пусть $ f \in{\mathrm{C}}^{\alpha}[a, b]$, где $ [a, b] \subset[-\pi, \pi]$. Тогда $ S_{n}(x, f) \rightrightarrows f(x) $ при $ n \rightarrow \infty $	на любом отрезке $ [a+\delta, b-\delta]$,  где $ \delta \in\left[0, \frac{b-a}{2}\right]$.} на $[-\pi,\pi]$, если
+	\begin{equation}
+	\omega(\delta, f)=\overline{O}\left(\frac{1}{\ln\frac{1}{\delta}}\right)
+	\end{equation}
+	т.е. $\lim_{\delta \rightarrow 0+0} \omega(\delta,f)\ln\frac{1}{\delta}=0$\\
+	Класс Дини-Липшица шире, чем класс Гёльдера.\\ 
+	\\
+	Будем называть функцию $ f $ \textbf{кусочно-гёльдеровой} на $ [-\pi, \pi]$,  если $ [-\pi, \pi]=\bigcup_{k=1}^{n}\left[x_{k-1}, x_{k}\right] $ и $ f \in \mathcal{C}^{\alpha_{k}}\left[x_{k-1}, x_{k}\right] $. Иными словами, на каждом oтрезке $ \left[x_{k-1}, x_{k}\right] $ функция принадлежит классу Гёльдера с показателем  $\alpha_{k}$.\\ 
+	\textbf{Утверждение} Если $f$ - кусочно-гёльдеровая на  $\mathbb{R}$, то:\\
+	1) На любом конечном сегменте $ S_{n}(x, f) $ сходится к $ f $ в среднем интегральном.\\
+	2) $\forall x_{0} \in \mathbb{R} \Rightarrow S_{n}\left(x_{0}, f\right) \underset{n \rightarrow \infty}{\rightarrow}\widehat{f}\left(x_{0}\right)$,\\ 
+	3) На всех отрезках гёльдеровости $ S_{n}(x, f) \stackrel{\left[x_{k-1}, x_{k}\right]}{\rightrightarrows} f(x) $.\\
+
+\subsection{Принцип локализации Римана. Лек.11}
+	\textbf{Теорема Римана} Пусть функция $ f \quad 2\pi$ - периодична и интегрируема по любому конечному отрезку. Тогда сходимость ее тригонометрического ряда Фурье в произвольной фиксированной точке $ x $ зависит только от значения её аргумента в как угодно малой $\delta$ - окрестности этой точки, ${U}_{\delta}(x)$.\\
+\subsection{Свойства преобразования Фурье. Лек.13-14}
+	Будем говорить, что функция $ f $ принадлежит классу $L_{1}(\mathbb{R})$, если:\\
+	1) $ f $ интегрируема по Риману по любому конечному отрезку;\\
+	2) Сходится несобственный интеграл $\int_{\mathbb{R}} \| f(x) \mid d x$.\\
+	\textbf{Основная лемма об образе Фурье} Ecли $ f \in L_{1}(\mathbb{R})$, то для нее сходится интеграл
+	\begin{equation}
+		\widehat{f}(y)=v \cdot p \cdot \int_{-\infty}^{\infty} e^{i x y} f(x) d x
+	\end{equation}
+	называемый \textbf{образом} или \textbf{преобразованием Фурье функции} $ f $. Причем $ \widehat{f}(y) $ является непрерывной $ \forall y \in \mathbb{R} $ и $ \exists \lim _{|y| \rightarrow \infty}|\widehat{f}(y)|=0$.\\ 
+	Разложение функции $ f(x)=\frac{f(x-0)+f(x+0)}{2} $ в интеграл Фурье:
+	\begin{equation}
+	f(x)=\frac{1}{2 \pi} v \cdot p \cdot \int_{-\infty}^{+\infty} e^{-i y x} \hat{f}(y) d y
+	\end{equation}
+	восстанавливающее функцию по её образу Фурье, называется \textbf{обратным преобразованием Фурье}.\\
+	При этом, выражение для образа Фурье
+	\begin{equation}
+	\widehat{f}(y)=v \cdot p \cdot \int_{-\infty}^{+\infty} e^{i y x} f(x) d x
+	\end{equation}
+	называетcя \textbf{прямым преобразованием Фурье}.
+\subsection{Условия разложимости функции в интеграл Фурье. Лек.13-14}
+	Будем говорить, что функция $ f \in L_{1}(\mathbb{R}) $ \textbf{разложима в интеграл Фурье} в точке $ x$, если
+	\begin{equation}
+	\begin{aligned}
+	&\exists \lim _{\lambda \rightarrow+\infty} \frac{1}{2 \pi} \int_{-\lambda}^{\lambda} e^{-i x y} \widehat{f}(y) d y\\
+	&=\lim _{\lambda \rightarrow+\infty} \frac{1}{2 \pi} \int_{-\lambda}^{\lambda} e^{-i x y}\left(\int_{-\infty}^{+\infty} e^{i \xi y} f(\xi) d \xi\right) d y\\
+	&=\frac{1}{2 \pi} v \cdot p \cdot \int_{-\infty}^{+\infty} e^{-i x y} \hat{f}(y) d y
+	\end{aligned}
+	\end{equation}
+	Интеграл Фурье - это обратное преобразование Фурье, восстанавливающее функцию $f$ по ее Фурье-образу.\\
+	\textbf{Условия разложимости функции в интеграл Фурье} Если $ f \in L_{1}(\mathbb{R}) $ и удовлетворяет условию Гёльдера в точке $х$ слева с показателем $ \alpha_{1} $ и справа с показателем $ \alpha_{2}\left(\alpha_{1}, \alpha_{2} \in[0,1]\right)$, то существует предел
+	\begin{equation}
+	\lim _{\lambda \rightarrow+\infty} \frac{1}{2 \pi} \int_{-\lambda}^{\lambda} e^{-i x y} \hat{f}(y) d y
+	\end{equation}	
+	который равен $\frac{1}{2}(f(x-0)+f(x+0))$.\\ 
+		
+\end{document}
+
+
