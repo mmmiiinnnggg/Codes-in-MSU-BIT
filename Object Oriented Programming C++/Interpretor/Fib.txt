@@ -1,0 +1,16 @@
+program
+var n,cur,pred,new:int;
+begin
+	cur:=1;pred:=0;
+	read(n);
+	if (n=1) or (n=0) then write(n)
+	else 
+		while n>1 do
+		begin 
+			new:=cur+pred;
+			pred:=cur;
+			cur:=new;
+			n:=n-1
+		end;
+	write(cur)
+end@
