@@ -1,0 +1,13 @@
+total 52
+drwxr-xr-x  2 xmc xmc 4096 Oct 10 19:36 .
+drwxr-xr-x 16 xmc xmc 4096 Oct 10 19:08 ..
+-rwxr-xr-x  1 xmc xmc 8520 Oct 10 19:36 a.out
+-rw-r--r--  1 xmc xmc  127 Oct 10 19:19 f1.txt
+-rw-r--r--  1 xmc xmc    7 Oct 10 19:25 f2.txt
+-rw-rw-r--  1 xmc xmc    0 Oct 10 19:34 f.txt
+-rw-r--r--  1 xmc xmc  288 Oct 10 19:12 work4_1.c
+-rw-rw-r--  1 xmc xmc  314 Oct 10 19:15 work4_2.c
+-rw-rw-r--  1 xmc xmc  415 Oct 10 19:27 work4_3.c
+-rw-rw-r--  1 xmc xmc  297 Oct 10 19:31 work4_4.c
+-rw-rw-r--  1 xmc xmc  492 Oct 10 19:34 work4_5.c
+-rw-rw-r--  1 xmc xmc  304 Oct 10 19:36 work4_6.c
