@@ -1,0 +1,1085 @@
+\documentclass[A4]{article}
+\usepackage[T2A]{fontenc}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[russian]{babel}
+\usepackage{xeCJK}% 调用 xeCJK 宏包
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{bm}
+\usepackage{geometry}
+\geometry{a4paper,scale=0.8}
+\usepackage[pdfborder=000]{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setCJKmainfont{SimHei}
+
+\begin{document}
+\author{Сюй Минчуань}
+\title{Методы оптимизации}
+\maketitle
+ \tableofcontents
+\newpage
+\section{Теоремы Вейерштрасса}
+\textbf{Постановка задачи} $J(u)\rightarrow\inf,\quad u\in\mathbf{U}\in\mathbb{M}$. Искомая величина - $J_*=\inf\limits_{u\in\mathbf{U}}J(u)$. Множество оптимальных решений - $\mathbf{U}_*=\underset{u\in\mathbf{U}}{\operatorname{Argmin}}J(u)=\{u\in\mathbf{U}:J(u)=J_*\}$. Оптимальный элемент - $u_*\in\mathbf{U}_*$.\\
+\subsection{Метрическая теорема Вейештрасса}
+\subsubsection{Классическая теорема Вейерштрасса} 
+\textbf{Теорема Вейештрасса в $\mathbb{R}^n$} Пусть $\mathbf{U}$ - замкнутое ограниченное множество пространства $\mathbb{R}^n$, функция $J(u)$ непрерывна на $\mathbf{U}$. Тогда $J_*>-\infty,\mathbf{U}_*\ne\emptyset$.\\
+\textbf{Определение} Последовательность $\{u_n\}\in\mathbf{U}$ называется \underline{\emph{минимизирующей}} в задаче минимизации, если
+\begin{equation*}
+\lim_{n\rightarrow\infty}J(u_n)=J_*
+\end{equation*}
+\textbf{Определение} Функция $J(u)$, определенная на множестве $\mathbf{U}$ пространства $\mathbb{R}^n$, называется \underline{\emph{полунепрерывной снизу}} в точке $u_0$ этого множества, если любой сходящейся к $u_0$ последовательности $\{u_n\}$ элементов множества выполнено предельное соотношение
+\begin{equation*}
+\varliminf_{n\rightarrow\infty} J(u_n)\geqslant J(u_0)
+\end{equation*}
+\textbf{Теорема} Пусть $\mathbf{U}$ - замкнутое ограниченное множество пространства $\mathbb{R}^n$, функция $J(u)$ полунепрерывна снизу во всех точках множества $\mathbf{U}$. Тогда $J_*>-\infty,\mathbf{U}_*\ne\emptyset$, и кроме того, все минимизирующие последовательности сходятся к множеству $\mathbf{U}_*$, то есть 
+\begin{equation*}
+\lim_{n\rightarrow\infty}\inf_{u\in\mathbf{U}_*}\|u_n-u\|=0
+\end{equation*}
+\subsubsection{Метрические пространства}
+ \textbf{Определение} Пространство $\mathbb{M}$ называется \underline{\emph{метрическим}}, если введен функционал $\rho:\mathbb{M}\times\mathbb{M}\rightarrow\mathbb{R}^1$, обладающий следующими свойствами:\\
+1. $\rho(u,v)=0\Leftrightarrow u=v$\\
+2. $\rho(u,v)=\rho(v,u)\geqslant0\quad\forall u,v\in\mathbb{M}$\\
+3. $\rho(u,v)\leqslant\rho(u,w)+\rho(w,v)\quad\forall u,v,w\in\mathbb{M}$\\
+Этот функционал $\rho$ называется \underline{\emph{метрикой}} или \underline{\emph{расстоянием}} в пространстве $\mathbb{M}$.\\
+\textbf{Определение} Последовательность $\{u_n\}$элементов метрического пространства $\mathbb{M}$ с введенной на нем метрикой $\rho$ называется \underline{\emph{сильно сходящейся}} к элементу $u\in\mathbb{M}$, если $\lim\limits_{n\rightarrow\infty}\rho(u_n,u)=0$.\\
+\textbf{Определение} Последовательность $\{u_n\}$элементов метрического пространства $\mathbb{M}$ называется \underline{\emph{фундаментальной}}, если 
+ \begin{equation*}
+ \lim _{m \rightarrow \infty \atop n \rightarrow \infty} \rho (u_{m}, u_{n})=0
+ \end{equation*}
+\textbf{Определение} Метрическое пространство $\mathbb{M}$ называется \underline{\emph{полным}}, если для любой фундаментальной последовательности $\{u_n\}$ его элементов существует элемент $u\in\mathbb{M}$, к которому она сильно сходится. \\
+\textbf{Определение} Функционал $J(u):\mathbb{M}\rightarrow\mathbb{R}^1$ называется \underline{\emph{непрерывным}} в точке $u_0$, если для любой сильно сходящейся к $u_0$ последовательности выполнено
+\begin{equation*}
+\lim_{n\rightarrow\infty}J(u_n)=J(u_0)
+\end{equation*}
+\textbf{Определение} Функционал $J(u):\mathbb{M}\rightarrow\mathbb{R}^1$ называется \underline{\emph{полунепрерывным снизу}} в точке $u_0$, если для любой сильно сходящейся к $u_0$ последовательности выполнено
+\begin{equation*}
+\varliminf_{n\rightarrow\infty} J(u_n)\geqslant J(u_0)
+\end{equation*}
+\subsubsection{Компактное множество}
+\textbf{Определение} Множество $\mathbf{U}$ из метрического пространства $\mathbb{M}$ с введенной метрикой $\rho$ называется \underline{\emph{компактным}}, если из любой последовательности $\{u_n\}\subset \mathbf{U}$ можно выделить подпоследовательность, сильно сходящуюся в метрике $\rho$ к некоторому элементу $u\in\mathbf{U}$.\\
+В конечномерном случае компактность эквивалентно его замкнутости и ограниченности. В бесконечномерном случае - единичный шар - некомпактное множество. Из компактности следует его замкнутость и ограниченность.
+\subsubsection{Метрическая теорема Вейештрасса}
+\textbf{Теорема} Пусть $\mathbf{U}$ - компактное множество из метрического пространства $\mathbb{M}$ с метрикой $\rho$, функционал $J(u)$ определен и полунепрерывен снизу на $\mathbf{U}$. Тогда\\
+1. $J_*>-\infty$\\
+2. Множество $U_*$ непусто и компактно.\\
+3. Любая минимизирующая последовательность $\{u_n\}$ сильно сходится к множеству $\mathbf{U}_*$, т.е.
+\begin{equation*}
+\lim_{n\rightarrow\infty}\inf_{u\in\mathbf{U}_*}\rho(u_n,u)=0
+\end{equation*}
+Если выполнено $J_*>-\infty,\mathbf{U}_*\ne\emptyset$, и любая минимизирующая последовательность сходится к множеству $\mathbf{U}_*$, то говорят, что задача оптимизации \underline{\emph{корректно поставлена}}.
+\subsection{Слабая теорема Вейерштрасса}
+\subsubsection{Нормированное пространство}
+\textbf{Определение} Линейное пространство $\mathbb{L}$ называется \underline{\emph{нормированным}}, если введен функционал $\|\cdot\|:\mathbb{L}\rightarrow\mathbb{R}^1$, обладающий следующим свойствам:\\
+1. $\|u\|=0\Leftrightarrow u=\Theta;$\\
+2. $\|u+v\|\leqslant\|u\|+\|v\|\quad \forall u,v\in\mathbb{L};$\\
+3. $\|\lambda u\|=|\lambda|\cdot\|u\|\quad\forall u\in\mathbb{L},\lambda\in\mathbb{R}^1.$\\
+Этот функционал называется \underline{\emph{нормой}} пространства $\mathbb{L}$.\\
+\textbf{Определение} $\rho(u,v)=\|u-v\|$ - метрика, \underline{\emph{порожденная}} нормой.\\
+\textbf{Определение} Последовательность $\{u_n\}$ \underline{\emph{сильно сходится}} по норме к элементу $u$, если $\lim\limits_{n\rightarrow\infty}\|u_n-u\|=0$.\\
+\textbf{Определение} Нормированное пространство, полное относительно метрики, порожденной введенной на нем нормой, называется \underline{\emph{банаховым}}.\\
+\subsubsection{Евклидово пространство}
+\textbf{Определение} Линейное пространство $\mathbb{H}$ называется \underline{\emph{евклидовым}}, если введен функционал $\langle\cdot,\cdot\rangle:\mathbb{H}\times\mathbb{H}\rightarrow\mathbb{R}$, обладающий следующим свойствам:\\
+1. $\langle h,h\rangle\geqslant0\quad\forall h\in\mathbb{H};\langle h,h\rangle=0\Leftrightarrow h=\Theta;$\\
+2. $\langle h_1,h_2\rangle=\langle h_2,h_1\rangle\quad\forall h_1,h_2\in\mathbb{H};$\\
+3. $\langle h_1+h_2,h_3\rangle=\langle h_1,h_3\rangle +\langle h_2,h_3\rangle\quad\forall h_1,h_2,h_3\in\mathbb{H}$\\
+4. $\langle \lambda h_1,h_2\rangle=\lambda\langle h_1,h_2\rangle\quad\forall h_1,h_2\in\mathbb{H},\forall\lambda\in\mathbb{R}.$\\
+Этот функционал называется \underline{\emph{скалярным произведением}} в пространстве $\mathbb{H}$.\\
+\textbf{Определение} $\|h\|=\sqrt{\langle h,h\rangle}$ - норма \underline{\emph{порожденная}} скалярным произведением. $\rho(u,v)=\sqrt{\langle u-v,u-v\rangle}$ - метрика, \underline{\emph{порожденная}} скалярным произведением.\\
+\textbf{Определение} Евклидово пространство, полное относительно метрики, порожденной введенной на нем скалярным произведением, называется \underline{\emph{гильбертовым}}.\\
+\subsubsection{Слабые сходимость и компактность}
+\textbf{Определение} Последовательность $\{u_n\}$ элементов евклидово пространство $\mathbb{H}$ с введенным на нем скалярным произведением $\langle\cdot,\cdot\rangle$ называется \underline{\emph{слабо сходящейся}} к элементу $u_0$ этого пространства, если
+\begin{equation*}
+\lim_{n\rightarrow\infty}\langle u_n,h\rangle=\langle u_0,h\rangle
+\end{equation*}
+В бесконечномерном случае из сильно сходимости вытекает слабую сходимость.\\
+\textbf{Определение} Множество $\mathbf{U}$ из евклидового пространства $\mathbb{H}$ называется \underline{\emph{слабо компактным}}, если из любой последовательности $\{u_n\}\subset \mathbf{U}$ можно выделить подпоследовательность, слабо сходящуюся в метрике $\rho$ к некоторому элементу $u\in\mathbf{U}$.\\
+В бесконечномерном случае из компактности вытекает слабую компактность.\\
+\textbf{Определение} Множество $\mathbf{U}$ из линейного пространства $\mathbb{L}$ называется \underline{\emph{выпуклым}}, если для любых двух точек $u$ и $v$ из множества $\mathbf{U}$ и любого $\alpha\in[0,1]$ точка $\alpha u+(1-\alpha)u$ также лежит в множестве $\mathbf{U}$.\\
+\textbf{Определение} Множество $\mathbf{U}$ из нормированного пространства $\mathbb{L}$ с введенной нормой $\|\cdot\|$ называется \underline{\emph{ограниченным}}, если существует такое число $R>0$, что $\|u\|\leqslant R\quad\forall u\in\mathbf{U}$.\\
+\textbf{Определение} Множество $\mathbf{U}$ из метрического пространства $\mathbb{M}$ с введенной метрикой $\rho$ называется \underline{\emph{замкнутым}}, если $\mathbf{U}$ содержит все свои предельные точки, т.е. из $\{u_n\}\subset\mathbf{U},\{u_n\}\stackrel{\rho}{\rightarrow} u$ следует $u\in\mathbf{U}$.\\ 
+\textbf{Теорема - достаточное условия слабо компактности} Если множество $\mathbf{U}$ из евклидова пространства $\mathbb{H}$ с введенным на нем скалярным произведением $\langle\cdot,\cdot\rangle$ выпукло, замкнуто и ограничено, то оно слабо компактно.\\
+Обратно: если слабо компактно то замкнуто и ограничено, но не следует выпуклость.\\
+В любом $\mathbb{H}$ единичный шар - слабо компактно.\\
+\subsubsection{Слабые непрерывность и полунепрерывность снизу}
+\textbf{Определение} Функционал $J(u):\mathbb{H}\rightarrow\mathbb{R}^1$ называется \underline{\emph{слабо непрерывным}} в точке $u_0$, если для любой слабо сходящейся к $u_0$ последовательности $\{u_n\}$ выполнено
+\begin{equation*}
+\lim_{n\rightarrow\infty}J(u_n)=J(u_0)
+\end{equation*}
+Из слабой непрерывности следует его непрерывность.\\
+\textbf{Определение} Функционал $J(u):\mathbb{H}\rightarrow\mathbb{R}^1$ называется \underline{\emph{слабо полунепрерывным снизу}} в точке $u_0$, если для любой слабо сходящейся к $u_0$ последовательности $\{u_n\}$ выполнено
+\begin{equation*}
+\varliminf_{n\rightarrow\infty} J(u_n)\geqslant J(u_0)
+\end{equation*}
+Из слабой полунепрерывности снизу следует его полунепрерывности снизу.\\
+\textbf{Определение} Функционал $J(u)$ называется \underline{\emph{выпуклым}} на выпуклом множестве $\mathbf{U}$, если выполнено $J(\alpha u+(1-\alpha)v)\leqslant\alpha J(u)+(1-\alpha)J(v)\quad\forall u,v\in\mathbf{U},\forall\alpha\in[0,1].$\\
+\textbf{Теорема - достаточное условия слабо полунепрерывности снизу} Пусть $\mathbf{U}$ - выпуклое множество из евклидова пространства $\mathbb{H}$ с введенным на нем скалярным произведением $\langle\cdot,\cdot\rangle$. Если функционал $J(u)$ полунепрерывен снизу в каждой точке множества $\mathbf{U}$ и является выпуклым на множестве $\mathbf{U}$, то он слабо полунепрерывен снизу в каждой точке множества $\mathbf{U}$.\\
+\subsubsection{Слабая теорема Вейештрасса}
+\textbf{Теорема} Пусть $\mathbf{U}$ - слабо компактное множество из евклидова пространства $\mathbb{H}$ со скалярным произведением $\langle\cdot,\cdot\rangle$, функционал $J(u)$ определен и слабо полунепрерывен снизу на $\mathbf{U}$. Тогда\\
+1. $J_*>-\infty$\\
+2. Множество $U_*$ непусто и компактно.\\
+3. Любая минимизирующая последовательность $\{u_n\}$ слабо сходится к множеству $\mathbf{U}_*$, т.е. все ее слабые предельные точки принадлежат множеству $\mathbf{U}_*$.
+\begin{equation*}
+\lim_{n\rightarrow\infty}\inf_{u\in\mathbf{U}_*}\rho(u_n,u)=0
+\end{equation*}
+\subsection{Свойства простейших фукционалов}
+Пусть $\mathbb{H},\mathbb{F}$ - евклидова пространства с введенным на нем скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}},\langle\cdot,\cdot\rangle_{\mathbb{F}}$.
+\subsubsection{Линейный функционал}
+\begin{equation*}
+J(u)=\langle c,u\rangle,\quad c\in\mathbb{H}
+\end{equation*}
+Он слабо непрерывен в любой точке, слабо полунепрерывен снизу, непрерывен и полунепрерывен снизу на всем пространстве.
+\subsubsection{Квадратичный функционал типа невязки}
+\begin{equation*}
+J(u)=\|\mathcal{A}u-f\|^2_{\mathbb{F}},\quad f\in\mathbb{F}
+\end{equation*}
+где $\mathcal{A}\in\mathcal{L}(\mathbb{H}\rightarrow\mathbb{F})$.\\
+Он непрерывен, полунепрерывен снизу, слабо полунепрерывен снизу, нет слабой непрерывности.
+\subsubsection{Квадратичный функционал общего вида}
+\begin{equation*}
+J(u)=\langle\mathcal{A}u,u\rangle_{\mathbb{H}}+\langle b,u\rangle_{\mathbb{H}}+c,\quad b\in\mathbb{H},c\in\mathbb{R}
+\end{equation*}
+где $\mathcal{A}\in\mathcal{L}(\mathbb{H}\rightarrow\mathbb{H})$.\\
+Он непрерывен, полунепрерывен снизу, может не быть слабой непрерывности и слабой полунепрерывности снизу. Но если $\mathcal{A}$ - неотрицательно определена, то слабая полунепрерывность снизу есть.
+\subsection{Свойства простейших множеств}
+Пусть $\mathbb{H},\mathbb{F}$ - евклидова пространства с введенным на нем скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}},\langle\cdot,\cdot\rangle_{\mathbb{F}}$. $\mathcal{A}\in\mathcal{L}(\mathbb{H}\rightarrow\mathbb{F})$ и $\exists\mathcal{A}^{-1}\in\mathcal{L}(\mathbb{F}\rightarrow\mathbb{H})$
+\subsubsection{Невырожденный эллипсоид в $\mathbb{H}$}
+\begin{equation*}
+\mathbf{U}=\{u\in\mathbb{H}:\|\mathcal{A}u-f\|\leqslant R\}, \quad R>0,f\in\mathbb{F}
+\end{equation*}
+Множество $\mathbf{U}$ - выпукло, замкнуто и ограничено. $\Rightarrow$ слабо компактно.
+\subsubsection{Параллелепипед в $L^2(a,b)$}
+\begin{equation*}
+\mathbf{U}=\{u=u(t)\in L^2(a,b):f(t)\stackrel{\text{п.в.}}{\leqslant}u(t)\stackrel{\text{п.в.}}{\leqslant}g(t),t\in(a,b)\},\quad f=f(t),g=g(t)\in L^2(a,b)
+\end{equation*}
+Множество $\mathbf{U}$ - выпукло, замкнуто и ограничено. $\Rightarrow$ слабо компактно. Но он не компактен.
+\section{Элементы дифференциального исчисления}
+\subsection{Дифференцируемость по Фреше}
+\subsubsection{Производные по Фреше}
+\textbf{Определение} Пусть $\mathbb{X}$ и $\mathbb{Y}$ - нормированные пространства с нормами $\|\cdot\|_{\mathbb{X}},\|\cdot\|_{\mathbb{Y}}$, а $F: \mathbb{X}\rightarrow\mathbb{Y}$ - отображение, определенное в некоторой окрестности $O(x_0,\varepsilon) =\{x\in\mathbb{X}:\|x-x_0\|_{\mathbb{X}}\leqslant\varepsilon\}$ точки $x_0$. Отображение $F$ называется \underline{\emph{дифференцируемым по Фреше}} в точке $x_0$, если справедливо равенство
+\begin{equation*}
+F(x_0+h)-F(x_0)=\mathcal{A}h+\alpha(h;x_0)\quad\forall h:\|h\|_{\mathbb{X}}\leqslant\varepsilon
+\end{equation*}
+В котором $\mathcal{A}\in\mathcal{L}(\mathbb{X}\rightarrow\mathbb{Y})$, а остаточный член $\alpha(h;x_0)$ имеет по отношению к приращению $h$ более высокий порядок малости, т.е.
+\begin{equation*}
+\lim_{\|h\|_{\mathbb{X}}\rightarrow 0} \frac{\|\alpha(h;x_0)\|_{\mathbb{Y}}}{\|h\|_{\mathbb{X}}}=0
+\end{equation*}
+При этом оператор $\mathcal{A}$ - \underline{\emph{производная Фреше}} отображения $F$ в точке $x_0$ и обозначается $F'(x_0)$.\\
+\textbf{Определение} Пусть $\mathbb{X}$ и $\mathbb{Y}$ - нормированные пространства с нормами $\|\cdot\|_{\mathbb{X}},\|\cdot\|_{\mathbb{Y}}$, а $F: \mathbb{X}\rightarrow\mathbb{Y}$ - отображение, определенное в некоторой окрестности $O(x_0,\varepsilon) =\{x\in\mathbb{X}:\|x-x_0\|_{\mathbb{X}}\leqslant\varepsilon\}$ точки $x_0$. Отображение $F$ называется \underline{\emph{дважды дифференцируемым по Фреше}} в точке $x_0$, если отображение $F'(x):\mathbb{X}\rightarrow\mathcal{L}(\mathbb{X}\rightarrow\mathbb{Y})$ дифференцируемо по Фреше в точке $x_0$, то есть 
+\begin{equation*}
+F'(x_0+h)-F'(x_0)=\mathcal{B}h+\beta(h;x_0)\quad\forall h:\|h\|_{\mathbb{X}}\leqslant\varepsilon
+\end{equation*}
+В котором $\mathcal{B}\in\mathcal{L}(\mathbb{X}\rightarrow\mathcal{L}(\mathbb{X}\rightarrow\mathbb{Y}))$, а остаточный член $\beta(h;x_0)\in\mathcal{L}(\mathbb{X}\rightarrow\mathbb{Y})$ имеет по отношению к приращению $h$ более высокий порядок малости, т.е.
+\begin{equation*}
+\lim_{\|h\|_{\mathbb{X}}\rightarrow 0} \frac{\|\beta(h;x_0)\|_{\mathcal{L}(\mathbb{X}\rightarrow\mathbb{Y})}}{\|h\|_{\mathbb{X}}}=0
+\end{equation*}
+При этом оператор $\mathcal{B}$ - \underline{\emph{вторая производная Фреше}} отображения $F$ в точке $x_0$ и обозначается $F''(x_0)$.\\
+\subsubsection{Свойства производной}
+\textbf{Теорема - о дифференцировании сложного отображения}
+ Пусть $\mathbb{X}, \mathbb{Y}, \mathbb{Z}$ - нормированные пространства, отображение $F:\mathbb{X}\rightarrow\mathbb{Y}$ определено в окрестности $O(x_0,\gamma)$ точки $x_0\in\mathbb{X}$ и дифференцируемо в ней по Фреше, отображение $G:\mathbb{Y}\rightarrow\mathbb{Z}$ определено в окрестности $O(y_0,\delta)$ точки $y_0=F(x_0)$ и дифференцируемо в ней по Фреше. Тогда отображение $GF:\mathbb{X}\rightarrow\mathbb{Z}$ дифференцируемо по Фреше в точке $x_0$, причем $(GF)'(x_0)=G'(y_0)F'(x_0)$.\\
+ \textbf{Свойство 1}: Если отображение $F(x)$ дифференцируемо по Фреше в точке $x_0$, то его производная по Фреше $F'(x_0)$ единственна.\\
+ \textbf{Свойство 2}: Если $F_1(x), F_2(x)$ - два лифференцируемых по Фреше в точке $x_0$ отображения, действующих из $\mathbb{X}$ в $\mathbb{Y}$, то отображение $F(x)=\alpha F_1(x)+\beta F_2(x)\quad(\alpha,\beta\in\mathbb{R})$ также дифференцируемо по Фреше в точке $x_0$, причем $F'(x_0)=\alpha F'_1(x_0)+\beta F'_2(x_0)$.\\
+ \subsubsection{Градиент и гессиан}
+ \textbf{Определение} Пусть $\mathbb{H}$ - гильбертово пространство со скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}}$. Функционал $J(u)$, определенный в некоторой окрестности $O(u_0,\varepsilon) =\{x\in\mathbb{H}:\|u-u_0\|_{\mathbb{H}}\leqslant\varepsilon\}$ точки $u_0\in\mathbb{H}$. Функционал $J(u)$ называется \underline{\emph{дифференцируемым по Фреше}} в точке $u_0$, если справедливо равенство
+ \begin{equation*}
+J(u_0+h)-J(u_0)=\langle c,h\rangle_{\mathbb{H}}+\alpha(h;u_0)\quad\forall h:\|h\|_{\mathbb{H}}\leqslant\varepsilon
+ \end{equation*}
+ В котором $c$ - не зависящий от $h$ элемент из $\mathbb{H}$, а остаточный член $\alpha(h;x_0)$ имеет по отношению к приращению $h$ более высокий порядок малости, т.е.
+ \begin{equation*}
+ \lim_{\|h\|_{\mathbb{H}}\rightarrow 0} \frac{\|\alpha(h;u_0)\|}{\|h\|_{\mathbb{H}}}=0
+ \end{equation*}
+Элемент $c$ - \underline{\emph{градиент}} функционала $J(u)$ в точке $u_0$ и обозначается $c=J'(u_0)$.\\
+\textbf{Определение} Пусть $\mathbb{H}$ - гильбертово пространство со скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}}$. Функционал $J(u)$, определенный в некоторой окрестности $O(u_0,\varepsilon) =\{x\in\mathbb{H}:\|u-u_0\|_{\mathbb{H}}\leqslant\varepsilon\}$ точки $u_0\in\mathbb{H}$. Функционал $J(u)$ называется \underline{\emph{дважды дифференцируемым по Фреше}} в точке $u_0$, если отображение-градиент $J'(u):\mathbb{H}\rightarrow\mathbb{H}$ дифференцируемо по Фреше в точке $u_0$, то есть справедливо
+\begin{equation*}
+J'(u_0+h)-J'(u_0)=\mathcal{A}h+\beta(h;u_0)\quad\forall h:\|h\|_{\mathbb{H}}\leqslant\varepsilon
+\end{equation*}
+В котором $\mathcal{A}\in\mathcal{L}(\mathbb{X}\rightarrow\mathbb{Y})$ - не зависящий от $h$., а остаточный член $\beta(h;x_0)\in\mathbb{H}$ имеет по отношению к приращению $h$ более высокий порядок малости, т.е.
+\begin{equation*}
+\lim_{\|h\|_{\mathbb{H}}\rightarrow 0} \frac{\|\beta(h;u_0)\|_{\mathbb{H}}}{\|h\|_{\mathbb{H}}}=0
+\end{equation*}
+Оператор $\mathcal{A}$ - \underline{\emph{гессиан}} функционала $J(u)$ в точке $u_0$ и обозначается $\mathcal{A}=J''(u_0)$.\\
+\textbf{Замечание} Вторая производная по Фреше и гессиан - симметричные операторы.
+\subsection{Важные формулы дифференцирования}
+\subsubsection{Формула Тейлора для функционала}
+\textbf{Теорема} Пусть $\mathbb{H}$ - гильбертово пространство со скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}}$. Функционал $J(u):\mathbb{H}\rightarrow\mathbb{R}$, определен и дифференцируем по Фреше в шаре $O(u_0,\varepsilon) =\{x\in\mathbb{H}:\|u-u_0\|_{\mathbb{H}}\leqslant\varepsilon\}$, и кроме того, существует $J''(u_0)$. Тогда справедлива формула Тейлора:
+\begin{equation*}
+J(u)=J(u_0)+\langle J'(u_0),u-u_0\rangle_{\mathbb{H}}+\frac{1}{2}\langle J''(u_0)(u-u_0),u-u_0\rangle_{\mathbb{H}}+\bar{o}(\|u-u_0\|^2_{\mathbb{H}})\quad u\in O(u_0,\gamma)
+\end{equation*}
+\subsubsection{Формула конечных приращений первого порядка}
+\textbf{Теорема} Пусть $\mathbb{H}$ - гильбертово пространство со скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}}$, $\mathbf{U}\subseteq\mathbb{H}$ - выпуклое множество, $J(u)\in\mathbf{C}^1(\mathbf{U}).$ Тогда для любых $u,u+h\in\mathbf{U}$ верно
+\begin{equation*}
+J(u+h)-J(u)=\int_{0}^{1}\langle J'(u+th),h\rangle_{\mathbb{H}}dt=\langle J'(u+\theta h),h\rangle_{\mathbb{H}},\quad \theta\in[0,1]
+\end{equation*}
+\subsubsection{Формула конечных приращений второго порядка}
+\textbf{Теорема} Пусть $\mathbb{H}$ - гильбертово пространство со скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}}$, $\mathbf{U}\subseteq\mathbb{H}$ - выпуклое множество, $J(u)\in\mathbf{C}^2(\mathbf{U}).$ Тогда для любых $u,u+h\in\mathbf{U},v\in\mathbb{H}$ верно
+\begin{equation*}
+\langle J'(u+h)-J'(u),v\rangle_{\mathbb{H}}=\int_{0}^{1}\langle J''(u+th)h,v\rangle_{\mathbb{H}}dt=\langle J''(u+\theta h)h,v\rangle_{\mathbb{H}},\quad \theta\in[0,1]
+\end{equation*}
+\subsection{Примеры дифференциальных вычислений}
+\subsubsection{Линейный функционал}
+\begin{equation*}
+J(u)=\langle c,u\rangle_{\mathbb{H}},\quad c\in\mathbb{H}
+\end{equation*}
+\begin{equation*}
+J'(u)\equiv c,\quad J''(u)=\mathcal{O}
+\end{equation*}
+\subsubsection{Квадратичный функционал типа невязки}
+\begin{equation*}
+J(u)=\|\mathcal{A}u-f\|^2_{\mathbb{F}},\quad f\in\mathbb{F}
+\end{equation*}
+Где $\mathcal{A}\in\mathcal{L}(\mathbb{H}\rightarrow\mathbb{F})$.
+\begin{equation*}
+J'(u)=2\mathcal{A}^*(\mathcal{A}u-f),\quad J''(u)\equiv 2\mathcal{A}^*\mathcal{A}
+\end{equation*}
+\subsubsection{Квадратичный функционал общего вида}
+\begin{equation*}
+J(u)=\langle\mathcal{A}u,u\rangle_{\mathbb{H}}
+\end{equation*}
+Где $\mathcal{A}\in\mathcal{L}(\mathbb{H}\rightarrow\mathbb{H})$.
+\begin{equation*}
+J'(u)=(\mathcal{A}+\mathcal{A}^*)u,\quad J''(u)\equiv \mathcal{A}+\mathcal{A}^*
+\end{equation*}
+\subsubsection{$J(u)=\|u\|^p_{\mathbb{H}}$}
+\begin{equation*}
+J'(u)=\left\{\begin{array}{cc}
+p\|u\|^{p-2}_{\mathbb{H}}u,\quad u\ne\Theta_{\mathbb{H}}\\
+\Theta_{\mathbb{H}},\quad u=\Theta_{\mathbb{H}},p>1\\
+\not\exists,\quad u=\Theta_{\mathbb{H}},p\leqslant 1
+\end{array}\right.
+\end{equation*}
+\begin{equation*}
+J''(u)=\left\{\begin{array}{cc}
+	p(p-2)\|u\|^{p-4}_{\mathbb{H}}\langle u,h\rangle_{\mathbb{H}}u+p\|u\|^{p-2}_{\mathbb{H}}\mathcal{E},\quad u\ne\Theta_{\mathbb{H}}\\
+	\Theta_{\mathbb{H}},\quad u=\Theta_{\mathbb{H}},p>2\\
+	2\mathcal{E},\quad p=2\\
+	\not\exists,\quad u=\Theta_{\mathbb{H}},p<2\\
+\end{array}\right.
+\end{equation*}
+\subsubsection{Функционал вида интеграла}
+\begin{equation*}
+J(u)=\|\mathcal{A}u\|^2_{L^2(0,1)}=\int_{0}^{1}\left(\int_{0}^{\sqrt{t}}u(s)ds\right)^2dt,\quad u(t)\in L^2(0,1)
+\end{equation*}
+где
+\begin{equation*}
+\mathcal{A}u(t)=\int_{0}^{\sqrt{t}}u(s)ds,\quad \mathcal{A}^*v(t)=\int_{t^2}^{1}v(s)ds
+\end{equation*}
+\begin{equation*}
+J'(u)=2\int_{t^2}^{1}\int_{0}^{\sqrt{\tau}}u(s)dsd\tau,\quad J''(u)[h(t)]=2\int_{t^2}^{1}\int_{0}^{\sqrt{\tau}}h(s)dsd\tau
+\end{equation*}
+\subsection{Необходимые условия экстремума}
+\textbf{Теорема} Пусть функционал $J(u)$ определен на гильбертовом пространстве $\mathbb{H}$, пусть $J_*=\inf\limits_{u\in\mathbb{H}}J(u)=J(u_*)$. Если $J(u)$ дифференцируема по Фреше в точке $u_*$, то необходимо выполняется равенство $J'(u_*)=\Theta_{\mathbb{H}}$. Если кроме того, $J(u)$ дважды дифференцируем по Фреше в точке $u_*$, то необходимо выполняется ещё и условие $\langle J''(u_*)h,h\rangle_{\mathbb{H}}>0\quad h\in\mathbb{H}$.
+\section{Управление линейными динамическими системами}
+\subsection{Постановка задачи}
+Линейная задача оптимального управления
+\begin{equation*}
+\left\{\begin{array}{l}
+\dot{x}(t)\stackrel{\text{п.в.}}{=}A(t)x(t)+B(t)u(t)+f(t),\\
+x(0)=x_0
+\end{array}\right.
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+0\leqslant t&\leqslant T,A(t)\in L^{\infty}_{n\times n}(0,T),B(t)\in L^{\infty}_{n\times m}(0,T),f(t)=L^{\infty}_{n}(0,T),x_0\in\mathbb{R}^n,\\
+x(t)&=(x_1(t),\ldots,x_n(t))^T,u(t)=(u_1(t),\ldots,u_m(t))^T\in\mathbf{U}\subseteq L^2_m(0,T)
+\end{aligned}
+\end{equation*}
+\underline{\emph{Интегральный функционал}}:
+\begin{equation*}
+J_1(u)=\int_{0}^{T}\|x(t;u)-y(t)\|^2_{\mathbb{R}^n}dt\rightarrow\inf_{u\in\mathbf{U}}
+\end{equation*}
+\underline{\emph{Терминальный функционал}}:
+\begin{equation*}
+J_2(u)=\|x(T;u)-y\|^2_{\mathbb{R}^n}dt\rightarrow\inf_{u\in\mathbf{U}}
+\end{equation*}
+где $y$ - заданный вектор из $\mathbb{R}^n$, $y(t)$ - заданная вектор-функция из $L^2_n(0,T)$.\\
+$L^{\infty}(0,T)$ - пространство \underline{\emph{существенно ограниченных}} измеримых функций. Оно является банаховым с нормой:
+\begin{equation*}
+\|u\|_{L^{\infty}(0,T)}=\underset{(0,T)}{\operatorname{esssup}|u(t)|}=\inf_{M>0:|u(t)|\stackrel{п.в.}{\leqslant}M}M=\lim_{p\rightarrow\infty}\left((L)\int_{0}^{T}|u(t)|^pdt\right)^{1/p}
+\end{equation*}
+Можно доказать существование и единственность решения задачи Коши, используя принцип сжимающих отображений после приведения задачи на интегральный вид.
+\subsection{Упрощение исходной постановки}
+\subsubsection{Упрощение}
+\begin{equation*}
+\left\{\begin{array}{l}
+\dot{x}(t)\stackrel{\text{п.в.}}{=}A(t)x(t)+B(t)u(t),\\
+x(0)=0
+\end{array}\right.
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+0\leqslant t&\leqslant T,A(t)\in L^{\infty}_{n\times n}(0,T),B(t)\in L^{\infty}_{n\times m}(0,T),\\
+x(t)&=(x_1(t),\ldots,x_n(t))^T,u(t)=(u_1(t),\ldots,u_m(t))^T\in\mathbf{U}\subseteq L^2_m(0,T)
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+J_1(u)=\int_{0}^{T}\|x(t;u)-z(t)\|^2_{\mathbb{R}^n}dt\rightarrow\inf_{u\in\mathbf{U}} \quad\text{или}\quad J_2(u)=\|x(T;u)-z\|^2_{\mathbb{R}^n}dt\rightarrow\inf_{u\in\mathbf{U}}
+\end{equation*}
+где $z$ - заданный вектор из $\mathbb{R}^n$, $z(t)$ - заданная вектор-функция из $L^2_n(0,T)$.\\
+\subsubsection{Операторная постановка}
+Можно записать функционалы в операторном виде, и оказываются что, эти операторы линейные и ограниченные.
+\begin{equation*}
+\begin{aligned}
+J_1(u)&=\|\mathcal{I}u-z\|^2_{L^2_n(0,T)},\quad\mathcal{I}:L^2_m(0,T)\rightarrow L^2_n(0,T), \mathcal{I}u=x(t;u),\\
+J_2(u)&=\|\mathcal{T}u-z\|^2_{\mathbb{R}^n},\quad\mathcal{T}:L^2_m(0,T)\rightarrow\mathbb{R}^n,\mathcal{T}u=x(T;u).
+\end{aligned}
+\end{equation*}
+\subsubsection{Теорема о решениях задачи}
+\textbf{Теорема} Пусть в задачах оптимального управления имеется постановка как начало параграфа, множество $\mathbf{U}$ слабо компактно. Тогда $J_{1_*}=\inf\limits_{u\in\mathbf{U}}J_1(u)>-\infty,J_{2_*}=\inf\limits_{u\in\mathbf{U}}J_2(u)>-\infty,\mathbf{U}_{1_*}\ne\emptyset,\mathbf{U}_{2_*}\ne\emptyset$
+
+\subsection{Вычисление градиентов $J_1(u),J_2(u)$}
+\subsubsection{Вычисление $J_1'(u)$}
+\begin{equation*}
+J_1'(u)=2\mathcal{I}^{*}(\mathcal{I}u-z)
+\end{equation*}
+Сопряженная задача:
+\begin{equation*}
+\left\{\begin{array}{l}
+\dot{\psi(t)}+A^T(t)\psi(t)+v(t)\stackrel{\text{п.в.}}{=}0,\\
+\psi(T)=0.
+\end{array}\right.
+\end{equation*}
+Схема вычисления $J'1(u)$:\\
+1. $u(t)$ подставляется в исходную задачу Коши, находим решение $\mathcal{I}u=x(t;u)$.\\
+2. $v(t)=\mathcal{I}u-z=x(t;u)-z(t)$ подставляется в сопряженную задачу, находим $\psi(t)=\psi(t;u)$.\\
+3. $J_1'(u)=2B^T(t)\psi(t;u)$.
+\subsubsection{Вычисление $J_2'(u)$}
+\begin{equation*}
+J_2'(u)=2\mathcal{T}^{*}(\mathcal{T}u-z)
+\end{equation*}
+Сопряженная задача:
+\begin{equation*}
+\left\{\begin{array}{l}
+\dot{\psi(t)}+A^T(t)\psi(t)\stackrel{\text{п.в.}}{=}0,\\
+\psi(T)=v.
+\end{array}\right.
+\end{equation*}
+Схема вычисления $J'_2(u)$:\\
+1. $u(t)$ подставляется в исходную задачу Коши, находим решение $\mathcal{T}u=x(T;u)$.\\
+2. $v(t)=\mathcal{T}u-z=x(T;u)-z(t)$ подставляется в сопряженную задачу, находим $\psi(t)=\psi(t;u)$.\\
+3. $J_2'(u)=2B^T(t)\psi(t;u)$.
+\section{Элементы выпуклого анализа}
+\subsection{Основные понятия}
+\textbf{Определение} Множество $\mathbf{U}$ из линейного пространства  $\mathbb{L}$ называется \underline{\emph{выпуклым}}, если выполнено условие
+\begin{equation*}
+\alpha u_{1}+(1-\alpha) u_{2} \in \mathbf{U} \quad \forall u_{1}, u_{2} \in \mathbf{U}, \alpha \in[0 ; 1]
+\end{equation*}
+\textbf{Определение} Функционал $ J(u): \mathbf{U} \rightarrow \mathbb{R}^{1}$  называется \underline{\emph{выпуклым}} на выпуклом множестве $ \mathbf{U} $ из линейного пространства $ \mathbb{L}$,  если выполнено условие
+\begin{equation*}
+J\left(\alpha u_{1}+(1-\alpha) u_{2}\right) \leqslant \alpha J\left(u_{1}\right)+(1-\alpha) J\left(u_{2}\right) \quad \forall u_{1}, u_{2} \in \mathrm{U}, \alpha \in[0 ; 1]
+\end{equation*}
+\textbf{Определение} Функционал $J(u): \mathbf{U} \rightarrow \mathbb{R}^{1} $ называется \underline{\emph{строго выпуклым}} на выпуклом множестве $\mathbf{U}$ из линейного пространства $ \mathbb{L}$,  если выполнено условие
+\begin{equation*}
+J\left(\alpha u_{1}+(1-\alpha) u_{2}\right)<\alpha J\left(u_{1}\right)+(1-\alpha) J\left(u_{2}\right) \quad \forall u_{1}, u_{2} \in \mathbf{U}, \alpha \in(0 ; 1)
+\end{equation*}
+\textbf{Определение} Функционал $J(u): \mathbf{U} \rightarrow \mathbb{R}^{1} $ называется \underline{\emph{сильно выпуклым}} на выпуклом множестве $\mathbf{U}$ из нормированного пространства $ \mathbb{H}$ с введенном на ним нормой  $\|\cdot\|_{\mathbb{H}}$,  если существует такое число $ \mu>0$,  что выполнено условие
+\begin{equation*}
+J\left(\alpha u_{1}+(1-\alpha) u_{2}\right) \leqslant \alpha J\left(u_{1}\right)+(1-\alpha) J\left(u_{2}\right)-\frac{\mu}{2} \alpha(1-\alpha)\left\|u_{1}-u_{2}\right\|_{\mathbb{H}}^{2} \quad \forall u_{1}, u_{2} \in \mathbf{U}, \alpha \in[0 ; 1]
+\end{equation*}
+Максимальное из чисел $ \mu$,  при которых это условие верно, называют \underline{\emph{константой сильной}} \underline{\emph{выпуклости}} функционала $ J(u)$. 
+\subsection{Критерии сильной выпуклости}
+\subsubsection{Критерий сильной выпуклости 1-го порядка}
+Пусть $\mathbf{U}$- непустое выпуклое множество из евклидова пространства $\mathbb{H}$ с введенным скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}},J(u)\in C^1(\mathbf{U})$. Тогда функционал $J(u)$ является сильно выпуклым на множестве $\mathbf{U}$ тогда и только тогда, когда при некотором $\mu>0$ справедливо 
+\begin{equation*}
+J(u)\geqslant J(v)+\langle J'(v),u-v\rangle_{\mathbb{H}}+\frac{\mu}{2}\|u-v\|^2_{\mathbb{H}}\quad \forall u,v\in\mathbf{U}
+\end{equation*}
+или справедливо неравенство
+\begin{equation*}
+\langle J'(u)-J'(v),u-v\rangle_{\mathbb{H}}\geqslant\mu\|u-v\|^2_{\mathbb{H}}\quad u,v\in\mathbf{U}
+\end{equation*}
+\subsubsection{Критерий сильной выпуклости 2-го порядка}
+\textbf{Лемма} Пусть $\mathbf{U}$ - выпуклое множество из нормированного пространства $\mathbb{H}$ с введенной на нем нормой $\|\cdot\|_{\mathbb{H}},\text{int}\mathbf{U}\ne\emptyset,u\in\text{int}\mathbf{U},v\in\text{Гр}\mathbf{U}$. Тогда $\forall\alpha\in(0,1]:v_{\alpha}=v+\alpha(u-v)\in\text{int}\mathbf{U}.$\\
+\textbf{Теорема} Пусть $\mathbf{U}$- непустое выпуклое множество из евклидова пространства $\mathbb{H}$ с введенным скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}},\text{int}\mathbf{U}\ne\emptyset,J(u)\in C^2(\mathbf{U})$. Тогда функционал $J(u)$ является сильно выпуклым на множестве $\mathbf{U}$ тогда и только тогда, когда при некотором $\mu>0$ справедливо 
+\begin{equation*}
+\langle J''(u)h,h\rangle_{\mathbb{H}}\geqslant\mu\|h\|^2\quad\forall u\in\mathbf{U},\forall h\in\mathbb{H}
+\end{equation*}
+\subsubsection{Критерии выпуклости}
+\textbf{Теорема} Пусть $\mathbf{U}$ - непустое выпуклое множество из евклидова пространства $\mathbb{H}$ с введенным скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}},J(u)\in C^1(\mathbf{U})$. Тогда функционал $J(u)$ является выпуклым на множестве $\mathbf{U}$ тогда и только тогда, когда при некотором $\mu>0$ справедливо 
+\begin{equation*}
+J(u)\geqslant J(v)+\langle J'(v),u-v\rangle_{\mathbb{H}} \quad\forall u,v\in\mathbf{U}
+\end{equation*}
+или справедливо неравенство
+\begin{equation*}
+\langle J'(u)-J'(v),u-v\rangle_{\mathbb{H}}\geqslant 0 \quad u,v\in\mathbf{U}
+\end{equation*}
+\textbf{Теорема} Пусть $\mathbf{U}$ - выпуклое множество из евклидова пространства $\mathbb{H}$ с введенным скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}},\text{int}\mathbf{U}\ne\emptyset,J(u)\in C^2(\mathbf{U})$. Тогда функционал $J(u)$ является сильно выпуклым на множестве $\mathbf{U}$ тогда и только тогда, когда при некотором $\mu>0$ справедливо 
+\begin{equation*}
+\langle J''(u)h,h\rangle_{\mathbb{H}}\geqslant 0\quad\forall u\in\mathbf{U},\forall h\in\mathbb{H}
+\end{equation*}
+\subsubsection{Выпуклость и сильная выпуклость простейших функционалов}
+1. $J(u)=\langle c,u\rangle_{\mathbb{H}},c\in\mathbb{H}$ - выпуклый.\\
+2. $J(u)=\|\mathcal{A}u-f\|^2_{\mathbb{F}},\mathcal{A}\in\mathcal{L}(\mathbb{H}\rightarrow\mathbb{F}),f\in\mathbb{F}.$ - выпуклый. сильно выпуклый при существовании обратного оператора $\mathcal{A}^{-1}\in\mathcal{L}(\mathbb{F}\rightarrow\mathbb{H})$.(или $2\|\mathcal{A}(u-v)\|^2_{\mathbb{F}}\geqslant\mu\|u-v\|^2_{\mathbb{H}}$ при некотором $\mu>0$.)\\
+3. $J(u)=\langle\mathcal{A}u,u\rangle_{\mathbb{H}},\mathcal{A}\in\mathcal{L}(\mathbb{H}\rightarrow\mathbb{H})$ - выпуклый. сильно выпуклый при неотрицательной определенности оператора $\mathcal{A}$.
+\subsection{Свойства и теоремы для выпуклых функционалов}
+\subsubsection{Свойство точек минимума выпуклых функционалов}
+\textbf{Теорема} Пусть $\mathbf{U}$ - непустое выпуклое множество из нормированного пространства $\mathbb{H}$ с введенной на нем нормой $\|\cdot\|_{\mathbb{H}}$, функционал $J(u)$ является выпуклым на $\mathbf{U}$. Тогда\\
+1. Любая точка локального минимума $J(u)$ на множестве $\mathbf{U}$ является точкой его глобального минимума.\\
+2. Если множество $\mathbf{U}_{*}$ непусто, то оно выпукло.\\
+3. Если функционал $J(u)$ является строго выпуклым на $\mathbf{U}$, а множество $\mathbf{U}_{*}$ непусто, то оно состоит из единственной точки $u_*$.
+\subsubsection{Множество Лебега}
+\begin{equation*}
+\mathbf{U}(v)=\{u\in\mathbf{U}:J(u)\leqslant J(v)\}.
+\end{equation*}
+\textbf{Лемма} Пусть $\mathbf{U}$ - выпуклое замкнутое множество из нормированного пространства $\mathbb{H}$ с введенной на нем нормой $\|\cdot\|_{\mathbb{H}}$, функционал $J(u)$ является сильным выпуклым и полунепрерывным снизу на $\mathbf{U}$. Тогда множество $\mathbf{U}(v)-\{u\in\mathbf{U}:J(u)\leqslant J(v)\}$ непусто, выпукло, замкнуто и ограничено (как следствие, слабо компактно) при $\forall v\in\mathbf{U}$.
+\subsubsection{Сильно выпуклая теорема Вейерштрасса}
+Пусть $\mathbf{U}$ - выпуклое замкнутое множество из нормированного пространства $\mathbb{H}$ с введенной на нем нормой $\|\cdot\|_{\mathbb{H}}$, функционал $J(u)$ является сильным выпуклым с константой $\mu$ и полунепрерывен снизу на $\mathbf{U}$. Тогда\\
+1. $J_*>-\infty$, множество $\mathbf{U}_{*}$ непусто и состоит из единственного элемента $u_*$.\\
+2. Справедливо $\frac{\mu}{2}\|u-u_*\|^2_{\mathbb{H}}\leqslant J(u)-J(u_*)\quad\forall u\in\mathbf{U}$.
+\subsubsection{Критерий оптимальности для выпуклых задач}
+Пусть $\mathbf{U}$- выпуклое множество из евклидова пространства $\mathbb{H}$ с введенным скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}},J(u)\in C^1(\mathbf{U})$. Тогда\\
+1. Если $u_*\in \mathbf{U}_{*}$, то верно неравенство $\langle J'(u_*),u-u_*\rangle_{\mathbb{H}}\geqslant 0\quad \forall u\in\mathbf{U}$,\\
+2. Ecли $u_*\in\mathbf{U}_{*}\cup\text{int}\mathbf{U}$, то $J'(u_*)=\Theta_{\mathbb{H}}$.\\
+3. Если функционал является выпуклым на $\mathbf{U}$, то неравенство в пунке 1. и является достаточным.
+\subsection{Метрическая проекция}
+Пусть $\mathbf{U}$ - множество из метрического пространства $\mathbb{M}$ с введенной на нем метрикой $\rho(\cdot,\cdot)$. \underline{\emph{Метрической проекцией}} (или просто \emph{проекцей}) элемента $h$ на множество $\mathbf{U}$ называется такой элемент $p\in\mathbf{U}$, что $\rho(p,h)=\inf\limits_{u\in\mathbf{U}}\rho(u,h)$. Обозначение: $\mathcal{P}_{\mathbf{U}}(h)$. 
+\subsubsection{Свойства (критерий) метрической проекции}
+Пусть $\mathbb{H}$ - гильбертово пространство с введенным скалярным произведением $\langle\cdot,\cdot\rangle_{\mathbb{H}},\mathbf{U}\subseteq\mathbb{H}$ - выпуклое замкнутое множество. Тогда справедливы:\\
+1. $\forall h\in\mathbb{H}\quad\exists!\mathcal{P}_{\mathbf{U}}(h)$.\\
+2. $p=\mathcal{P}_{\mathbf{U}}(h)\leftrightarrow \langle p-h,u-p\rangle_{\mathbb{H}}\geqslant 0\quad\forall u\in\mathbf{U}$. - \underline{\emph{характеристическое свойство проекции}}.\\
+3. $\|\mathcal{P}_{\mathbf{U}}(h_1)-\mathcal{P}_{\mathbf{U}}(h_2)\|_{\mathbb{H}}\leqslant\|h_1-h_2\|_{\mathbb{H}}\quad\forall h_1,h_2\in\mathbb{H}$ - свойство нестрогой сжимаемости.
+\subsubsection{Проектирование на гиперплоскость}
+\underline{\emph{Гиперплоскость}} в евклидовом пространстве $\mathbb{H}$ - это множество
+\begin{equation*}
+\mathbf{U}=\{u\in\mathbb{H}:\langle c,u\rangle_{\mathbb{H}}=\alpha \},\quad c\in\mathbb{H},c\ne\Theta_{\mathbb{H}},\alpha\in\mathbb{R}^1
+\end{equation*}
+Вектор $c$ ортогонален любому вектору, лежащему в гиперплоскости.\\
+\begin{equation*}
+p=\mathcal{P}_{\mathbf{U}}(h)=h+\frac{\alpha-\langle c,h\rangle_{\mathbb{H}}}{\|c\|^2_{\mathbb{H}}}c
+\end{equation*}
+\subsubsection{Проектирование на шар}
+Шар с центром $u_0$ в точке радиуса $R$ в евклидовом пространстве $\mathbb{H}$:
+\begin{equation*}
+B=\{u\in\mathbb{H}:\|u-u_0\|_{\mathbb{H}} \leqslant R\|\},\quad u_0\in\mathbb{H},R>0
+\end{equation*}
+\begin{equation*}
+\mathcal{P}_{\mathbf{U}}(h)=\left\{\begin{array}{l}
+u_0+\frac{R}{\|h-u_0\|_{\mathbb{H}}}(h-u_0),\quad \|h-u_0\|_{\mathbb{H}}>R\\
+h,\quad \|h-u_0\|_{\mathbb{H}}\leqslant R
+\end{array}\right.
+\end{equation*}
+\subsubsection{Проектирование на замкнутые подпространства}
+Замкнутое линейное подпространство $\mathbf{L}=\mathcal{L}(a_1,a_2,\ldots,a_n),\quad a_1,a_2,\ldots,a_n$ - ЛНЗ элементы. Пусть построена ортогональная система ЛНЗ $e_1.e_2,\ldots,e_n\in\mathbf{L}$.
+\begin{equation*}
+p=\mathcal{P}_{\mathbf{L}}(h)=\sum_{i=1}^{n}\frac{\langle h,e_i\rangle_{\mathbb{H}}}{\|e_i\|^2_{\mathbb{H}}}e_i
+\end{equation*} 
+\subsubsection{Проектирование на параллелепипед в $L^2(a,b)$}
+Параллелепипед в $L^2(a,b)$:
+\begin{equation*}
+\mathbf{U}=\{u=u(t)\in L^2(a,b):f(t)\stackrel{\text{п.в.}}{\leqslant}u(t)\stackrel{\text{п.в.}}{\leqslant}g(t),t\in(a,b) \},\quad f(t),g(t)\in L^2(a,b)
+\end{equation*}
+Пусть $(a,b)=\mathbf{T}_1\cap\mathbf{T}_2\cap\mathbf{T}_3$
+\begin{equation*}
+h(t)\stackrel{\text{п.в.}}{\geqslant}g(t),t\in\mathbf{T}_1,\quad f(t)\stackrel{\text{п.в.}}{\leqslant}h(t)\stackrel{\text{п.в.}}{\leqslant}g(t),t\in\mathbf{T}_2,\quad h(t)\stackrel{\text{п.в.}}{\leqslant}f(t),t\in\mathbf{T}_3,
+\end{equation*}
+\begin{equation*}
+p=p(t)\mathcal{P}_{\mathbf{U}}(h)=\left\{\begin{array}{l}
+g(t),\quad t\in\mathbf{T}_1\\
+h(t),\quad t\in\mathbf{T}_2\\
+f(t),\quad t\in\mathbf{T}_3
+\end{array}\right.
+\end{equation*}
+\subsubsection{Проектирование на параболоид в $l^2$}
+Параболоид в $l^2$:
+\begin{equation*}
+\mathbf{U}=\{x=(x_1,x_2,...,x_n,\ldots)\in l^2:x_1\geqslant \sum_{n=2}^{\infty}x^2_n \}
+\end{equation*}
+\begin{equation*}
+\mathcal{P}_{\mathbf{U}}(h)=\left\{\begin{array}{l}
+h, \text { ecли } x_{1} \geqslant \sum_{n=2}^{\infty} x_{n}^{2} \\
+\left(x_{1}+\frac{1-\lambda}{2 \lambda}, \lambda x_{2}, \lambda x_{3}, \ldots, \lambda x_{n}, \ldots\right), \text { если } x_{1}<\sum_{n=2}^{\infty} x_{n}^{2},
+\end{array}\right.\\
+\end{equation*}
+где $\lambda$ - корень уравнения $ 2\left(\sum\limits_{n=2}^{\infty} x_{n}^{2}\right) \lambda^{3}=\left(2 x_{1}-1\right) \lambda+1$, лежаший на интервале $(0,1)$
+\subsubsection{Проекционная форма критерия оптимальности}
+Пусть $\mathbf{U}$ - выпуклое замкнутое множество из евклидова пространства $\mathbb{H}$, а функционал $J(u)$ непрерывно дифференцируем на $\mathbf{U}$. Тогда если множество $\mathbf{U}_*$ непусто, то 
+\begin{equation*}
+u_*\in \mathbf{U}_*\quad\Rightarrow\quad u_*=\mathcal{P}_{\mathbf{U}}(u_*-\alpha J'(u_*))\quad\forall\alpha >0
+\end{equation*}
+Если функционал $J(u)$ ещё и выпуклый на $\mathbf{U}$, то равенство является критерием для $u_*\in\mathbf{U}_*$
+\section{Итерационные методы минимизации}
+\subsection{Градиентный метод}
+В евклидовом пространстве $\mathbb{H}$ рассматривается задача минимизации \underline{\emph{без ограничений}}, и пусть $J(u)\in C^1(\mathbb{H}).$
+\begin{equation*}
+J(u)\rightarrow \inf\quad u\in\mathbb{H}
+\end{equation*}
+при $J'(u)\ne\Theta_{\mathbb{H}}$ направление \underline{\emph{самого быстрого убывания}} функционала $J(u)$ в точке $u$ совпадает с направлением градиента $-J'(u)$.\\
+Пусть $u_0$ задана. Итерация строится по правилу 
+\begin{equation*}
+u_{k+1}=u_k-\alpha_k J'(u_k),\quad k=0,1,\ldots
+\end{equation*}
+$\alpha_k$ - \underline{\emph{шаг метода}}. Всегда можно выбрать шаг метода так, чтобы выполнялось неравенство $J(u_{k+1})<J(u_k)$. Процесс прекращается при $J'(u_k)=\Theta_{\mathbb{H}}$.
+\subsubsection{Метод скорейшего спуска и его сходимость}
+$\alpha_k$ находят из условия 
+\begin{equation*}
+J_k(\alpha_k)=\inf_{\alpha\geqslant 0}J_k(\alpha),\quad J_k(\alpha)=J(u_k-\alpha J'(u_k))
+\end{equation*}
+Этот метод имеет линейную скорость сходимости, то есть $\|u_{k+1}-u_*\|_{\mathbb{H}} \leqslant C\cdot\|u_k-u_*\|_{\mathbb{H}}$
+В связи с трудностью нахождения можно, например выбрать так на приктике:
+\begin{equation*}
+\inf_{\alpha\geqslant 0}J_k(\alpha)\leqslant J_k(\alpha_k)\leqslant \inf_{\alpha\geqslant 0}J_k(\alpha)+\delta_k,\quad \delta_k\geqslant 0,k=0,1,\ldots\quad \sum_{k=0}^{\infty}\delta_k=\delta<\infty
+\end{equation*}
+\textbf{Теорема о сходимости метода скорейшего спуска}  Пусть $\mathbb{H}$ -  евклидово пространство с введенным скалярным произведением $ \langle\cdot, \cdot\rangle_{\mathbb{H}}$, функционал $ J(u)$ является сильно выпуклым на $ \mathbb{H} $ с константой сильной выпуклости $ \mu>0 $ и $ J(u) \in C^{1,1}(\mathbb{H})$, то ест градиент $ J^{\prime}(u) $ удовлетворяет условию Липшшца с константой $ L>0$.  Тогда для любого начального приближения $ u_{0} \in \mathbb{H} $ приближения $ u_{k}$, полученные методом скорейшего спуска таковы, что выполняются следующие неравенства:
+\begin{equation*}
+0 \leqslant J\left(u_{k}\right)-J_{*} \leqslant q^{k}\left(J\left(u_{0}\right)-J_{*}\right), \quad\left\|u_{k}-u_{*}\right\|_{\mathrm{H}} \leqslant \sqrt{\frac{2}{\mu} q^{k}\left(J\left(u_{0}\right)-J_{*}\right)}, \quad k=0,1, \ldots
+\end{equation*}
+где $ u_{*}$ - единственная точка минимума $ J(u) $ на $ \mathbb{H}, q=1-\frac{\mu}{L}, 0 \leqslant q<1$.
+\subsubsection{Геометрический смысл метода скорейшего спуска}
+Метод скорейшего спуска имеет простой геометрический смысл: точка $ u_{k+1}$,  получаемая с его помощью, лежит на луче $ L_{k}=\left\{u \in \mathbb{H}: u=u_{k}-\alpha J^{\prime}\left(u_{k}\right), \alpha \geqslant 0\right\} $ в точке его касания поверхности уровня $ \Gamma_{k+1}=\left\{u \in \mathbb{H}: J(u)=J\left(u_{k+1}\right)\right\}$, а сам луч $ L_{k} $ перпендикулярен к поверхности уровня $ \Gamma_{k}=\left\{u \in \mathbb{H}: J(u)=J\left(u_{k}\right)\right\}$. 
+\subsubsection{Непрерывный аналог градиентного метода}
+Вместо итерации $u_{k+1}=u_k-\alpha_k J'(u_k)$ за основу берется задача Коши
+\begin{equation*}
+=\left\{\begin{array}{l}
+u'(t)=-\alpha(t)J'(u(t)),\\
+u(0)=u_0,\quad t>0
+\end{array}\right.
+\end{equation*}
+\textbf{Tеорема о сходимости непрерывного аналога градиентного метода} Пусть $ \mathbb{Н}$ - евклидово пространство с введенным скалярным произведением $ \langle\cdot, \cdot\rangle_{\mathbb{H}}$, функционал $ J(u) $ является сильно выпуклым на $ \mathbb{H} $ с константой сильной выпуклости $ \mu>0 $ и $ J(u) \in C^{1,1}(\mathbb{H})$, то есть градиент $ J^{\prime}(u) $ удовлетворяет условию Липшица с константой $ L>0$. Кроме этого, пусть
+\begin{equation*}
+\alpha(t) \in\mathcal{C}[0,+\infty), \quad \int_{0}^{+\infty} \alpha(t) d t=+\infty .
+\end{equation*}
+Тогда для любого начального приближения $ u_{0} \in \mathbb{H} $ траектория $ u(t) $ дифференциального уравнения сходится к единственной точке минимума $ u_{*} $ функционала $ J(u)$ на $ \mathbb{H}$, причем верно неравенство
+\begin{equation*}
+\left\|u(t)-u_{*}\right\|_{\mathbb{H}} \leqslant\left\|u_{0}-u_{*}\right\|_{\mathbb{H}} \exp \left\{-\mu \int_{0}^{t} \alpha(\tau) d \tau\right\} \quad \forall t \geqslant 0
+\end{equation*}
+\subsection{Метод проекции градиента}
+В евклидовом пространстве $\mathbb{H}$ рассматривается задача \underline{\emph{условной}} минимизации, и пусть $J(u)\in C^1(\mathbb{H}).$
+\begin{equation*}
+J(u)\rightarrow \inf\quad u\in\mathbb{H}\subseteq\mathbb{H}
+\end{equation*}
+Пусть $u_0\in\mathbf{U}$, строить последовательность $\{u_k\}$ по правилу
+\begin{equation*}
+u_{k+1}=\mathcal{P}_{\mathbf{U}}(u_k-\alpha_kJ'(u_k)),\quad \forall k=0,1,\ldots
+\end{equation*}
+где $\alpha_k >0,k=0,1,\ldots$ шаг метода. \\
+\textbf{Tеорема о сходимости метода проекции градиента с постоянным шагом} Пусть $\mathbb{H}$ - гильбертово пространство с введенным скалярным произведением $ \langle\cdot, \cdot\rangle_{\mathrm{H}}$, множество $ \mathbf{U}$ - выпукло и замкнуто, функционал $ J(u) $ является сильно выпуклым на $ \mathbb{H} $ с константой сильной выпуклости $ \mu>0 $ и $ J(u) \in C^{1,1}(\mathbb{H})$, то есть градиент $ J^{\prime}(u)$ удовлетворяет условию Липшица с константой $ L>0$. Тогда для любого начального приближения $ u_{0} \in \mathbb{H} $ приближения $ u_{k}$, полученные методом проекции градиента с постоянным шагом $ \alpha_{k} \equiv \alpha, 0<\alpha<2 \mu L^{-2}$, сходятся к единственному решению $ u_{*} $ задачи $ J(u) \rightarrow \inf , u \in \mathbf{U}$,  причем справедлива оценка
+\begin{equation*}
+\left\|u_{k}-u_{*}\right\|_{\mathbb{H}} \leqslant q^{k}(\alpha)\left\|u_{0}-u_{*}\right\|_{\mathbb{H}}, \quad k=0,1, \ldots,
+\end{equation*}
+в которой $ q(\alpha)=\sqrt{1-2 \mu \alpha+L^{2} \alpha^{2}}, 0<q(\alpha)<1 $.
+\subsection{Метод условного градиента}
+В евклидовом пространстве $\mathbb{H}$ рассматривается задача \underline{\emph{условной}} минимизации, и пусть $J(u)\in C^1(\mathbb{H}).$
+\begin{equation*}
+J(u)\rightarrow \inf\quad u\in\mathbb{H}\subseteq\mathbb{H}
+\end{equation*}
+$\mathbf{U}$ - выпукло, замкнуто, ограничено. Пусть $u_0\in\mathbf{U}$ - начальное приближение. Если приближение $u_k\in\mathbf{U}$ найдено, вместо функционала $J(u)$ рассматривается \underline{\emph{линейное приближение}} и решается задача минимизации $J_k(u)$ на множестве $\mathbf{U}$.
+\begin{equation*}
+J_k(u)=J(u_k)+\langle J'(u_k),u-u_k\rangle_{\mathbb{H}}\rightarrow\inf,\quad u\in\mathbf{U}.
+\end{equation*}
+Пусть $\bar{u}_k$ - одно из решений. Следующее приближение вычисляется по правилу
+\begin{equation*}
+u_{k+1}=u_k+\alpha_{k}(\bar{u}_k-u_k),\quad 0\leqslant\alpha_{k}\leqslant 1.
+\end{equation*}
+Величина $\alpha_k$ может выбираться из условий
+\begin{equation*}
+f_k(a_k)=\min_{0\leqslant\alpha\leqslant 1}f_k(\alpha),\quad f_k(\alpha)=J(u_k+\alpha(\bar{u}_k-u_k)).
+\end{equation*}
+Для \underline{\emph{квадратичного и сильно выпуклого}} функционала эта задача минимизации имеет аналитическое решение. Рассмотрим 
+\begin{equation*}
+J(u)=\frac{1}{2}\langle\mathcal{A}u,u\rangle_{\mathbb{H}}-\langle b,u\rangle_{\mathbb{H}},\quad \mathcal{A}=\mathcal{A}^*\in\mathcal{L}(\mathbb{H}\rightarrow\mathbb{H}),b\in\mathbb{H}\quad\exists\mu>0: \langle\mathcal{A}h,h\rangle_{\mathbb{H}}\geqslant\mu\|h\|^2_{\mathbb{H}}\quad\forall h\in\mathbb{H}.
+\end{equation*}
+\begin{equation*}
+\alpha_k=\min\{a_{k_*},1 \},\quad\alpha_{k_*}=-\frac{\langle J'(u_k),\bar{u}_k-u_k\rangle_{\mathbb{H}}}{\langle \mathcal{A}(\bar{u}_k-u_k),\bar{u}_k-u_k\rangle_{\mathbb{H}}}
+\end{equation*}
+\textbf{Tеорема о сходимости метода условного градиента} Пусть $\mathbf{U}\subset\mathbb{H}$ - выпукло, замкнуто и ограничено, функционал $J(u)\in C^{1,1}(\mathbf{U})$ и выпуклый на $\mathbf{U}$. Тогда для любого начального приближения $ u_{0} \in \mathbb{H} $ приближения $ u_{k}$, полученные методом условного градиента с выбором шага по формуле $ \alpha_{k}=\underset{0\leqslant\alpha\leqslant 1}{\operatorname{argmin}}J(u_k+\alpha(\bar{u_k}-u_k)).$ минимизирует $J(u)$ на $\mathbf{U}$ причем справедлива оценка
+\begin{equation*}
+0\leqslant J(u_k)-J_*\leqslant\frac{C}{k}, \quad k=1,2, \ldots,\quad C=\text{const}>0
+\end{equation*}
+Если, кроме того, функционал $J(u)$ является сильно выпуклым на $\mathbf{U}$ с константой $\mu$, то
+\begin{equation*}
+\|u_k-u_*\|\leqslant\sqrt{\frac{2C}{\mu k}},\quad k=1,2,\ldots.
+\end{equation*}
+\subsection{Метод Ньютона}
+В методе условного градиента вместо линейной части приращения берется \underline{\emph{квадратичная часть}}. Сначала находим точку $\bar{u}_k\in\mathbf{U}$ из условия.
+\begin{equation*}
+ J_k(\bar{u_k})=\inf_{u\in\mathbf{U}}J_k(u),\quad J_k(u)=\langle J'(u_k),u-u_k\rangle_{\mathbb{H}}+\frac{1}{2}\langle J''(u_k)(u-u_k),u-u_k\rangle_{\mathbb{H}}
+\end{equation*}
+потом вычисляем $u_{k+1}=u_k+\alpha_{k}(\bar{u}_k-u_k),\alpha_{k}\in[0,1]$. $\alpha_{k}$ - \underline{\emph{шаг метода Ньютона}}. В случае $\mathbf{U}=\mathbb{H}$ и $\langle J''(u_k)h,h\rangle_{\mathbb{H}}\geqslant\mu\|h\|^2_{\mathbb{H}}\quad h\in\mathbb{H},\quad\mu\in\mathbb{R}^1$, точка $\bar{u}_k$ может вычислена по формуле $\bar{u}_k=u_k-(J''(u_k))^{-1}J'(u_k)$.
+\subsubsection{Классический метод и его сходимость}
+Если взять $\alpha_{k}\equiv 1$, то $u_{k+1}=\bar{u_k}$. Получаем \underline{\emph{классичекий метод Ньютона}}. \\
+Он имеет \underline{\emph{квадратичную}} скорость сходимоти,(то есть $\|u_{k+1}-u_*\|_{\mathbb{H}} \leqslant C\cdot\|u_k-u_*\|^2_{\mathbb{H}}$) но сходится только \underline{\emph{локально}}. \\
+\textbf{Tеорема о сходимости классического метода Ньютона} Пусть $\mathbb{H}$ - евклидово пространство с введенным скалярным произведением $ \langle\cdot, \cdot\rangle_{\mathrm{H}}$, функционал $ J(u) $ является сильно выпуклым на $ \mathbf{U} $ с константой сильной выпуклости $ \mu>0 $ и $ J(u) \in C^{2}(\mathbf{U})$, $ J''(u)$ удовлетворяет условию Липшица на $\mathbf{U}$ с константой $ L>0$. , множество $ \mathbf{U}$ - выпукло и замкнуто, $\text{int}\mathbf{U}\ne\emptyset.$ $u_0\in\mathbf{U}$ - начальное приближение. Тогда если выполнено соотношение
+\begin{equation*}
+q=\frac{L}{2\mu}\|u_0-u_*\|_{\mathbb{H}}<1,\quad u_*\in\mathbf{U}_*
+\end{equation*} 
+то последовательность $\{u_k \}$ сильно сходится к $u_*$, причем
+\begin{equation*}
+\|u_k-u_*\|_{\mathbb{H}}\leqslant\frac{2\mu}{L}\cdot q^{2^k},\quad k=0,1,\ldots
+\end{equation*}
+\subsubsection{Метод Ньютона с выбором шага по Армихо}
+\textbf{Теорема o cxoдимости метода Ньютона с выбором шага по Армихо} Пусть $\mathbb{H}$ - евклидово пространство с введенным скалярным произведением $\langle\cdot, \cdot\rangle_{\mathbb{Н}}$, множество $\mathbf{U} \subseteq \mathbb{H} $ выпукло, замкнуто, $ \textbf{іnt}\mathbf{U} \neq \emptyset $.  Пусть функционал $ J(u) $ является сильно выпуклым на $ \mathbf{U} $ с константой сильной выпуклости $ \mu, J(u) \in C^{2}(\mathbf{U}), J^{\prime \prime}(u) $ удовлетворяет на $ \mathbf{U} $ условию Липшица с константой $ L$,  существует такая константа $ M>0$,  что $\left\langle J^{\prime \prime}(u) h, h\right\rangle_{\mathbb{H}} \leqslant M\|h\|_{\mathbb{H}}^{2} \quad \forall u \in \mathbf{U}, h \in \mathbb{H}$. \\
+Тогда последовательность $ \left\{u_{k}\right\}$,  полученная методом Ньютона с выбором шага $ \alpha_{k} $ по способу $\alpha_{k}=\lambda^{m}, m $ - минимальное целое неотрицательное число, при котором верно неравенство
+\begin{equation*}
+J\left(u_{k}\right)-J\left(u_{k}+\lambda^{m}\left(\bar{u}_{k}-u_{k}\right)\right) \geqslant \frac{1}{2} \lambda^{m}\left|J_{k}\left(\bar{u}_{k}\right)\right|
+\end{equation*}
+при любом начальном приближении $ u_{0} \in \mathbf{U} $ существует и сходится к точке $ u_{*} $ - единственному решению исходной задачи, причем найдутся число $ q \in(0 ,1) $ и номер $ k_{0} $ такой, что при всех $ k \geqslant k_{0} $ будет cправедливо $ \alpha_{k}=1 $ и, кроме того,
+\begin{equation*}
+\left\|u_{k}-u_{*}\right\|_{\mathbb{H}} \leqslant \frac{2 \mu}{L} q^{2^{k}}, \quad k=k_{0}, k_{0}+1, \ldots
+\end{equation*}
+\subsection{Квазиньютоновские методы}
+Будем рассматривать задачу \underline{\emph{безусловной}} минимизации в $\mathbb{R}^n$, то есть
+\begin{equation*}
+f(x)\rightarrow\min,\quad x\in\mathbb{R}^n
+\end{equation*}
+пусть $f(x)\in C^2(\mathbb{R}^n)$. Общая итерационная схема такая:\\
+1. Выбираются начальное приближение $x_0\in\mathbb{R}^n$ и матрица $H_0\in\mathbb{R}^{n\times n}$. \\
+2. Далее вычисляются по формуле
+\begin{equation*}
+x_{k+1}=x_k-t_kH_kf'(x_k),\quad H_{k+1}=U(x_k,H_k),\quad k=0,1,2,\ldots
+\end{equation*}
+где $t_k\in\mathbb{R}^1$, $U(x_k,H_k)$ такова, что $\{H_k \}$ удовлетворяет \underline{\emph{квазиньютоновскому условию}}.
+\begin{equation*}
+H_{k+1}(f'(x_{k+1})-f'(x_k))=x_{k+1}-x_k,\quad k=0,1,2,\ldots
+\end{equation*}
+\subsubsection{Семейство методов ранга один}
+Переход от $H_k$ к $H_{k+1}$ делается с помощью формулы
+\begin{equation*}
+H_{k+1}=H_k+\frac{1}{d^T_k(f'(x_{k+1})-f'(x_k))}\left((x_{k+1}-x_k)-H_k(f'(x_{k+1})-f'(x_k))\right)d^T_k
+\end{equation*}
+где вектор столбец $d_k$ выбирается так, чтобы $d^T_k(f'(x_{k+1})-f'(x_k))\ne 0$. При таком способе $H_{k+1}$ квазиньютоновское условие выполнено. Эта формула задает \underline{\emph{семейство квазиньютоновских}} \underline{\emph{методов ранга один}}, так как \underline{\emph{матрица поправки}} $\Delta H_{k+1}-H_k$ как произведение вектор-столбца на вектор строку, имеет ранг равный единице. $d_k$ - \underline{\emph{параметризация}} семейства.\\
+\underline{\emph{Метод Бройдена}}: $t_k\equiv 1,d_k=f'(x_{k+1})-f'(x_k),k=0,1,\ldots$.\\
+\underline{\emph{Метод МакКормика}}:  $t_k\equiv 1,d_k=x_{k+1}-x_k,k=0,1,\ldots$.\\
+\textbf{Tеорема о сходимости методов Бройдена и МакКормика} Пусть функция $ f(x) $ дважды непрерывно дифференцируема и сильно выпукла с константой сильной выпуклости $ \mu $ в некоторой окрестности $ X=\left\{x \in \mathbb{R}^{n}:\left\|x-x_{*}\right\| \leqslant C\right\} $ точки $ x_{*}, f^{\prime}\left(x_{*}\right)=0$, и существует число $ K>0 $ такое, что выполнено неравенство
+\begin{equation*}
+\left\|f^{\prime \prime}(x)-f^{\prime \prime}\left(x_{*}\right)\right\| \leqslant K\left\|x-x_{*}\right\|, \quad \forall x \in X .
+\end{equation*}
+Тогда методы Бройдена и МакКормика \underline{\emph{локально и сверхлинейно}} сходится к $ x_{*} $, то есть существуют такие $ \varepsilon, \delta>0$, что если верно
+\begin{equation*}
+\left\|x_{0}-x_{*}\right\| \leqslant \varepsilon, \quad\left\|H_{0}-\left(f^{\prime \prime}\left(x_{*}\right)\right)^{-1}\right\|_{F}^{2}=\sum_{i=1}^{n} \sum_{j=1}^{n}\left(H_{0}-\left(f^{\prime \prime}\left(x_{*}\right)\right)^{-1}\right)_{i j}^{2} \leqslant \delta,
+\end{equation*}
+тo
+\begin{equation*}
+\lim _{k \rightarrow \infty} \frac{\left\|x_{k+1}-x_{*}\right\|}{\left\|x_{k}-x_{*}\right\|}=0
+\end{equation*}
+Что означает $\|x_{k+1}-x_*\|\leqslant q\|x_k-x_*\|$ - $q$ уменьшается при каждой итерации.\\
+\subsubsection{Семейство методов ранга два}
+Имеется \underline{\emph{единственный способ}} получения квазиньютоновского метода ранга один с \underline{\emph{симметричными}} матрицами $H_k$: $H_0$ выбирается симметричной, затем на каждом шаге брать $d_k=z_k-H_ky_k$. Но такой метод не локально сходится.\\
+Можно преодолеть эту трудность, рассматривая \underline{\emph{квазиньютоновские методы ранга два}}. Пусть $x_0\in\mathbb{R}^n$ и $H_0\in\mathbb{R}^{n\times n}$ заданы. Далее
+\begin{equation*}
+x_{k+1}=x_k-H_kf'(x_k)
+\end{equation*}
+\begin{equation*}
+H_{k+1}=H_k+\frac{(z_k-H_ky_k)d^T_k+d_k(z_k-H_ky_k)^T}{d^T_ky_k}-\frac{y_k^T(z_k-H_ky_k)d_kd^T_k}{(d^T_ky_k)^2}
+\end{equation*}
+где $z_k=x_{k+1}-x_k,y_k=f'(x_{k+1})-f'(x_k)$. $\Delta H_k$ имеет ранг равный двум. Если $H_k$ - симметричная, то $H_{k+1}$ - симметричная.\\
+\underline{\emph{Метод Гристадта}}: $d_k=y_k=f'(x_{k+1})-f'(x_k),k=0,1,\ldots$.\\
+\underline{\emph{Метод BFGS}}:  $d_k=z_k=x_{k+1}-x_k,k=0,1,\ldots$.\\
+\textbf{Теорема о сходимости методов Гринстадта и BFGS} Пусть функция и точка удовлетворяют условиям предыдущей теоремы. Тогда методы Гринстадта и BFGS
+\underline{\emph{локально и}} \underline{\emph{сверхлинейно}} сходится к $ x_{*} $, то есть существуют такие $ \varepsilon, \delta>0$, что если верно
+\begin{equation*}
+\left\|x_{0}-x_{*}\right\| \leqslant \varepsilon, \quad\left\|H_{0}-\left(f^{\prime \prime}\left(x_{*}\right)\right)^{-1}\right\|_{F}^{2}=\sum_{i=1}^{n} \sum_{j=1}^{n}\left(H_{0}-\left(f^{\prime \prime}\left(x_{*}\right)\right)^{-1}\right)_{i j}^{2} \leqslant \delta,
+\end{equation*}
+To
+\begin{equation*}
+\lim _{k \rightarrow \infty} \frac{\left\|x_{k+1}-x_{*}\right\|}{\left\|x_{k}-x_{*}\right\|}=0
+\end{equation*}
+\subsection{Линейное программирование}
+\subsubsection{Постановка задачи}
+Задача минимизации или максимизации линейной функции
+\begin{equation*}
+f(x)=\langle c,x\rangle \rightarrow \inf,\quad x\in\mathbf{X}
+\end{equation*}
+\begin{equation*}
+\mathbf{X}=\{x=(x_1,\ldots,x_n)^T\in\mathbb{R}^n:x_k\geqslant 0,k\in I_+,\langle a_i,x\rangle\leqslant b_i,i=1,\ldots,m;\langle a_i,x\rangle =b_i,i=m+1,\ldots,m+s\}
+\end{equation*}
+Матричная форма
+\begin{equation*}
+f(x)=\langle c^1,x^1\rangle+\langle c^2,x^2\rangle \rightarrow \inf,\quad x\in\mathbf{X}
+\end{equation*}
+\begin{equation*}
+\mathbf{X}=\{x=(x^1,x^2)^T:x^1\in\mathbb{R}^{n_1},x^2\in\mathbb{R}^{n_2},A_{11}x^1+A_{12}x^2\leqslant b^1,A_{21}x^1+A_{22}x^2=b^2;x^{1} \succcurlyeq \Theta \}
+\end{equation*}
+\subsubsection{Каноническая задача}
+\begin{equation*}
+g(u)=\langle c,u \rangle\rightarrow\inf,\quad u\in\mathbf{U}=\{u\in \mathbb{R}^{n_1+n+m_1}:u\succcurlyeq\Theta,Au=b \}
+\end{equation*}
+где
+\begin{equation*}
+c=\left[\begin{array}{c}
+c^{1} \\
+c^{2} \\
+-c^{2} \\
+\Theta
+\end{array}\right], \quad u=\left[\begin{array}{c}
+x^{1} \\
+v \\
+w \\
+z
+\end{array}\right], \quad A=\left[\begin{array}{c|c|c|c}
+A_{11} & A_{12} & -A_{12} & I \\
+\hline A_{21} & A_{22} & -A_{22} & \mathcal{O}
+\end{array}\right], \quad b=\left[\begin{array}{c}
+b^{1} \\
+b^{2}
+\end{array}\right] .
+\end{equation*}
+\subsubsection{Угловые точки}
+\textbf{Определение} Точка $v\in\mathbf{X}$ называется \emph{угловой точкой} множества $\mathbf{X}$, если равенство
+\begin{equation*}
+v=\alpha v^1+(1-\alpha)v^2,\quad v^1,v^2\in\mathbf{X},0<\alpha<1.
+\end{equation*}
+верно, только если $v^1=v^2$. \\
+\textbf{Теорема о алгебраическом критерием угловой точки} Пусть $\mathcal{A}\ne\mathcal{O}$ ранг матрицы $A$ равен $r$. Для того, чтобы точка $v=(v_1,\ldots,v_n)\in\mathbf{U}$ была угловой точкой множества $\mathbf{U}=\{x_1,\ldots,x_n \in\mathbb{R}^n:x\succcurlyeq \Theta,Ax=b\}$, необходимо и достаточно, чтобы существовал номера $j_1,\ldots,j_r,1\leqslant j_i\leqslant n,i=1,\ldots,r$, такие что
+\begin{equation*}
+A_{j_1}v_{j_1}+\ldots+A_{j_r}v_{j_r}=b;\quad v_j=0,j\ne j_1,\ldots,j_r
+\end{equation*}
+причем столбцы $A_{j_1},\ldots,A_{j_r}$ линейно независимы.\\
+\textbf{Определение} Систему векторов $A_{j_1},\ldots,A_{j_r}$, входящих в критерий угловой точки, называют \emph{базисом угловой точки} $v$, а соответствующие им переменные $v_{j_1},\ldots,v_{j_r}$ - \emph{базисными координатами угловой точки} $v$.\\
+\textbf{Определение} Если $v_{j_1},\ldots,v_{j_r}$ все положительны, то такую угловую точку называют \emph{невырожденной точкой}. Если среди из них есть нулевая координата, то называют \emph{вырожденной точкой}. При фиксированном базисе $A_{j_1},\ldots,A_{j_r}$ переменные $x_{j_1},\ldots,x_{j_r}$ - \emph{базисные переменные} угловой точки, а остальные переменные - \emph{свободные переменные}.
+\subsubsection{Симплекс-метод}
+Рассмотрим каноничесукю задачу линейного программирования
+\begin{equation*}
+f(x)=\langle c,x \rangle\rightarrow\inf,\quad x\in\mathbf{U}=\{x=(x_1,\ldots,x_n)\in \mathbb{R}^{n}:x\succcurlyeq\Theta,Ax=b \}
+\end{equation*}
+Пусть $J_b=\{j_1,\ldots,j_r \}$ - базисные номера, $J_f=\{ i_1,\ldots,i_{n-r}\}=\{1,2,\ldots,n \}\notin J_b$, $x_b=(x_{j_1},\ldots,x_{j_r})^T$ - базисные переменные, $x_f=(u_{i_1},\ldots,x_{i_{n-r}})$ - свободные переменные.\\
+Пусть $B=(A_{j_1}|\ldots|A_{j_r})$. В силу ограничения-равенства $Ax=b$ имеем
+\begin{equation}
+\label{b}
+b=\sum_{j\in J_b}A_{j}x_j+\sum_{j\i\in J_f}A_ix_i=Bx_b+\sum_{j\i\in J_f}A_ix_i
+\end{equation}
+Так как $A_{j_1},\ldots,A_{j_r}$ - ЛНЗ, то существует $B^{-1}$. Пусть $v_b=(v_{j_1},\ldots,v_{j_r})^T,c_b=(c_{j_1},\ldots,c_{j_r})^T,F=(A_{i_1}|\ldots|A_{i_{n-r}})$ Поскольку $v_f=(v_{i_1},\ldots,v_{i_{n-r}})^T=\Theta_{n-r}^T$, подставляя в его и получаем $Bv_b=b,v_b=B^{-1}b$. Домножив $B^{-1}$ слева на (\ref{b}), получаем 
+\begin{equation*}
+\begin{aligned}
+&\Theta=v_b=B^{-1}b=x_b+\sum_{j\i\in J_f}B^{-1}A_ix_i\quad\Rightarrow x_b=v_b-\sum_{j\i\in J_f}B^{-1}A_ix_i=v_b-B^{-1}Fx_f\\
+&f(x)=\langle c_b,x_b\rangle+\sum_{k\in J_f}c_kx_k=\langle c_b,x_b\rangle-\sum_{k\in J_f}(\langle c_b,B^{-1}A_k\rangle-c_k)x_k=f(v)-\sum_{k\in J_f}\Delta_kx_k\\
+&j(x_f)=f(v)-\sum_{k\in J_f}\Delta_kx_k\rightarrow\inf,\quad x_f\succcurlyeq\Theta,x_b\succcurlyeq\Theta
+\end{aligned}
+\end{equation*}
+где $\Delta=(\Delta_{i_1},\ldots,\Delta_{i_{n-r}})^T=\langle c_b,B^{-1}F\rangle-c_f=(B^{-1}F)^Tc_b-c_f$.\\
+\\
+\textbf{Схема метода:} На каждом шаге метода\\
+\textbf{1.} Обрабатывается угловая точка $v\in\mathbf{U}$ и составляется функцию $j(x_f)$.\\
+\textbf{2.} Выбираются номера из $J_f$, изменения которых может уменьшит значение функции $j(x_f)$: $J_f^+=\{k\in J_f: \Delta_k>0 \}$.\\
+\quad\textbf{2.1.} $J_f^+=\emptyset$, то есть нельзя уменьшит значение функции $\Rightarrow$ процесс останавливается и $v\in\mathbf{U}_*,f_*=f(v)$.\\
+\quad\textbf{2.2.} $J_f^+\ne\emptyset$ и $\exists k\in J_f^+: \text{для}\, x_k\,\text{нет ограничений}$, тогда процесс останавливается и $f_*=-\infty$. Обычно смотрим все столбцы $\gamma_k,k\in J_f^+$ матрицы $B^{-1}F$. Если в каждом столбце есть положительные числа, то переходим к следующему случаю, если в каком-то столбце нет положительные числа, то останавливается.\\
+\quad\textbf{2.3.} $J_f^+\ne\emptyset$ и $\forall k\in J_f^+: \text{для}\, x_k\,\text{есть ограничений}$. Тогда выбираем какую-то одну свободную переменную, и присваиваем ей максимальное возможное значение, и остальные равны нулю. В результате получаем новую угловую точку $w$, причем $f(w)\leqslant f(v)$.  - Это действие называтеся \emph{шагом симплекс-метода}.Если $v$ - невырожденная, то $f(w)$ точно меньше; если $v$ - вырожденная, то возможно $f(w)=f(v)$ - зацикливание. Возможный подход - \emph{правило Блэнда}.\\
+\\
+\textbf{Процесс перехода от точки $ v$ к точке $ w $}\\
+1) Сначала выбираем какое-то $ \Delta_{i_{s}}>0$. Его номер $ i_{s} $ будет номером свободной переменной, \emph{вводимой в базис}. Затем рассматривается столбец $ \gamma_{i_{s}}$, числам из него сверху вниз присваиваются номера $ j_{1}, j_{2}, \ldots, j_{r} $. Из этих номеров мы выбираем только те номера $ j_{k}$,  для которых $ \gamma_{i_{s}, j_{k}}>0$,  после чего находятся величины $ \theta_{j_k}$ по правилу
+\begin{equation*}
+\theta_{j_{k}}=\frac{v_{j_{k}}}{\gamma_{i_{s}, j_{k}}}, \text { где } v_{j_{k}} -\text { координаты угловой точки } v
+\end{equation*}
+2) Затем находим минимальное из этих чисел (если их несколько, берем какое-то одно). Его номер $ j_{q} $ является номером базисной переменной, \emph{выводимой из базиса}. Его значение (обозначим его $\theta$ используется для перехода к новой угловой точке $ w $ по правилу
+\begin{equation*}
+w_{b}=v_{b}-\theta \cdot \gamma_{i_{s}}
+\end{equation*}
+(при этом координата $ w_{j q} $ обязательно станет равна нулю), в качестве значения координаты $ w_{i_{s}} $ берется число $ \theta$, остальные координаты точки $ w $ берутся равными нулю. Из списка $ J_{b} $ базисных координат выкидывается номер $ j_{q}$, вместо него вводим номер $ i_{s} $.   
+\subsection{Метод сопряженных градиентов}
+Рассмотрим квадратичный функционал 
+\begin{equation*}
+J(u)=\frac{1}{2}\langle Au,u\rangle-\langle f,u\rangle,\quad A=A^T>0,f\in\mathbb{R}^n
+\end{equation*}
+Задача минимизации на $\mathbb{R}^n$ эквивалентна задаче решения СЛАУ
+\begin{equation*}
+J'(u)=\frac{1}{2}(A+A^T)u-f=Au-f=\Theta\quad\Leftrightarrow\quad Au=f
+\end{equation*}
+Пусть $\{p_0,p_1,\ldots,p_n \}$ - базис в $\mathbb{R}^n$, $u_0\in\mathbb{R}^n$ - начальное приближение, $u_*$ - точка минимума функционала $J(u)$.\\
+\textbf{Схема метода}:\\
+Итерация 0. Пусть $u_0$ - любое и $p_0=-J'(u_0)$. Если $p_0=\Theta$, то заканчивается работа.\\
+Итерация 1. 
+\begin{equation*}
+\alpha_0=-\frac{\langle Au_0-f,p_0\rangle}{\langle Ap_0,p_0\rangle},\quad u_1=u_0+\alpha_0p_0,\quad p_1=-J'(u_1)+\beta_0p_0,\quad\beta_0=\frac{\langle J'(u_1),Ap_0\rangle}{\langle Ap_0,p_0\rangle}
+\end{equation*}
+Итерация $k\geqslant 2$. 
+\begin{equation*}
+\alpha_{k-1}=-\frac{\langle J'(u_{k-1}),p_{k-1}\rangle}{\langle Ap_{k-1},p_{k-1}\rangle},u_k=u_{k-1}+\alpha_{k-1}p_{k-1},\quad \beta_{k-1}=\frac{\langle J'(u_{k}),Ap_{k-1}\rangle}{\langle Ap_{k-1},p_{k-1}\rangle},p_k=-J'(u_k)+\beta_{k-1} p_0.
+\end{equation*}
+На последней итерации $n$ найдно $u_n=u_*$. 
+\subsubsection{Сходимость}
+\textbf{Лемма о свойствах коэффициентов $\alpha_{k}$} Пусть $J(u)=\frac{1}{2}\langle A u, u\rangle-\langle f, u\rangle, A=A^{T}>0 ; p_{0}, p_{1}, \ldots, p_{n} $ -  базис $ \mathbb{H}=\mathbb{R}^{n} $ из \emph{сопряженных} относительно матрицы $ A $ векторов,то есть $\langle Ap_i,p_j\rangle = 0,\forall i\ne j$, $ u_{*} $ - точка минимума на всем пространстве $ \mathbb{R}^{n} $ функционала $ J(u) $, $ \alpha_{k} $ - коэффициенты из разложения
+\begin{equation*}
+u_{*}-u_{0}=\alpha_{0} p_{0}+\alpha_{1} p_{1}+\ldots+\alpha_{n-1} p_{n-1}
+\end{equation*}
+Тогда
+\begin{equation*}
+\alpha_{k}=\frac{\left\langle f-A u_{0}, p_{k}\right\rangle}{\left\langle A p_{k}, p_{k}\right\rangle}=\underset{\alpha \in \mathbb{R}}{\operatorname{argmin}} J\left(u_{k}+\alpha p_{k}\right)=-\frac{\left\langle J^{\prime}\left(u_{k}\right), p_{k}\right\rangle}{\left\langle A p_{k}, p_{k}\right\rangle} ; \quad\left\langle J^{\prime}\left(u_{k+1}\right), p_{k}\right\rangle=0, \quad k=0,1, \ldots, n-1
+\end{equation*}
+\textbf{Tеорема о сходимости метода сопряженных градиентов} Пусть $ \mathbb{H}=\mathbb{R}^{n}, J(u)=\frac{1}{2}\langle A u, u\rangle-\langle f, u\rangle, A=A^{T}>0$. Тогда итерационный процесс метода сопряженных градиентов при любом начальном приближении $ u_{0} \in \mathbb{H} $ не более, чем за $ n=\operatorname{dim} \mathbb{H} $ находит точку $ u_{*}$ -  решение задачи $ J(u) \rightarrow \inf _{\mathbb{H}}$, причем верны формулы
+\begin{equation*}
+\left\langle A p_{k}, p_{m}\right\rangle=0,\left\langle J^{\prime}\left(u_{k}\right), J^{\prime}\left(u_{m}\right)\right\rangle=0, \quad \forall k, m \in\{0,1,\ldots,n-1\}, k \neq m
+\end{equation*}
+\begin{equation*}
+\left\langle J^{\prime}\left(u_{k}\right), p_{m}\right\rangle=0, \quad \forall k, m \in\{0,1,\ldots,n-1\}, m<k
+\end{equation*}
+\subsubsection{Случай бесконечномерного пространства}
+Выбираем произвольные начальное приближение $u_0\in\mathbb{H}$, берем $p_0=-J'(u_0)$, после чего вычисляются по формулам:
+\begin{equation*}
+\begin{aligned}
+u_{k+1}&=u_k+\alpha_{k}p_k,p_{k+1}=-J'(u_{k+1})+\beta_kp_k,\quad k=0,1,2,\ldots\\
+\alpha_k&=\underset{\alpha\in\mathbb{R}}{\operatorname{argmin}}J(u_k+\alpha p_k),\quad\beta_k=\frac{\langle J'(u_{k+1}),J'(u_{k+1})-J'(u_k)\rangle}{\|J'(u_k)\|^2}
+\end{aligned}
+\end{equation*}
+Обычно метод сопряженных градиентов используется в сочетании с методом Ньютона, в результате получаем такую оценку сходимости.
+\begin{equation*}
+\|u_m-u_*\|\leqslant\frac{2\mu}{L}\cdot q^{(\sqrt[n]{2})^m}
+\end{equation*}
+\subsection{Метод покоординатного спуска}
+Этот метод позволяет решить задачу минимизации, \underline{не вычисляя} значение первой и второй производных. Рассмотрим задачу минимизации функции $f(x)\in\mathbb{R}^n$.
+\begin{equation*}
+f(x)\rightarrow\inf,\quad x\in\mathbb{R}^n
+\end{equation*}
+Выберем некоторый базис $\{e_i \}^n_{i=1}$ из $\mathbb{H}$, например стандартный базис. Производится циклический перебор этих векторов. Для удобства описания итерации запишем
+\begin{equation*}
+p_0=e_1,p_1=e_2,\ldots,p_{n-1}=e_n,\quad p_n=e_1,p_{n+1}=e_2,\ldots,p_{2n-1}=e_n,\quad p_{2n}=e_1
+\end{equation*}
+\subsubsection{Схема метода} 
+Сначала выбирается начальное приближение $x_0\in\mathbb{R}^n$, стартовый шаг $\alpha_0>0$, \underline{коэффициент дробления} $\lambda\in(0,1)$. Пусть найдено $k$-ое приближение $x_k$ и текущее значение шага $\alpha_k>0$. Для $x_{k+1}$ имеем:\\
+1. Если $f(x_k+\alpha_kp_k)<f(x_k)$, то $x_{k+1}=x_k+\alpha_kp_k,\quad\alpha_{k+1}=\alpha_{k}$\\
+2. Если $f(x_k+\alpha_kp_k)\geqslant f(x_k)$ и $f(x_k-\alpha_kp_k)<f(x_k)$, то $x_{k+1}=x_k-\alpha_kp_k,\quad\alpha_{k+1}=\alpha_{k}$.\\
+3. Если $f(x_k\pm\alpha_kp_k)\geqslant f(x_k)$ - \underline{неудачная итерация} - и притом количество неудачных итераций, случившихся подряд, меньше $n$, то $x_{k+1}=x_k,\quad\alpha_{k+1}=\alpha_{k}$.\\
+4. Если Если $f(x_k\pm\alpha_kp_k)\geqslant f(x_k)$ и притом количество неудачных итераций, случившихся подряд, равно $n$, то $x_{k+1}=x_k,\quad\alpha_{k+1}=\lambda\alpha_{k}$, количество неудач становится $0$.\\
+\subsubsection{Сходимость метода} 
+\textbf{Теорема} Пусть функция $f(x)$ выпукла на $\mathbb{R}^n$ и принадлежит классу $C^1(\mathbb{R}^n)$, а начальное приближение $x_0$ таково, что множество Лебега $M(x_0)=\{x\in\mathbb{R}^n:f(x)\leqslant f(x_0) \}$ ограничено. Тогда последовательность $x_k$, сходится и по функции, и по аргументу.
+\begin{equation*}
+\lim_{k\rightarrow\infty}f(x_k)=f_*,\quad\lim_{k\rightarrow\infty}\rho(x_k,X_*)=0
+\end{equation*} 
+\section{Методы снятия ограничений}
+\subsection{Метод штрафных функций}
+Будем рассматривать задачу:
+\begin{equation*}
+J(u)\rightarrow\inf,\quad u\in\mathbf{U}=\{u\in\mathbf{U}_0\subseteq\mathbb{H}:g_1(u)\leqslant 0,\ldots,g_m(u)\leqslant 0;g_{m+1}(u)=0,\ldots,g_{m+s}(u)=0\}.
+\end{equation*}
+где $\mathbb{H}$ - евклидово пространство, $\mathbf{U}_0$ множество простого вида.\\
+Введем \emph{штрафную функцию}:
+\begin{equation*}
+P(u)=\sum_{i=1}^{m+s}(g_i^+(u))^{p_i},\quad p_i\geqslant 1,i=1,\ldots,m+s
+\end{equation*} 
+числа $p_i$ мы выбираем сами, функции
+\begin{equation*}
+ g_i^+(u)=\max \{g_i(u),0 \},i=1,\ldots,m;\quad g_i^+(u)=|g_i(u)|,i=m+1,\ldots,m+s
+\end{equation*}
+Эти функции называют \emph{индивидуальными штрафами}. Ясно, что $P(u)\geqslant 0,\forall u\in\mathbb{H}$ и 
+\begin{equation*}
+u\in\mathbf{U}\Leftrightarrow \left\{\begin{array}{l}
+u\in \mathbf{U}_0,\\
+P(u)=0
+\end{array}\right. \Leftrightarrow \left\{\begin{array}{l}
+u\in\mathbf{U}_0\\
+g_i^+(u)=0,i=1,\ldots,m+s
+\end{array}\right. 
+\end{equation*}
+Рассмотрим последовательность задач минимизации
+\begin{equation*}
+\Phi_k(u)=J(u)+A_kP(u)\rightarrow\inf,\quad u\in\mathbf{U}_0,k=1,2,\ldots,\lim_{k\rightarrow\infty} A_k =+\infty
+\end{equation*}
+Пусть $u_k\in\mathbf{U}_0$ - приближенные решения этих задач, то есть
+\begin{equation*}
+\Phi_{k_*}=\inf_{\mathbf{U}_0}\Phi_k(u)\leqslant \Phi_k(u_k)\leqslant \Phi_{k_*}+\varepsilon_k,\quad k=1,2,\ldots, \lim_{k\rightarrow 0}\varepsilon_k=0 
+\end{equation*}
+\textbf{Теорема о сходимости метода штрафных функций} Пусть $\mathbb{H}$ - гильбертово пространство, множество $ \mathbf{U}_{0} \subseteq \mathbb{H} $ слабо замкнуто, функционалы $ J(u) $ и $ g_{i}^{+}(u),   i=1, \ldots, m+s $ слабо полунепрерывны снизу на $ \mathbf{U}_{0} $, множество
+\begin{equation*}
+\mathbf{U}(\delta)=\left\{u \in \mathbf{U}_{0}: g_{i}^{+} \leqslant \delta, i=1, \ldots, m+s\right\}
+\end{equation*}
+ограничено при некотором $ \delta>0$, 
+\begin{equation*}
+J=\inf _{\mathbf{U}_{0}} J(u)>-\infty, \quad \lim _{k \rightarrow \infty} A_{k}=+\infty, \lim _{k \rightarrow \infty} \varepsilon_{k}=0
+\end{equation*}
+Тогда последовательность $ \left\{u_{k}\right\}$, полученная методом штрафных функций такова, что $ \lim \limits_{k \rightarrow \infty} J\left(u_{k}\right)=J_{*}$, и все ее слабые предельные точки принадлежат множеству $ \mathbf{U}_{*} $.
+\subsection{Правило множителей Лагранжа}
+Будем рассматривать задачу:
+\begin{equation*}
+J(u)\rightarrow\inf,\quad u\in\mathbf{U}=\{u\in\mathbf{U}_0\subseteq\mathbb{H}:g_1(u)\leqslant 0,\ldots,g_m(u)\leqslant 0 \}.
+\end{equation*}
+где $\mathbb{H}$ - линейное пространство, $\mathbf{U}_0$ - выпуклое множество простого вида, $J(u),g_i(u)$ - выпуклые. Такие задачи называют \emph{выпуклыми}, так как минимизируется выпуклое на выпуклом множестве.\\
+Введем функцию Лагранжа
+\begin{equation*}
+\mathcal{L}(u,\lambda) =\lambda_0 J(u)+\sum_{i=1}^{m}\lambda_ig_i(u),\quad u\in\mathbf{U}_0,\lambda_i\in\mathbb{R},i=0,1,\ldots,m
+\end{equation*}
+\subsubsection{Теорема Куна-Таккера и условие Слейтера}
+\textbf{Теорема Куна-Таккера} Пусть в рассматриваемой задаче множество $U_0$ выпуклое, $J(u),g_i(u),i=1,\ldots,m$ выпуклы на $\mathbf{U}_0$. Тогда если $u_*\in\mathbf{U}_*$, то существует множители Лагранжа $\lambda^*=(\lambda_0^*,\lambda_1^*,\ldots,\lambda_m^*)\ne\Theta$ такие, что выполнены условия
+\begin{equation*}
+\begin{aligned}
+&\mathcal{L}(u_*,\lambda^*)\leqslant\mathcal{L}(u,\lambda^*)\quad\forall u\in\mathbf{U}_0,\qquad(\text{принцип минимума}) \\
+&\lambda_0^*\geqslant 0,\lambda_1^*\geqslant 0,\ldots,\lambda_m^*\geqslant 0,\qquad(\text{неотрицательность множителей Лагранжа})\\
+&\lambda_1^*g_1(u_*)=0,\ldots,\lambda_m^*g_m(u_*)=0. \qquad(\text{условия дополняющей нежесткости})
+\end{aligned}
+\end{equation*}
+Кроме того, если для пары $(u_*,\lambda^*)$ выполнены эти три условия и $u_*\in\mathbf{U},\lambda_0^*>0$, то $u_*\in\mathbf{U}_*$.\\
+\\
+$\lambda_0^*>0$ - условие регулярности. Достаточным его условием является \emph{условие Слейтера}:
+\begin{equation*}
+\exists u_0\in\mathbf{U}_0:g_i(u_0)<0,\quad\forall i=1,\ldots,m
+\end{equation*}
+\textbf{Определение} Точку $(x_*,y^*)$ называют \emph{седловой точкой} функции $f(x,y)$ на $\mathbf{X}\times\mathbb{Y}$, если
+\begin{equation*}
+(x_*,y^*)\in\mathbf{X}\times\mathbb{Y},\quad f(x_*,y)\leqslant f(x_*,y^*)\leqslant f(x,y^*),\quad \forall x\in\mathbf{X},\forall y\in\mathbb{Y}
+\end{equation*}
+\textbf{Теорема о седловой форме теоремы Куна-Таккера} Пусть выполнены все условия исходной теоремы и условие регулярности Слейтера. Тогда для того, чтобы $u_*\in\mathbf{U}_*$, необходимо и достаточно, чтобы у классической функции Лагранжа
+\begin{equation*}
+\mathcal{L}(u,\lambda)=J(u)+\sum_{i=1}^{m}\lambda_ig_i(u),\quad u\in\mathbf{U}_0,\lambda_i\in\mathbb{R},i=1,\ldots,m
+\end{equation*}
+существовала седловая точка вида $(u_*,\lambda^*)$ на $\mathbf{U}_0\times \mathbb{R}_+^m$.
+\subsubsection{Правило множителей Лагранжа для гладких задач}
+Будем рассматривать задачу:
+\begin{equation*}
+J(u)\rightarrow\inf,\quad u\in\mathbf{U}=\{u\in\mathbb{H}\subseteq\mathbb{H}:g_1(u)\leqslant 0,\ldots,g_m(u)\leqslant 0,g_{m+1}(u)=0,\ldots,g_{m+s}(u)=0 \}.
+\end{equation*}
+где $\mathbb{H}$ - гильбертово пространство, $\mathbf{U}_0=\mathbb{H}$, $J(u),g_i(u),i=1,\ldots,m+s$ - \emph{гладкие функционалы}. Рассмотрим необходимые условия локального минимума для таких задач.
+Введем функцию Лагранжа
+\begin{equation*}
+\mathcal{L}(u,\lambda) =\lambda_0 J(u)+\sum_{i=1}^{m+s}\lambda_ig_i(u),\quad u\in\mathbb{H},\lambda_i\in\mathbb{R},i=0,1,\ldots,m+s
+\end{equation*}
+\textbf{Теорема о необходимых условиях оптимальности} Пусть в рассматриваемой задаче $u_*$ - точка локального минимума, $J(u),g_i(u),i=1,\ldots,m$ непрерывно дифференцируемы по Фреше в окрестности $\mathbf{U}_{\varepsilon}$ точки $u_*$. Тогда существуют множители Лагранжа $\lambda^*=(\lambda_0^*,\lambda_1^*,\ldots,\lambda_m^*,\lambda_{m+1}^*,\ldots,\lambda_{m+s}^*)\ne\Theta$ такие, что выполнены условия
+\begin{equation*}
+\begin{aligned}
+&\mathcal{L}'_{u}(u_*,\lambda^*)=\lambda_0^*J'(u_*)+\sum_{i=1}^{m+s}\lambda_i^*g'_i(u_*)=\Theta,\qquad(\text{условие стационарности}) \\
+&\lambda_0^*\geqslant 0,\lambda_1^*\geqslant 0,\ldots,\lambda_m^*\geqslant 0,\qquad(\text{неотрицательность множителей для неравенств и } J(u))\\
+&\lambda_1^*g_1(u_*)=0,\ldots,\lambda_m^*g_m(u_*)=0. \qquad(\text{условия дополняющей нежесткости})
+\end{aligned}
+\end{equation*}
+Достаточное условие регулярности задачи: Рассмотрим оператор $G'(u_*):\mathbb{H}\rightarrow \mathbb{R}^s$:
+\begin{equation*}
+G'(u^*)h=(\langle g'_{m+1}(u_*),h\rangle,\langle g'_{m+2}(u_*),h\rangle,\ldots,\langle g'_{m+s}(u_*),h\rangle)
+\end{equation*}
+Если выполнены все условия теоремы о необходимых условиях оптимальности, и верно
+\begin{equation*}
+\text{Im} G'(u_*)=\mathbb{R}^s,\quad \exists h\in\text{Ker}G'(u_*):\langle g'_i(u_*),h\rangle<0,i=1,2,\ldots,m
+\end{equation*} 
+Тогда в любом наборе множителей Лагранжа, соответствующем $u_*$, обязательно $\lambda_0^*>0$. Если нет неравенств, то  - $\text{Im}G'(u_*)=\mathbb{R}^s$; если нет равенств, то - $\exists h\in\mathbb{H}:\langle g'_i(u_*),h\rangle<0,i=1,2,\ldots,m$ 
+\subsection{Двойственные задачи}
+Будем рассматривать задачу
+\begin{equation*}
+J(u)\rightarrow\inf,\quad u\in\mathbf{U}=\{u\in\mathbf{U}_0\mathbb{H}:g_i(u)\leqslant 0,i=1,\ldots,m,g_i(u)=0,i=m+1,\ldots,m+s \}
+\end{equation*}
+где $\mathbb{H}$ - линейное пространство, $\mathbf{U}_0$ - множество простого вида. Запишем \emph{классическую функцию Лагранжа}:
+\begin{equation*}
+\mathcal{L}(u,\lambda)=J(u)+\sum_{i=1}^{m+s}\lambda_ig_i(u),\quad u\in\mathbf{U}_0,\lambda\in\Lambda^0=\{\lambda=(\lambda_1,\ldots,\lambda_{m+s}),\lambda_1\geqslant 0,\ldots,\lambda_m\geqslant 0 \}
+\end{equation*}
+Рассмотрим функцию и задачу
+\begin{equation*}
+\varphi(u)=\sup_{\lambda\in\Lambda^0}\mathcal{L}(u,\lambda)= \left\{\begin{array}{l}
+J(u),\quad u\in \mathbf{U},\\
++\infty,\quad u\in\mathbf{U}_0\notin \mathbf{U}
+\end{array}\right.\quad\rightarrow\inf_{u\in\mathbf{U}_0}
+\end{equation*}
+Эта задача эквивалентна исходной задаче. Формально меняя порядок взятия масимума и минимума, получаем
+\begin{equation*}
+\Psi(\lambda)=\inf_{u\in\mathbf{U}_0}\mathcal{L}(u,\lambda)\rightarrow\sup_{\lambda\in\Lambda^0}
+\end{equation*}
+Это \emph{двойственная к исходной задача}. При этом мы максимизируем $\Psi(\lambda)$ лишь на множестве $\Lambda=\{\lambda\in\Lambda^0:\Psi(\lambda)>-\infty \}$. Введем обозначения
+\begin{equation*}
+\Psi^{*}=\sup _{\lambda \in \Lambda^{0}} \Psi(\lambda)=\sup _{\lambda \in \Lambda} \Psi(\lambda), \quad \Lambda^{*}=\left\{\lambda \in \Lambda^{0}: \Psi(\lambda)=\Psi^{*}\right\}
+\end{equation*}
+\textbf{Tеорема о свойствах решений двойственных задач} Всегда имеют место неравенства
+\begin{equation*}
+\Psi(\lambda) \leqslant \Psi^{*} \leqslant \varphi_{*} \leqslant \varphi(u) \quad \forall \lambda \in \Lambda^{0}, u \in \mathrm{U}_{0}
+\end{equation*}
+Для того, чтобы выполнялось $ \Psi^{*}=\varphi_{*}=J_{*}, \mathrm{U}_{*} \neq \varnothing, \Lambda^{*} \neq \varnothing$, необходимо и достаточно, чтобы классическая функция Лагранжа $ \mathcal{L}(u, \lambda) $ имела седловую точку на множестве $ \mathbf{U}_{0} \times \Lambda^{0} $.  При этом множество всех её седловых точек совпадает с множеством $ \mathbf{U}_{*} \times \Lambda^{*} $.\\
+\\
+Двойственная задача хороша тем, что\\
+1. если ее удается выписать, то как минимум можно оценить снизу искомую точную нижнюю грань $J_*$, а в хорошем случае удается и найти решение исходной задачи.\\
+2. Двойственная задача \emph{конечномерная}, что проще исходной задачи.\\
+3. Она всегда является \emph{выпуклой задачей}.
+\section{Принцип максимума Л.С.Понтрягина}
+\subsection{Постановка задачи оптимального управления}
+Рассмотрим задачу Коши
+\begin{equation*}
+\left\{\begin{array}{l}
+\dot{x}(t)\stackrel{\text{п.в.}}{=}f(x(t),t,u(t)),\quad t_0<t<T\\
+x(t_0)=x^0
+\end{array}\right. 
+\end{equation*}
+где $x(t)=(x_1(t),x_2(t),\ldots,x_n(t))$ - \emph{фазовая переменная}, $u(t)=(u_1(t),u_2(t),\ldots,u_m(t))$ - \emph{управление}. \emph{Функция правой части} $f:\mathbb{R}^n\times\mathbb{R}^1\times\mathbb{R}^m\rightarrow\mathbb{R}^n$. \emph{Начальное состояние} $x^0=(x_1^0,x_2^0,\ldots,x_n^0)$. $t_0,T$ - известны. $u\in\mathbf{U}=\{u=u(t)\mathbb{H}:u(t)\stackrel{\text{п.в.}}{\in}\mathbf{V},t\in (t_0,T) \}$, где $\mathbf{V}$ - заданное множество из $\mathbb{R}^n$.\\
+Задача оптимального управления заключается в нахождении точек минимума $u=u(t)$ - оитимальных управлений - на множестве $\mathbf{U}$ функционала
+\begin{equation*}
+J(u)=\int_{t_0}^{T}f^0(x(t;u),t,u(t))dt+\Phi(x(T;u)).
+\end{equation*}
+где $f^0:\mathbb{R}^n\times\mathbb{R}^1\times\mathbb{R}^m\rightarrow\mathbb{R}^1,\Phi:\mathbb{R}^n\rightarrow \mathbb{R}^1$ заданы. Пусть 
+\begin{equation*}
+f(x,t,u),\frac{\partial f}{\partial x}(x,t,u),f^0(x,t,u),\frac{\partial f^0}{\partial x}(x,t,u)
+\end{equation*}
+непрерывны по совокупности переменных $(x,t,u)$ и удовлетворяют условию Липшица по $x,u$, $\Phi(x),\Phi'(x)$ удовлетворяют условию Липшица по $x$, множество $\mathbf{V}$ - ограничено.
+\subsection{Принцип максимума}
+\emph{Функция Гамильтона-Понтрягина}
+\begin{equation*}
+H(x,t,u,\psi)=f^0(x,t,u)+\langle\psi,f(x,t,u)\rangle:\mathbb{R}^n\times\mathbb{R}^1\times\mathbb{R}^m\times\mathbb{R}^n\rightarrow\mathbb{R}^1
+\end{equation*}
+где $\psi=(\psi_1,\psi_2,\ldots,\psi_n)$ - \emph{сопряженная переменная}\\
+\textbf{Теорема о принципе максимума Понтрягина} Пусть в рассматриваемой задаче оптимального управления выполнены все указанные предположения, $ u_{*}=u_{*}(t) $ - оптимальное управление, $ x_{*}(t)=x\left(t ; u_{*}\right) $ - соответствующая ему оптимальная траектория, $ \psi_{*}(t) $ - cooтветствуюшее им решение сопряженной системы
+\begin{equation*}
+\left\{\begin{array}{l}
+		\dot{\psi}(t) \stackrel{\text { п.в. }}{=}-\frac{\partial H}{\partial x}\left(x_{*}(t), t, u_{*}(t), \psi(t)\right), \quad t_{0}<t<T \\
+		\psi(T)=\Phi'\left(x_{*}(T)\right)
+	\end{array}\right. 
+\end{equation*}
+Тогда
+\begin{equation*}
+H\left(x_{*}(t), t, u_{*}(t), \psi_{*}(t)\right) \stackrel{\text {п.в.}}{=} \min _{v \in \mathbf{V}} H\left(x_{*}(t), t, v, \psi_{*}(t)\right), t \in\left(t_{0} ; T\right)
+\end{equation*}
+\subsection{Схема применения}
+Итак, наша задача - найти оптимальное управление $ u_{*}(t) $. В соответствии с принципом максимума, если взять какое-то управление $ u_{*}(t) \in \mathbf{U} $ (сейчас мы только предполагаем, что оно оптимальное), то надо сделать следующее:\\
+1) Подставить это управление в исходную задачу Коши, решить ее и найти соответствуюшую ему фазовую траекторию $ x_{*}(t)=x\left(t ; u_{*}\right)$ ;\\ 
+2) Построить сопряженную задачу, подставить туда управление $ u_{*}(t) $ и найденную траекторию $ x_{*}(t)$, затем найти ее решение $ \psi_{*}(t)=\psi\left(t ; u_{*}\right) $;\\ 
+3) Подставить функции $ u_{*}(t), x_{*}(t), \psi_{*}(t) $ в функцию Гамильтона-Понтрягина и получить функцию
+\begin{equation*}
+H_{*}(t)=H\left(x\left(t ; u_{*}\right), t, u_{*}(t), \psi\left(t ; u_{*}\right)\right)
+\end{equation*}
+4) При каждом $ t \in\left[t_{0} ; T\right] $ построить функцию $ H(v)=H\left(x\left(t ; u_{*}\right), t, v, \psi\left(t ; u_{*}\right)\right) $ и проверить условие из принципа максимума
+\begin{equation*}
+\min _{v \in V} H(v)=H_{*}(t), \text { минимум достигается при } v=u_{*}(t)
+\end{equation*}
+И если при почти всех $ t \in\left(t_{0} ; T\right) $ это верно, то управление $ u_{*}(t) $ может быть оптимальным.  - Надо решить континуальное число задач минимизаций.\\
+\textbf{На самом деле} \\
+1) Составляют $H(x,t,u,\psi)$ и рассматривают ее как функцию $m$ переменных $u(u_1,\ldots,u_m)$.\\
+2) При фиксированном $(x,t,\psi)$ решают задачу минимизации
+\begin{equation*}
+H(x,t,u,\psi)\rightarrow\inf,\quad \in\mathbf{V}
+\end{equation*}
+и находят $u=\bar{u}(x,t,\psi)\in\mathbf{V}$ такой что $H(x,t,\bar{u}(x,t,\psi),\psi)=\inf\limits_{v\in\mathbf{V}}H(x,t,v,\psi)$\\
+3) После этого рассматривают систему из $2n$ дифференциальных уравнений
+\begin{equation*}
+\left\{\begin{array}{l}
+\dot{x}(t)\stackrel{\text{п.в.}}{=}f(x(t),t,\bar{u}((x,t),t,\psi(t))),\\
+\dot{\psi(t)}\stackrel{\text{п.в.}}{=}-\frac{\partial H}{\partial x}(x(t),t,\bar{u}((x,t),t,\psi(t)),\psi(t)),\quad t_0<t<T\\
+x(t_0)=x^0,\quad \psi(T)=\Phi'(x(T))
+\end{array}\right. 
+\end{equation*}
+относительно $(x(t),\psi(t))$. Такая задача - \emph{краевая задача принципа максимума}. Найдя ее решение $(x_*(t),\psi_*(t))$ можно утверждать, что управление
+\begin{equation*}
+u_*(t)=\bar{u}(x_*(t),t,\psi_{*}(t))
+\end{equation*}
+может быть оптимальным. И оптимальное управление обязательно является решением краевой задачи принципа максимума.
+\section{Регуляризация по А.Н.Тихонову}
+\subsection{Некорректно поставленные и неустойчивые экстремальные задачи}
+\textbf{Определение} Задача минимизации $J(u)\rightarrow \inf,u\in\mathbf{U}$ называется \emph{корректно поставленной}, если 
+\begin{equation*}
+\begin{aligned}
+1.&J_*=\inf_{u\in\mathbf{U}}>-\infty,\quad \mathbf{U}_*=\{u\in\mathbf{U}:J(u)=J_* \}\ne\emptyset.\\
+2.&\text{Если} \{u_k\}\in\mathbf{U},J(u_k)\rightarrow J_*,\text{то}\quad u_k\stackrel{\rho}{\rightarrow}\mathbf{U}_*(\text{ то есть } \lim_{k\rightarrow\infty}\inf_{u\in\mathbf{U}}\rho(u_k,u)=0)
+\end{aligned}
+\end{equation*}
+\textbf{Определение} Задача минимизации $J(u)\rightarrow \inf,u\in\mathbf{U}$ называется \emph{слабо корректно поставленной}, если 
+\begin{equation*}
+\begin{aligned}
+1.&J_*=\inf_{u\in\mathbf{U}}>-\infty,\quad \mathbf{U}_*=\{u\in\mathbf{U}:J(u)=J_* \}\ne\emptyset.\\
+2.&\text{Если} \{u_k\}\in\mathbf{U},J(u_k)\rightarrow J_*,\text{то}\quad u_k\stackrel{\text{слабо}}{\rightarrow}\mathbf{U}_*(\text{ то есть если} u_{m_k}\stackrel{\text{слабо}}{\rightarrow}u_0, \text{то }u_0\in\mathbf{U}_*)
+\end{aligned}
+\end{equation*}
+\textbf{Определение} Если малые изменения значений функционала $J(u)$ приводят к большой разнице между решениями исходной и приближенной задач, то такие задачи называют \emph{неустойчивыми}.
+\subsection{Регуляризация Тихонова}
+Метод регуляризации Тихонова применяется, когда задача минимизации нарушает одно из условий сильной корректности. Также мы знаем что 
+\begin{equation*}
+|\tilde{J}(u)-J(u)|\leqslant\delta(1+\|u\|^2)\quad\forall u\in\mathbf{U}
+\end{equation*}
+Рассматривается семейство задач минимизации функционала Тихонова
+\begin{equation*}
+T_{\alpha}(u)=\tilde{J}(u)+\alpha\|u\|^2\rightarrow \inf\quad u\in\mathbf{U}
+\end{equation*}
+$\alpha>0$ - \emph{параметр регуляризации}. Ищутся элементы $\tilde{u}=\tilde{u}(\alpha,\delta,\varepsilon)$ из условия
+\begin{equation*}
+\tilde{u}\in\mathbf{U},\quad T_{\alpha}(\tilde{u})\leqslant\inf_{u\in\mathbf{U}}T_{\alpha}(u)+\varepsilon,\quad\varepsilon>0
+\end{equation*}
+\textbf{Теорема о сходимости метода Тихонова} Пусть в задаче минимизации $ J(u) \rightarrow \inf , u \in \mathbf{U} $ множество $ \mathrm{U} $ - выпукло и замкнуто, функционал $ J(u)$- выпуклый и полунепрерывный снизу на $ \mathbf{U}, J_{*}>-\infty, \mathbf{U}_{*} \neq \varnothing $.  Тогда получаемое методом А.Н.Тихонова семейство точек $ u_{\alpha}=u(\alpha(\delta), \delta, \varepsilon(\delta)) $ при выполнении условий согласования
+\begin{equation*}
+\lim _{\delta \rightarrow 0} \alpha(\delta)=\lim _{\delta \rightarrow 0} \varepsilon(\delta)=0, \lim _{\delta \rightarrow 0} \frac{\delta}{\alpha(\delta)}=0, \lim _{\delta \rightarrow 0} \frac{\varepsilon(\delta)}{\alpha(\delta)}=0
+\end{equation*}
+обладает свойствами
+\begin{equation*}
+\lim _{\delta \rightarrow 0} \tilde{J}(u(\alpha(\delta), \delta, \varepsilon(\delta)))=J_{*}, \quad \lim _{\delta \rightarrow 0}\left\|u(\alpha(\delta), \delta, \varepsilon(\delta))-u_{*}\right\|_{\mathbb{H}}=0
+\end{equation*}
+где $ u_{*}$ - \emph{нормальное решение} исходной задачи (т.е. решение, минимальное по норме).
+\end{document}
+
+
