@@ -1,0 +1,8 @@
+program
+            var a,b: char;
+            begin 
+	     a:=`y`;
+                     read(b);
+                     if b<`x` then write(a) else write(b);
+                     write(110+10)
+            end@
