@@ -1,0 +1,730 @@
+\documentclass[A4]{article}
+\usepackage[T2A]{fontenc}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[russian]{babel}
+\usepackage{xeCJK}% 调用 xeCJK 宏包
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{xcolor}
+%\setCJKmainfont{SimHei}
+
+\begin{document}
+	\author{Сюй Минчуань}
+	\title{Сведения Теории Вероятностей и\\Матетатической Статистики}
+	\maketitle
+\begin{enumerate}
+	\item \textbf{Относительная частота появления события} \\
+	Относительной частотой появления события $A$ в $N$ испытаниях называется число 
+	\begin{equation}
+	h_N(A)=\frac{N(A)}{N}
+	\end{equation}
+	\item \textbf{Статистическая устойчивость частот}\\
+	Для некоторого эксперимента выполнено свойство статистической устойчивости частот, если выполнены:
+	\begin{enumerate}
+		\item Относительная частота $h_N(A)$ события $A$ в длинной серии испытаний ``тяготеет'' к некоторому постоянному неслучайному числу.
+		\item В разных сериях испытаний, но проводимых в одинаковых условиях, относительные частоты приблизительно равны.
+		\item Если мы из данной серии испытаний выберем некоторую подсерию, не используя информацию о результатах эксперимента, то новая относительная частота тяготеет к тому же числу.
+	\end{enumerate}
+	\item \textbf{Определение дискретного вероятностного пространства}\\
+	Дискретным вероятностным пространством называется пара $(\Omega,P)$, где $\Omega$ - конечное или счетное множество, $P$ - вещественная функция, заданная на $\Omega$ такая, что
+	\begin{enumerate}
+		\item $P(\omega)>0,\quad \forall \omega\in\Omega$.
+		\item $\sum_{\omega\in\Omega} P(\omega)=1$.
+	\end{enumerate}
+	$\Omega$ - Пространство элементарных исходов\\
+	$\omega$ - Элементарные исходы\\
+	$P(\omega)$ - Вероятность появления $\omega$
+	\item \textbf{Задача на классическое определение вероятности}\\
+	Говорят, что мы имеем задачу на классическое определение вероятности, если $\Omega=\{\omega_1,\ldots,\omega_n\}$ - конечное множество и для всех $\omega_i,P(\omega_i)=1/n$, т.е. все исходы равновозможны.
+	\item \textbf{Определение события в дискретном вероятностном пространстве}\\
+	Случайным событием назовем произвольное подмножество $A$ пространства элементарных исходов $\Omega$. 
+	\item \textbf{Благоприятный элементарный исход}\\
+	Те $\omega$, которые приводят к появления события $A$.
+	\item \textbf{Что значит, что событие произошло (формально)?}\\
+	Событие произошло, если появился благоприятный ему элементарный исход.
+	\item \textbf{Операции над событиями (формально и не формально)}
+	\begin{enumerate}
+		\item \textbf{Достоверное и невозможное события}\\
+		Достоверное - происходит всегда, невозможный - никогда не происходит. Формально: $\Omega,\emptyset$.
+		\item \textbf{Объединение}\\
+		Происходит хотя бы одно из этих двух событий. Формально: $C=A\cup B$.
+		\item \textbf{Пересечение}\\
+		Происходит оба эти события одновременно. Формально: $C=A\cap B$ или $C=AB$.
+		\item \textbf{Несовместные события}\\
+		Не могут происходить одновременно. Формально: $AB=\emptyset$.
+		\item \textbf{Сумма}\\
+		Объеденение в случае они совместны. Формально: $A+B$.
+		\item \textbf{Противоположное}\\
+		Не происходит событие $A$. Формально: $\bar{A}$.
+		\item \textbf{Разность}\\
+		Происходит $A$ и не происходит $B$. Формально: $C=A\setminus B$.
+		\item \textbf{Одно событие влечет другое}\\
+		При появлении событии $A$ обязательно происходит и событие $B$. Формально: $A\subset B$.
+	\end{enumerate}
+	\item \textbf{Алгебра событий}\\
+	Некоторый класс $\mathcal{A}$ событий называется алгеброй событий, если
+	\begin{enumerate}
+		\item $\Omega\in\mathcal{A},$
+		\item если $A\in\mathcal{A}$, то $\bar{A}\in\mathcal{A}$,
+		\item если $A,B\in\mathcal{A}$, то $A\cup B\in\mathcal{A}$.
+	\end{enumerate}
+	\item \textbf{Определение вероятности события}\\
+	\begin{equation}
+	\label{1}
+	P(A)=\sum_{\omega\in A} P(\omega).
+	\end{equation}
+	\item \textbf{Основные свойства вероятностей (1-3)}\\
+	Пусть выделены некоторая алгебра $\mathcal{A}$ событий, для которых определены вероятности по формуле (\ref{1}). Тогда справедливы:
+	\begin{enumerate}
+		\item $P(A)\ge0$.
+		\item $P(\Omega)=1$.
+		\item Если $A_1,A_2,\ldots,A_n$- попарно несовместны, то 
+		\begin{equation}
+		P(\sum_{k=1}^{n} A_k)=\sum_{k=1}^{n} P(A_k).
+		\end{equation}
+	\end{enumerate}
+	\item \textbf{Геометрическое определение вероятности}\\
+	Говорят, что мы имеем задачу на геометрическое определение вероятности, если $\Omega$  есть ограниченное борелевское подмножество в ${\mathbb{R}}^d$, $\mathcal{A}$ - алгебра всех его борелевских подмножеств, а вероятность событий задается по правилу. 
+	\begin{equation}
+	P(A)=\frac{L(A)}{L(\Omega)},
+	\end{equation}
+	где $L(A)$ - мера Лебега множества $A$.
+	\item \textbf{Условная вероятность}\\
+	Условная вероятность события $A$  при условии, что произошло событие $B(P(B)\ne0)$, называется число
+	\begin{equation}
+	P(A|B)=\frac{P(AB)}{P(B)}
+	\end{equation}
+	\item \textbf{Теорема умножения}\\
+	Пусть $A$ и $B$ - два события и $P(B)>0$, тогда
+	\begin{equation}
+	P(AB)=P(B)P(A|B)
+	\end{equation}
+	\item \textbf{Независимость событий}\\
+	События $A$ и $B$ называются независимыми, если 
+	\begin{equation}
+	P(AB)=P(A)P(B)
+	\end{equation}
+	\item \textbf{Полная группа событий}\\
+	События $H_1,\ldots,H_n$ образуют полную группу событий, если 
+	\begin{enumerate}
+		\item $H_iH_j=\emptyset,\quad i\ne j$,
+		\item $H_1+\ldots+H_n=\Omega$.
+	\end{enumerate}
+	\item \textbf{Формула полной вероятности}\\
+	Пусть события $H_1,\ldots,H_n$ образуют полную группу событий, $P(H_k)>0$ для всех $k$ и $A$ - произвольное событие. Тогда
+	\begin{equation}
+	P(A)=\sum_{k=1}^{n} P(H_k)P(A|H_k)
+	\end{equation} 
+	\item \textbf{Формула Байеса}\\
+	Если $H_1,\ldots,H_n$ образуют полную группу событий, $A$ - произвольное событие и $P(H_k)>0,k=1,\ldots,n,P(A)>0$, то
+	\begin{equation}
+	P(H_k|A)=\frac{P(H_k)P(A|H_k)}{P(A)}=\frac{P(H_k)P(A|H_k)}{\sum_{j=1}^{n} P(H_j)P(A|H_j)}
+	\end{equation}
+	\item \textbf{Схема Бернулли (формально и неформально)}\\
+	Формально: Схемой Бернулли с параметрами $n$ и $p$ называется дискретное вероятностное пространство $(\Omega,P)$, где $\Omega$ состоит из элементарных исходов вида $\omega=(\omega_1,\ldots,\omega_n),\omega_k=0,1, k=1,\ldots,n$, а вероятности элементарных исходов $\omega$ задаются по правилу.
+	\begin{equation}
+	P(\omega)=p^m(1-p)^{n-m},
+	\end{equation} 
+	где $m$ - число единиц в исходе $\omega$.\\
+	Неформально: Схемой Бернулли или последовательностью $n$ незавысимых одинаковых испытаний с двумя исходами называется случайный эксперимент, в котором:
+	\begin{enumerate}
+		\item проводится $n$ независимых испытаний,
+		\item каждое испытание кончается одним из двух исходов (один исход называется успех и обозначается 1, а второй - неуспех и обозначается 0),
+		\item вероятность появления успеха одна и та же в каждом испытании и равна $p$.
+	\end{enumerate} 
+	\item \textbf{Биномиальное распределение (где возникает и формула)}\\
+	Нас интересует  число успехов.\\
+	Биномиальный модель с параметрами $n$ и $p$ называется вероятностное пространство $(\Omega,P)$, где $\Omega=\{\omega_0,\ldots,\omega_n\}$, и 
+	\begin{equation}
+	P(\omega_m)=b(n,p,m)=C_n^mp^m(1-p)^{n-m},m=0,\ldots,n,0<p<1.
+	\end{equation}
+	\item \textbf{Интегральная теорема Муавра-Лапласа}\\
+	Пусть мы имеем схему Бернулли с параметрами $n$ и $p$. Если $n\rightarrow\infty$ $p$ - фиксировано, то равномерно по всем $m_1<m_2$ 
+	\begin{equation}
+	P(m_1\le S_n<m_2)\equiv\Phi(x_{n,m_2})-\Phi(x_{n,m_1}),
+	\end{equation}
+	где $S_n$ - число успехов в $n$ испытаниях, а 
+	\begin{equation}
+	\Phi(x)=\int_{-\infty}^{x}\varphi(y)dy
+	\end{equation}
+	Более того, для любых $m_1<m_2$ имеем место оценка
+	\begin{equation}
+	|P(m_1\le S_n<m_2)-\Phi(x_{n,m_2})+\Phi(x_{n,m_1]})|\le \frac{p^2+(1-p)^2}{\sqrt{np(1-p)}}
+	\end{equation}
+	\item \textbf{Теорема Пуассона}\\
+	Пусть мы имеем схему Бернулли с параметрами $n$ и $p$. Пусть $n\rightarrow\infty,p\rightarrow0$, так, что $np\rightarrow\lambda,0<\lambda<\infty$. Тогда для любого фиксированного $m$
+	\begin{equation}
+	b(n,p,m)\rightarrow\pi_m(\lambda)=\frac{\lambda^m}{m!}e^{-\lambda}.
+	\end{equation}
+	Более того, имеем место оценка
+	\begin{equation}
+	\sum_{m=0}^{\infty} |b(n,p,m)-\pi_m(\lambda)|\le np^2
+	\end{equation}
+	\item \textbf{Определение вероятностного пространства в общем случае}\\
+	Вероятностным пространством называется тройка $(\Omega,\mathcal{A},P)$, где $\Omega$ - произвольное множество, $\mathcal{A}$ - некоторая $\sigma$-алгебра его подмножеств, $P$ - вещественная функция на $\mathcal{A}$:
+	\begin{enumerate}
+		\item $P(A)\ge 0, \forall A\in \mathcal{A}$,
+		\item $P(\Omega)$,
+		\item если $A_1,A_2,\ldots$ - попарно несовместны, то 
+		\begin{equation}
+		P(\sum_{k=1}^{\infty}A_k)=\sum_{k=1}^{\infty} P(A_k)
+		\end{equation} 
+	\end{enumerate}
+	\item \textbf{Порожденная $\sigma$-алгебра}\\
+	Пусть $\mathcal{M}$ - некоторая система подмножеств пространства $\Omega$. Класс $\mathcal{A}=\sigma(\mathcal{M})$ подмножеств пространствв $\Omega$ называется $\sigma$-алгебра, порожденной системой $\mathcal{M}$, если выполнены следующие свойства:
+	\begin{enumerate}
+		\item $\mathcal{M}\in \mathcal{A}$,
+		\item $\sigma$-алгебра
+		\item если $\mathcal{A}_1 $ - некоторая $\sigma$-алгебра, содержащая $\mathcal{M}$, то $\mathcal{A}\subset\mathcal{A}_1 $
+	\end{enumerate}
+	\item \textbf{Борелевская $\sigma$-алгебра}\\
+	Пусть $\Omega=\mathbb{R}^1, \mathcal{M}$- класс всех интервалов. $\mathcal{A}=\sigma(\mathcal{M})$ называется борелевской $\sigma$-алгебра, а элементы $A$ из $\mathcal{A}$ называются борелевскими множествами. 
+	\item \textbf{Определение случайной величины}\\
+	Пусть $(\Omega,\mathcal{A},P)$ - вероятностное пространство, а $(\mathbb{R}^1,\mathcal{B})$ - вещественная прямая с выделенной на ней борелевской $\sigma$-алгеброй подмножеств. Случайной величиной называется функция $\xi:\Omega\rightarrow \mathbb{R}^1$, которая обладает следующим свойством: $\forall B\in \mathcal{B}$
+	\begin{equation}
+	\xi^{-1}(B)=\{\omega\in\Omega:\xi(\omega)\in B\}\in \mathcal{A}
+	\end{equation}
+	\item \textbf{Распределение случайной величины}\\
+	Распределение случайной величины $\xi$ называется функция $P_{\xi}$, заданная на борелевской $\sigma$-алгебре $\mathcal{B}$ по правилу: $\forall B\in \mathcal{B}$
+	\begin{equation}
+	P_{\xi}(B)=P(\xi\in B)
+	\end{equation}
+	\item \textbf{Определение функции распределения и ее основые свойства (1-5)}\\
+	Функции распределения $F_{\xi}(x)$ случайной величины $\xi$ определяется по правилу: $\forall x\in \mathbb{R}^1$
+	\begin{equation}
+	F_{\xi}(x)=P(\xi<x)
+	\end{equation}
+	Если $F_{\xi}(x)$ - функция распределения случайной величины $\xi$, то 
+	\begin{enumerate}
+		\item $\forall x\in \mathbb{R}^1,0\le F_{\xi}(x)\le1$
+		\item если $x_1\le x_2$, то $F_{\xi}(x_1)\le F_{\xi}(x_2)$
+		\item $F_{\xi}(x)$ - непрерывна слева
+		\item $\lim_{x\rightarrow-\infty} F_{\xi}(x)=0,\lim_{x\rightarrow\infty} F_{\xi}(x)=1$
+		\item $P(a\le x< b)=F_{\xi}(b)-F_{\xi}(a)$
+	\end{enumerate}
+	\item \textbf{Дикретное распределение и его свойства (1-3)}\\
+	Случайная величина $\xi$ имеет дискретное распределение, если существует такое конечное или счетное множество $X=\{x_1,x_2,\ldots\}$, что $P(\xi\in X)=1$. Числа $x_1,x_2,\ldots $ называются значениями случайной величины $\xi$, а - $p_k$ вероятностями этих значений.\\
+	Пусть случайная величина $\xi$ имеет дискретное распределение с множеством значений $X=\{x_1,x_2,\ldots\}$ и вероятностями этих значений $\{p_k\}$. Тогда
+	\begin{enumerate}
+		\item $p_k\ge 0$
+		\item $\sum_{k} p_k=1$
+		\item $\forall B\in\mathcal{B}, P_{\xi}(B)=\sum_{x_k\in B}p_k$
+		\item $\forall x \in \mathbb{R}^1, F_{\xi}(x)=\sum_{x_k<x}p_k$
+		\item $\forall x\in X, p_n=P(\xi=x_n)=F_{\xi}(x_n+0)-F_{\xi}(x_n)$
+		\item $P(a<x<b)=\sum_{a<x_k<b} p_k$ 
+	\end{enumerate}
+	\item \textbf{Непрерывное распределение и его свойства (1-7)}\\
+	Распределение с.в. $\rho$ называется абсолютно непрерывным, если существует такая вещественная функция $\rho_{\xi}(x)$ что $\forall B\in\mathcal{B}$
+	\begin{equation}
+	P_{\xi}(B)=P(\xi\in B)=\int_{B}\rho_{\xi}(x)dx
+	\end{equation} 
+	Функция $\rho_{\xi}(x)$ называется плотностью распределения с.в. $\xi$.\\
+	Справедливы следующие свойства
+	\begin{enumerate}
+		\item $\forall x\in \mathbb{R}^1,\rho_{\xi}(x)\ge0$
+		\item $\int_{-\infty}^{\infty} \rho_{\xi}(x)dx=1$
+		\item $\forall B\in \mathcal{B},P(\xi\in B)=\int_{B}\rho_{\xi}(x)dx$
+		\item $\forall x\in \mathbb{R}^1,F_{\xi}(x)=\int_{-\infty}^{x}\rho(x)dx$
+		\item $P(a\le\xi<b)=F_{\xi}(b)-F_{\xi}(a)=\int_{a}^{b}\rho_{\xi}(x)dx$
+		\item $\forall x\in \mathbb{R}^1$ где $\rho_{\xi}(x)$ непрерывна, $\rho_{\xi}(x)=\frac{d}{dx}F_{\xi}(x)$
+		\item $\forall x\in \mathbb{R}^1,P(\xi=x)=0$
+	\end{enumerate}
+	\item \textbf{Примеры стандартных распределений}
+	\begin{enumerate}
+		\item \textbf{Бернулли}\\
+		$P(\xi=1)=p,\quad P(\xi=0)=1-p$
+		\item \textbf{Биномиальное}\\
+		$P(\xi=m)=C_n^mp^m(1-p)^{n-m},\quad m=0,1,\ldots$
+		\item \textbf{Геометрическое}\\
+		$P(\xi=m)=p(1-p)^{m-1},\quad m=1,2,\ldots$
+		\item \textbf{Пуассоновское}\\
+		$P(\xi=m)=\frac{\lambda^m}{m!} e^{-\lambda},\quad m=0,1,\ldots$
+		\item \textbf{Равномерное}\\
+		\begin{equation}
+		\rho_{\xi}(x)=\left\{\begin{array}{l}
+		\frac{1}{b-a},\quad x\in(a,b),\\
+		0,\quad x\notin(a,b).\\
+		\end{array}\right.
+		\end{equation}
+		\item \textbf{Показательное}\\
+		\begin{equation}
+		\rho_{\xi}(x)=\left\{\begin{array}{l}
+		\lambda e^{-\lambda x},\quad x\ge 0\\
+		0,\quad x<0\\
+		\end{array}\right.
+		\end{equation}
+		\item \textbf{Нормальное}\\
+		$\rho_{\xi}(x)=\frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-a)^2}{2\sigma^2}},\quad x\in R^1$
+		\end{enumerate}
+		\item \textbf{Определение случайного вектора}\\
+		$n$-мерным слу. вектором $\xi$ называется набор $\xi=(\xi_1,\ldots,\xi_n)$ случайных величин, заданных на одном и том же вероятностном пространстве $(\Omega,\mathcal{A},P)$.
+		\item \textbf{Распределение случайного вектора}\\
+		Распределением сл. вектора $\xi$  называется функция $P_{\xi}$, заданная на $\sigma$-алгебра $\mathcal{B}_n$ по правилу
+		\begin{equation}
+		P_{\xi}(B)=P(\xi\in B)
+		\end{equation}  
+		\item \textbf{Дискретный случайный вектор, таблица его распределения}\\
+		Случайный вектор $\xi=(\xi_1,\ldots,\xi_n)$ имеет дискретное распределение, если существует конечное или счетное множество $X\subset \mathbb{R}^n$, такое что $P(\xi\in X)=1$.\\
+		Для $n=2$ распределение дискретного слу. вектора обычно задают в виде таблицы, называемой таблицей распределения. 
+		\item \textbf{Случайный вектор с непрерывным распределением. Плотность распределения случайного вектора и ее свойства}
+		Случайный вектор $\xi=(\xi_1,\ldots ,\xi_n)$ имеет абсолютно непрерывное распределение, если существует вещественная функция $\rho_{\xi}(x), x\in R^n$, такая что $\forall B\in\mathcal{B}_n$
+		\begin{equation}
+		P_{\xi}(B)=P(\xi\in B)=\int_{B}\rho_{\xi}(x)dx
+		\end{equation} 
+		Функция $\rho_{\xi}(x)$ называется плотностью распределения с.в. $\xi$.\\
+		Справедливы следующие свойства
+		\begin{enumerate}
+			\item $\forall x\in \mathbb{R}^n,\rho_{\xi}(x)\ge0$
+			\item $\int_{\mathbb{R}^n} \rho_{\xi}(x)dx=1$
+			\item $\forall B\in \mathcal{B}_n,P(\xi\in B)=\int_{B}\rho_{\xi}(x)dx$
+			\item $\forall x=(x_1,\ldots,x_n)\in \mathbb{R}^n$
+			\begin{equation}
+			F_{\xi}(x_1,\ldots,x_n)=\int_{-\infty}^{x_1}\ldots\int_{-\infty}^{x_n}\rho_{\xi}(y_1,\ldots,y_n)dy_n\ldots dy_1
+			\end{equation}
+			\item Если $(x_1,\ldots,x_n)$ - точка нерерывности плотности $\rho_{\xi}(x)$, то
+			\begin{equation}
+			\rho_{\xi}(x_1,\ldots,x_n)=\frac{\partial^nF_{\xi}(x_1,\ldots,x_n)}{(\partial x_1,\ldots,\partial x_n)}
+			\end{equation}
+			\item Плотность с.ветктора $\tilde{\xi}=(\xi_1,\ldots,\xi_{k-1},\xi_{k+1},\ldots,\xi_n)$ можно вычислить по формуле
+			\begin{equation}
+			\rho_{\xi}(x_1,\ldots,x_{k-1},x_{k+1},\ldots,x_n)=\int_{-\infty}^{+\infty}\rho_{\xi}(x_1,\ldots,x_{k-1},x_k,x_{k+1},\ldots,x_n)dx_k
+			\end{equation}
+		\end{enumerate}
+	\item \textbf{Маргинальные (одномерные) распределения и их вычисление}\\
+	Распределение отдельно взятой координаты $\xi_i$ вектора $\xi$ называется одномерным или маргинальным.
+	\item \textbf{Независимость случайных величин (в общем случае и для непрерывных и дискретных с.в.)}\\
+	Случайные величины $\xi_1,\ldots,\xi_n$ называются независимыми, если для любых борелевских $B_1,\ldots,B_n\in\mathcal{B}_1$
+	\begin{equation}
+	P(\xi_1\in B_1,\ldots,\xi_n\in B_n)=P(\xi_1\in B_1)\ldots P(\xi_n\in B_n)
+	\end{equation}
+	\item \textbf{Формула свертки в дискретном и непрерывном случаях}\\
+	Дискретный случай:
+	\begin{equation}
+	P(\xi_1+\xi_2=z)=\sum_{x}P_1(x)P_2(z-x)
+	\end{equation}
+	Непрерывный случай:
+	\begin{equation}
+	\rho_{\xi_1+\xi_2}(y)=\int_{-\infty}^{\infty} \rho_{\xi_1}(y-x)\rho_{\xi_2}(x)dx
+	\end{equation}
+	\item \textbf{Математичекое ожидание дискретной случайной величины}\\
+	$M\xi=\sum_{n}x_np_n$
+	\item \textbf{Математичекое ожидание непрерывной случайной величины}\\
+	Пусть $\xi$ - неотрицательная с.в., $\{\xi_n\}$ - последовательность дискретных с.в., обладающих свойствами:
+	\begin{enumerate}
+		\item $\xi_n(\omega)\ge0,\quad \forall n$
+		\item $\xi_n(\omega)\le\xi_{n+1}(\omega)$
+		\item $\xi_n(\omega)\rightarrow\xi_(\omega) $ равномерно по $\omega\in\Omega $ при $n\rightarrow \infty$
+	\end{enumerate} 
+	Математическим ожиданием с.в. $\xi$ называется число
+	\begin{equation}
+	M\xi=\lim_{\xi}M\xi_n
+	\end{equation}
+	Математическим ожиданием произвольной случайной величины $\xi$ называется число 
+	\begin{equation}
+	M\xi=M\xi^+-M\xi^-
+	\end{equation}
+	если хотя бы одно из чисел в правой части этого равенства конечно.
+	\item \textbf{Основные свойства математического ожидания (1-5)}\\
+	\begin{enumerate}
+		\item Если $P(\xi=C)=1$, то $M\xi=C$
+		\item $M(C\xi)=C\cdot M\xi$
+		\item $M(\xi_1+\xi_2)=M\xi_1+M\xi_2$
+		\item Если $\xi\ge0$, то $M\xi\ge0$, причем $M\xi=0$ тогда и только тогда, когда $P(\xi=0)=1$
+		\item Если $\xi_1\ge\xi_2$, то $M\xi_1\ge M\xi_2$ 
+	\end{enumerate}
+	\item \textbf{Дисперсия  и ее основные свойства}\\
+	Дисперсией с.в. $\xi$ называется число
+	\begin{equation}
+	D(\xi)=M[(\xi-M\xi)^2]
+	\end{equation}
+	\begin{enumerate}
+		\item $D(\xi)\ge0,D(\xi)=0$ тогда и только тогда, когда $\xi=C$.
+		\item $D(\xi+C)=D(\xi)$
+		\item $D(C\xi)=C^2D(\xi)$
+		\item $D(\xi)=M(\xi^2)-(M\xi)^2$
+	\end{enumerate}
+	\item \textbf{Ковариация. Некоррелированные случайные величины}\\
+	Ковариацией с.в. $\xi_1$ и $\xi_2$ называется число
+	\begin{equation}
+	\operatorname{cov}(\xi_1,\xi_2)=M[(\xi_1-M\xi_1)(\xi_2-M\xi_2)]
+	\end{equation}
+	С.в. $\xi_1$ и $\xi_2$ называются некоррелированными, если 
+	\begin{equation}
+	\operatorname{cov}(\xi_1,\xi_2)=M[(\xi_1-M\xi_1)(\xi_2-M\xi_2)]=0
+	\end{equation}
+	\item \textbf{Определение коэффициента корреляции}\\
+	Коэффициентом корреляции с.в. $\xi_1$ и $\xi_2$ называется число
+	\begin{equation}
+	\rho(\xi_1,\xi_2)=\frac{\operatorname{cov(\xi_1,\xi_2)}}{\sqrt{D(\xi_1)D(\xi_2)}}
+	\end{equation}
+	\item \textbf{Определение момента случайной величины}\\
+	Моментом порядка $k$ относительно точки $a$ с.в. $\xi$ называется число
+	\begin{equation}
+	M(\xi-a)^k
+	\end{equation}
+	Если $a=0$ - начальный момент\\
+	Если $a=M\xi$ - центральный момент\\
+	$\beta_k=M(|\xi|^k)$ - абсолютные моменты
+	\item \textbf{Квантиль порядка $p$ для с.в.. Медиана}\\
+	Квантиль порядка $p$, $0<p<1$, с.в. $\xi$ (или ее распределения) называется число $x_p\in \mathbb{R}^1$:
+	\begin{equation}
+	P(\xi\le x_p)\ge p,\quad P(\xi\ge x_p)\ge 1-p
+	\end{equation}
+	Число $x_{1/2}$ - медиана. Оно определяет центр распределения.
+	\item \textbf{Сходимость в среднем квадратическом}\\
+	Будем говорить, что последовательность с.в. $\{\xi_n\}$ сходится в среднем квадратическомк к с.в., если
+	\begin{equation}
+	\|\xi_n-\xi\|^2=M(|\xi_n-\xi|^2)\rightarrow 0,\quad n\rightarrow \infty
+	\end{equation} 
+	\item \textbf{Постановка задачи о наилучшей линейной оценке}\\
+	Пусть $\mathcal{L}\subset L_2$ - некоторое линейное подпространство, которое замкнуто относительно сходимости в среднем квадратическом, а $\eta$ - произвольный элемент из $L_2$.\\
+	С.в. $\hat{\eta}\in L_2$ называется наилучшим приближением с.в. $\eta$ в пространстве $\mathcal{L}$, если 
+	\begin{enumerate}
+		\item $\hat{\eta}\in\mathcal{L}$
+		\item $\|\eta-\hat{\eta}\|^2=M|\eta-\hat{\eta}|^2\le M|\eta-\xi|^2=\|\eta-\xi\|^2,\quad\forall\xi\in\mathcal{L}$.
+	\end{enumerate}
+	\item \textbf{Лемма о перпендикуляре}\\
+	С.в. $\hat{\eta}$ является наилучшим риюлижением с.в. $\eta$ в линейном пространстве $\mathcal{L}$ тогда и только тогда, когда
+	\begin{enumerate}
+		\item $\hat{\eta}\in\mathcal{L}$
+		\item $(\eta-\hat{\eta},\xi)=M[(\eta-\hat{\eta})\xi]=0,\quad\forall\xi\in\mathcal{L}$.
+	\end{enumerate}
+	\item \textbf{Условное распределение  и условное математическое ожидание в дискретном случае}\\
+	Условное распределение 
+	\begin{equation}
+	\begin{split}
+	P(x_{m+1},\ldots,x_{m+n}|x_1,\ldots,x_m)=\\
+	\frac{P(\xi_1=x_1,\ldots,\xi_m=x_m,\xi_{m+1} =x_{m+1},\ldots,\xi_{m+n}=x_{m+n}}{P(\xi_1=x_1,\ldots,\xi_m=x_m)}
+	\end{split}
+	\end{equation}
+	Условное математическое ожидание
+	\begin{equation}
+	M(\xi_{m+1}|\xi_1=x_1,\ldots,\xi_m=x_m)=\sum_{y}P(\xi_{m+1}=y|\xi_1=x_1,\ldots,\xi_m=x_m)
+	\end{equation}
+	\item \textbf{Условное распределение  и условное математическое ожидание в непрервном случае}\\
+	Условное распределение 
+	\begin{equation}
+	\rho_{\xi''|\xi'}(x_{m+1},\ldots,x_{m+n}|x_1,\ldots,x_m)=
+	\frac{\rho_{\xi}(x_1,\ldots,x_m,x_{m+1},\ldots,x_{m+n})}{\rho_{\xi'}(x_1,\ldots,x_m)}
+	\end{equation}
+	Условное математическое ожидание
+	\begin{equation}
+	M[\xi_{m+1}|\xi'=x']=\int_{-\infty}^{\infty}y\rho_{\xi_{m+1}|\xi'}(y|x')dy=g(x')
+	\end{equation}
+	\item \textbf{Функция регрессии и ее экстремальное свойство}\\
+	$g=(\xi_1,\ldots,\xi_m)=M(\xi_{m+1}|\xi_1,\ldots,\xi_m)$ - Функция регрессии с.в. $\xi_{m+1}$ на с.в. $\xi_1,\ldots,\xi_m$.\\
+	$y=g(x')=M[\xi_{m+1}|\xi_1,\ldots,\xi_m]$- Функция регрессии с.в. $\xi_{m+1}$ на с.вектор $\xi'$.\\
+	Экстремальное свойство:\\
+	Пусть $\xi$ и $\eta$ - две с.в., $y=f(x)$ - некоторая борелевская функция, причем $M(\eta^2)<\infty$ и $M([f(\xi)]^2)<\infty$. Если $y=g(x)=M[\eta|\xi=x]$ есть функция регрессии с.в. $\eta$ на с.в. $\xi$, то 
+	\begin{equation}
+	M|\eta-g(\xi)|^2\le M|\eta-f(\xi)|^2
+	\end{equation}
+	\item \textbf{Сходимость по вероятности}\\
+	Последовательность с.в. $\{\xi_n\}$ сходится по вероятности к с.в. $\xi$, если $\forall\varepsilon>0$
+	\begin{equation}
+	P(|\xi_n-\xi|>\varepsilon)\rightarrow 0
+	\end{equation}
+	или 
+	\begin{equation}
+	P(|\xi_n-\xi|\le\varepsilon)\rightarrow 1
+	\end{equation}
+	при $n\rightarrow\infty$. Обозначение: $\xi_n\stackrel{P}{\rightarrow}\xi,n\rightarrow\infty$
+	\item \textbf{Что такое закон больших чисел?}\\
+	Говорят, что к последовательности с.в. $\{\xi_n\}$ применим закон больших чисел (ЗБЧ), если
+	\begin{equation}
+	\frac{\xi_1+\ldots+\xi_n}{n}-\frac{M\xi_1+\ldots+M\xi_n}{n}\stackrel{P}{\rightarrow}0,\quad n\rightarrow \infty
+	\end{equation}
+	\item \textbf{Неравенство Чебышева}\\
+	\begin{equation}
+	P(|\xi-M\xi|>\varepsilon)\le \frac{D(\varepsilon)}{\varepsilon^2}
+	\end{equation}
+	\item \textbf{З.Б.Ч. для н.о.р.с.в}\\
+	Пусть $\{\xi_n\}$ - последовательность с.в.:
+	\begin{enumerate}
+		\item $\{\xi_n\}$ - независимы
+		\item $\{\xi_n\}$ - одинаково распределены
+		\item $\exists M\xi_n=a,D(\xi_n)=\sigma^2<\infty$
+	\end{enumerate}
+	Тогда применим ЗБЧ, т.е.
+	\begin{equation}
+	\frac{\xi_1+\ldots+\xi_n}{n}\stackrel{P}{\rightarrow}a,\quad n\rightarrow\infty
+	\end{equation}
+	\item \textbf{Определение характеристической функции и ее вычисление в дискретном и непрерывном случае}\\
+	Характеристической функции с.в. $\xi$ называется комплекснозначная функция $\varphi_{\xi}(t),t\in \mathbb{R}^1$, определяемая по правилу
+	\begin{equation}
+	\varphi_{\xi}(t)=M(e^{it\xi})=\int_{-\infty}^{\infty} e^{itx}dF(x)
+	\end{equation}
+	Для дискретной с.в. имеем формулу
+	\begin{equation}
+	\varphi_{\xi}(t)=\sum_{n} e^{itx_n}\cdot p_n
+	\end{equation}
+	Для непрерывной с.в. имеем формулу
+	\begin{equation}
+	\varphi_{\xi}(t)=\int_{-\infty}^{\infty} e^{itx_n}\rho_{\xi}(x)dx
+	\end{equation}
+	\item \textbf{Вычисление характеристической функции для суммы независимых с.в.}\\
+	$\varphi_{\xi_1+\xi_2}(t)=\varphi_{\xi_1}(t)\cdot \varphi_{\xi_2}(t)$
+	\item \textbf{Теорема единственности}\\
+	Соответствие между функциями распределения $F$ и характеристическими функциями $\varphi$ является взаимно однозначным. Более того, если $x_1$ и $x_2$ - точки непрерывности ф.р. $F$, то
+	\begin{equation}
+	F(x_2)-F(x_1)=\lim_{A\rightarrow\infty}\frac{1}{2\pi}\int_{-A}^{A} \frac{e^{-itx_2}-e^{-itx_1}}{-it}\varphi(t)dt
+	\end{equation}
+	В частности, если существует плотность $\rho(x)$, то
+	\begin{equation}
+	\rho(x)=\frac{1}{2\pi}\int_{-\infty}^{\infty} e^{-itx}\varphi(t)dt
+	\end{equation}
+	\item \textbf{Теорема непрерывности}\\
+	Пусть $F_0,F_1,\ldots$ - последовательность ф.р., а $\varphi_0,\varphi_1,\varphi_2,\ldots$ - соответствующая ей последовательность х.ф. Тогда следующие утверждения эквивалентны:
+	\begin{enumerate}
+		\item $F_n$ слабо сходится к $F_0$
+		\item $\varphi_n(t)\rightarrow\varphi_0(t)$ при $n\rightarrow\infty$ для любого $t\in R^1$
+ 	\end{enumerate}
+	\item \textbf{Характеристическая функция для стандартного нормального распределения}\\
+	$\varphi_{\xi}(t)=e^{-\frac{1}{2}t^2}$
+	\item \textbf{Слабая сходимость функций распределений}\\
+	Последовательность функций распределения $\{F_n\}$ слабо сходится к функции распределения $F_0$, если 
+	\begin{equation}
+	F_n(x)\rightarrow F_0(x)
+	\end{equation}
+	при $n\rightarrow\infty$ для всех точек, где предельная ф.р. $F_0$ непрерывна. Для соответствующих с.в. $\xi_n$ будем говорить, что они сходятся к с.в. $\xi_0$ по распределению. Обозначение: $\xi_n\stackrel{d}{\rightarrow}\xi_0$
+	\item \textbf{Что такое Центральная предельная теорема?}\\
+	Говорят, что к последовательности с.в. $\{\xi_n\}$ применима центральная предельная теорема (ЦПТ), если для любого $n\ge N_0$ существуют центрирующие и нормирующие константы $A_n\in \mathbb{R}^1$ и $B_n>0$ такие, что для 
+	\begin{equation}
+	S_n^*=\frac{\xi_1+\ldots+\xi_n-A_n}{B_n}
+	\end{equation} 
+	имеем место сходимость
+	\begin{equation}
+	P(S_n^*<x)=F_{S_n^*}(x)\rightarrow \Phi(x)
+	\end{equation}
+	при $n\rightarrow\infty$ для любого $x\in \mathbb{R}^1$.
+	\item \textbf{Ц.П.Т. для н.о.р.с.в.}\\
+	Пусть $\{\xi_n\}$ - последовательность с.в.:
+	\begin{enumerate}
+		\item $\{\xi_n\}$ - независимы
+		\item $\{\xi_n\}$ - одинаково распределены
+		\item $\exists M\xi_n=a,D(\xi_n)=\sigma^2$
+	\end{enumerate}
+	Тогда к этой последовательности применима ЦПТ, т.е., если 
+	\begin{equation}
+	S_n^*=\frac{\xi_1+\ldots+\xi_n-na}{\sigma\sqrt{n}},
+	\end{equation}
+	то
+	\begin{equation}
+	F_{S_n^*}(x)\rightarrow \Phi(x),\quad n\rightarrow \infty
+	\end{equation}
+	\item \textbf{Основная задача математической статистики}\\
+	На основе экспериментальных данных сузить класс $\mathcal{P}$ априорно заданных вероятностных мер до некоторого более узкого подкласса $\mathcal{P}_0\subset \mathcal{P}$(в идеале выбрать одно распределение)
+	\item \textbf{Определение статистической структуры}\\
+	Статистической структурой называется тройка $(\Omega,\mathcal{A},\mathcal{P})$, где 
+	\begin{enumerate}
+		\item $\Omega$ - произвольное множество = пространство  элементарных исходов
+		\item $\mathcal{A}$ - $\sigma$-алгебра подмножеств $\Omega$ = события, доступных наблюдению.
+		\item $\mathcal{P}$ - некоторый набор вероятностных мер на $(\Omega,\mathcal{A})$.
+	\end{enumerate}
+	\item \textbf{Параметрические и непараметрические структуры}\\
+	Если существует конечное число числовых параметров $(\theta_1,\ldots,\theta_m)=\theta,\theta\in\Theta\subset \mathbb{R}^m$, с помощью которых удается занумеровать все распределения $P$ из класса $\mathcal{P}$, то статистическая структура называется параметрической. В противном случае мы имеем непараметрическую структуру.
+	\item \textbf{Примеры параметрических структур}
+	\begin{enumerate}
+		\item \textbf{Биноминальная}\\
+		$P(\xi=m)=C_n^mp^m(1-p)^{n-m}$. $n\ge0$ и $p\in(0,1)$ - параметры.
+		\item \textbf{Пуассоновская}\\
+		$P(\xi=m)=\frac{\lambda^m}{m!}e^{-\lambda}$. $\lambda>0$ - параметр. 
+		\item \textbf{Показательное}\\
+		\begin{equation}
+		\rho_{\xi}(x)=\left\{\begin{array}{l}
+		\lambda e^{-\lambda x},\quad x\ge 0\\
+		0,\quad x<0\\
+		\end{array}\right.
+		\end{equation}
+		$\lambda>0$ - параметр. 
+		\item \textbf{Нормальное}\\
+		$\rho_{\xi}(x)=\frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-a)^2}{2\sigma^2}},\quad x\in \mathbb{R}^1$. $a\in \mathbb{R}^1$ и $b>0$ - параметры.
+	\end{enumerate}
+	\item \textbf{Выборка, повторная выборка}\\
+	Набор чисел $x=(x_1,\ldots,x_n)$, получаемый из экспреимента - выборка.\\
+	С.в. $X_1,\ldots,X_N$ одинаковы распределены (однородная выборка) и независимы, тогда $X$ - повторная выборка.
+	\item \textbf{Вариационный ряд, порядковые статистики}\\
+	Вариационный ряд: $x_{(1)}\le x_{(2)}\le\ldots\le x_{(N)}$.\\
+	$x_{(k)}$ - $k$-ой порядковая статистика
+	\item \textbf{Эмпирическое распределение, эмпирическая функция распределения, гистограмма}\\
+	Эмпирическое распределение:\\
+	Имеем выборку $x=(x_1,\ldots,x_N)$. Рассмотрим новую с.в. $\xi^*$, множеством значений которой являются числа $x_1,\ldots,x_N$, каждому из которых приписывается вероятность $1/N$ (если некоторое значение появляется несколько раз, то его вероятность увеличивается в то же число раз). С.в. $\xi^*$ является дискретной и ее распределение $P_N^*$ называется эмпирическим распределением, построенным по выборке $x$.\\
+	\begin{equation}
+	P_N^*(B)=\frac{v_N(B)}{N}
+	\end{equation}
+	где $v_N(B)$ - число элементов выборки, которые попали во множество $B$. 
+	Эмпирическая функция распределения:\\
+	\begin{equation}
+	F_N^*(y)=\frac{N(y)}{N}
+	\end{equation}
+	где $N(y)$ - число элементов $x_k$ выборки $x$, для которых $x_k<y$. \\
+	Гистограмма:\\
+	Пусть мы сгруппировали все элементы $x_i$ выборки $x$ в $r$ интервалов, длина -го интервала равна $\Delta_k$, a $N_k$ есть число элементов выборки, попавших в $k$-ый интервал. Гистограмма есть функция $\rho_N^*(y)$, определяемая по правилу
+	\begin{equation}
+	\rho_N^*(y)=\frac{N_k}{N\cdot \Delta_k}
+	\end{equation}
+	если принадлежит $k$-му интервалу, и равная нулю в противном случае.
+	\item \textbf{Выборочное среднее, выборочная дисперсия и выборочные моменты}\\
+	\begin{equation}
+	\begin{aligned}
+	\bar{x}&=\frac{1}{N}\sum_{k=1}^{N} x_k,\\
+	S^2&=\frac{1}{N}\sum_{k=1}^{N} x_k^2-\bar{x}^2=\frac{1}{N}\sum_{k=1}^{N} (x_k-\bar{x})^2,\\
+	\hat{v}_m&=\frac{1}{N}\sum_{k=1}^{N} x_k^m.\\
+	\end{aligned}
+	\end{equation}
+	\item \textbf{Определение точечной оценки}\\
+	Оценкой параметра $\theta$ называется произвольная функция $\hat{\theta}$ из выборочного пространства $X$ в пространство параметров $\Theta\subset \mathbb{R}^m$.
+	\item \textbf{Свойства оценок}
+	\begin{enumerate}
+		\item \textbf{Несмещенность}\\
+		Оценка $\hat{\theta} = \hat{\theta}_N(X_1,\ldots,X_N)$ параметра $\theta$ называется несмещенной, если 
+		\begin{equation}
+		M_{\theta}( \hat{\theta}_N(X))=\theta,\quad \theta\in\Theta
+		\end{equation}
+		\item \textbf{Состоятельность}\\
+		Последовательность оценок $\{\hat{\theta}_N(X),N\ge N_0\}$ параметра $\theta$ называется состоятельной, если 
+		\begin{equation}
+		\hat{\theta}_N(X)\stackrel{P_{\theta}}{\rightarrow}\theta,\quad \theta\in\Theta
+		\end{equation}
+		\item \textbf{Оптимальность в среднем квадратическом}\\
+		Эффективная оценка является оптимальной в среднем квадратическом оценкой в классе несмещенных оценок. Оптимальная оценка необязательно является эффективной. 
+		\item \textbf{Асимптотическая нормальность}\\
+		Посоедовательность оценок $\{\hat{\theta}_N,N\ge N_0\}$ называется асимптотически нормальной, если $\forall N\ge N_0$ существуют константы $A_N(\theta)\in \mathbb{R}^1$ и $B_N(\theta)>0$ такие что, с.в. 
+		\begin{equation}
+		\frac{\hat{\theta}_N-A_N(\theta)}{B_N(\theta)}
+		\end{equation}
+		имеет асимптотически стандартное нормальное распределение, т.е. ее функция распределения сходится к функции распределения стандартного нормального закона.
+	\end{enumerate}
+	\item \textbf{Неравенство Рао-Крамера. Эффективная оценка}\\
+	$\hat{\theta}_N=\hat{\theta}(X)$ является эффективной, если она несмещенная и для любой другой несмещенной оценки $\tilde{\theta}_N=\tilde{\theta}_N(X)$ мы имеем
+	\begin{equation}
+	D_{\theta}(\hat{\theta}_N)\le D_{\theta}(\tilde{\theta}_N)
+	\end{equation}
+	Неравенство Рао-Крамера:\\
+	Пусть $\hat{g}_N=\hat{g}_N(x)$ - некоторая несмещенная оценка для вещественной функции $g(\theta)$ от параметра $\theta$, построенный по повторной выборке $X=(X_1,\ldots,X_N)$ из генеральной совокупности с функцией распределения $F(y,\theta)$, удовлетворяющей условиям регулярности. Тогда имеет место неравенство
+	\begin{equation}
+	D_{\theta}(\hat{g}_N)\ge \frac{[g'(\theta)]^2}{N\cdot I(\theta)}.
+	\end{equation}
+	В частности, если $g(\theta)\equiv\theta$, то
+	\begin{equation}
+	D_{\theta}\ge\frac{1}{I_N(\theta)},\quad \forall \theta
+	\end{equation}
+	\item \textbf{Определение доверительного интервала. Точность и надежность интервальной оценки}\\
+	Пусть чы имеем повторную выборку $X=(X_1,\ldots,X_N)$ из генеральной совокупности с функцией распределения $F(y,\theta)$, где $\theta\in\Theta\subset \mathbb{R}^1$ - скалярный параметр. Доверительный интервал уровня $\gamma$ для параметра $\theta$ называется интервал $(\hat{\theta}^{(1)}(X),\hat{\theta}^{(2)}(X))$ со случайными концами такой, что 
+	\begin{equation}
+	P_{\theta}(\hat{\theta}^{(1)}(X)<\theta<\hat{\theta}^{(2)}(X)),\quad \theta\in\Theta
+	\end{equation}
+	Число $\gamma$ называется доверительным уровнем интервала.\\
+	Число $\gamma$ характеризует надежность этого интервала.\\
+	Число $l=M_{\theta}(\hat{\theta}^{(2)}-\hat{\theta}^{(1)})$ характеризует точность интервала.
+	\item \textbf{Гипотеза о согласии (однородности и независимости)}\\
+	Пусть $\mathcal{F}$ - некоторое семейство функций распределения. $\xi$ - случайная величина с неизвестной функцией распределения $F_{\xi}(y)$. Гипотеза о виде распределения называется предположение:
+	\begin{equation}
+	H:\quad F_{\xi}\in\mathcal{F}
+	\end{equation}
+	Пусть имеем повторные выборки $X=(X_1,\ldots,X_{N_1}),Y=(Y_1,\ldots,Y_{N_2})$. Пусть $F_1$ и $F_2$ есть функции распределения, отвечающие выборкам $X$ и $Y$ соответственно.\\
+	Гипотеза однородности имеет вид:
+	\begin{equation}
+	H:\quad F_1(y)\equiv F_2(y)
+	\end{equation}
+	где $F_1$ и $F_2$ неизвестны.\\
+	Пусть $\xi=(\xi_1,\xi_2)$ - двумерный слу. вектор с функцией распределения $F(z_1,z_2), F_1(z_1)$ - функция распределения для $\xi_1, F_2(z_2)$ - функция распределения для $\xi_2$.\\
+	Гипотеза о независимости имеет вид:
+	\begin{equation}
+	H:\quad F(z_1,z_2)=F_1(z_1)\cdot F_2(z_2)
+	\end{equation}
+	\item \textbf{Основные понятия теории проверки статистических гипотез}
+	\begin{enumerate}
+		\item \textbf{Статистическая гипотеза}\\
+		Статистической гипотезой называется подкласс $\mathcal{P}_0\in\mathcal{P}$. Условно это записывается в виде
+		\begin{equation}
+		H:\quad P\in\mathcal{P}_0
+		\end{equation} 
+		Статистические гипотезы будут обозначаться $H,H_0,H_1,\ldots$. 
+		\item \textbf{Простая и сложная гипотезы}\\
+		Если $\mathcal{P}_0$ содержит только один элемент, то гипотеза $H$ называется простой. В противном случае называется сложной.
+		\item \textbf{Основная (нулевая) гипотеза и альтернатива}\\
+		Обычно формулируют несколько гипотез. Одну из них выделяют в качестве основной и называют ее нулевой, обозначаемой $H_0$. Остальные гипотезы называют альтернативами и обозначают $H_1,H_2,\ldots$.
+		\item \textbf{Критерий, критическая зона, статистика критерия, критическая константа}\\
+		Статистическим критерием (тестом, решающим правилом) для проверки гипотезы $H_0$ против альтернативы $H_1$ называется произвольное отображение $\varphi:\chi\rightarrow\{0,1\}$. Если $\phi(x)=0$, то принимаем гипотезу $H_0$. Если $\varphi(x)=1$, то принимаем гипотезу $H_1$.\\
+		Обозначим
+		\begin{equation}
+		K=\{x\in\mathcal{X}:\quad \varphi(x)=1\}
+		\end{equation} 
+		Множество $K$ - критическая зона теста $\phi$.\\
+		Очень часто критическая  зона теста задается по правилу
+		\begin{equation}
+		K=\{x\in\mathcal{X}:\quad T(x)>c\}
+		\end{equation}
+		или
+		\begin{equation}
+		K=\{x\in\mathcal{X}:\quad T(x)<c\}
+		\end{equation}
+		$T(x)$ - статистика критерия $\varphi$, $c$ - критическая константа.
+		\item \textbf{Ошибки первого и второго рода}\\
+		Ошибки первого рода: Принимаем гипотезу $H_1$, когда верна $H_0$.\\
+		Ошибки второго рода: Принимаем гипотезу $H_0$, когда верна $H_1$.\\
+		Вероятность ошибки первого рода: $\alpha(\theta)=P_{\theta}(X\in K|H_0)$.\\
+		Вероятность ошибки второго рода: $1-\beta(\theta)=P_{\theta}(X\notin K|H_1)$.\\
+		\item \textbf{Уровень значимости и мощность критерия}\\
+		Мы выбираем некоторое малое $\alpha$ и рассматриваем только такие критерии $\varphi$, для которых
+		\begin{equation}
+		\sup_{\theta\in\Theta_0} \alpha(\theta)\le\alpha, \text{или} \quad P_0(X\in K)=\alpha
+		\end{equation}
+		Значение $\alpha$ - уровень значимости.\\
+		Функция мощности:
+		\begin{equation}
+		\beta(\theta)=\beta(\theta=P_{\theta}(X\in K)),\quad \theta\in\Theta_1
+		\end{equation}
+		\item \textbf{Равномерно наиболее мощный критерий}\\
+		Критерий $\varphi_0$ уровня $\alpha$ называется равномерно наиболее мощным критерием уровня $\alpha$, если для любого другого критерия $\varphi$ уровня $\alpha$ имеет место
+		\begin{equation}
+		\beta_{\varphi_0}(\theta)\ge\beta_{\varphi}(\theta),\quad \forall \theta\in \Theta_1
+		\end{equation}
+		\item \textbf{Лемма Неймана-Пирсона}\\
+		Пусть с.в. $\xi$ имеет дискретное распределение и проверяется простая гипотеза $H_0$ против простой альтернативы $H_1$. Тогда среди всех тестов $\varphi$ уровня $\alpha$ существует наиболее мощный тест $\varphi_0$, и он имеет следующий вид:
+		\begin{equation}
+			\varphi_0(x)=\left\{\begin{array}{l}
+		1,\quad P_1(x)>c\cdot P_0(x);\\
+		0,\quad P_1(x)<c\cdot P_0(x);\\
+		\gamma,\quad P_1(x)=c\cdot P_0(x);\\
+		\end{array}\right.
+		\end{equation}
+		где константа $c>0$ и $0\le\gamma\le1$ определяется из условия:
+		\begin{equation}
+		P_0(X\in K)=\alpha
+		\end{equation}
+		\item \textbf{Критерий отношения правдоподобия}\\
+		Пусть с.в. $\xi$ имеет функцию распределения $F(y,\theta)$, где $\theta\in\Theta$ - неизвестный параметр. Пусть $\Theta_0$ и $\Theta_1$ - подмножества $\Theta$, для которых $\Theta_0\cap\Theta_1=\emptyset,\Theta_0\cup\Theta_1=\Theta$. Проверяется гипотеза
+		\begin{equation}
+		H_0:\quad \theta\in\Theta_0
+		\end{equation}
+		против альтернативы
+		\begin{equation}
+		H_1:\quad \theta\in\Theta_1
+		\end{equation}
+		Для проверки таких гипотез предлагается использовать статистику
+		\begin{equation}
+		\lambda(x)=\frac{\sup_{\theta\in\Theta_1} \mathcal{L}(x,\theta)}{\sup_{\theta\in\Theta_0} \mathcal{L}(x,\theta)}
+		\end{equation} 
+		или эквивалентно
+		\begin{equation}
+		\lambda_1(x)=\lambda(x)=\frac{\sup_{\theta\in\Theta} \mathcal{L}(x,\theta)}{\sup_{\theta\in\Theta_0} \mathcal{L}(x,\theta)}=\max(\lambda(x),1)
+		\end{equation}
+		где $\mathcal{L}$ есть функция правдоподобия, т.е. распределение вероятности (плотность) повторной выборки $X=(X_1,\ldots,X_N)$. Если удается найти распределение этих статистик, то соответствующий критерий, называемый критерием отношения правдоподобия, задается с помощью критической области следующего вида: 
+		\begin{equation}
+		K=\{x:\quad \lambda_1(x)>c\}
+		\end{equation}
+		где критическая константа $c$ находится из условия
+		\begin{equation}
+		P_{\theta}(\lambda_1(x)>c)\le\alpha,\quad\theta\in\Theta
+		\end{equation}
+	\end{enumerate}
+\end{enumerate}
+\end{document}
+
