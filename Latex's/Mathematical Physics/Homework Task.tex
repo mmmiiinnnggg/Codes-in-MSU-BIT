@@ -1,0 +1,250 @@
+\documentclass{article}
+\usepackage[T2A]{fontenc}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{xeCJK}% 调用 xeCJK 宏包
+\usepackage{verbatim}
+\usepackage{bm}
+\usepackage{geometry}
+\usepackage{color}
+\geometry{a4paper,scale=0.8}
+\usepackage[pdfborder=000]{hyperref}
+\setCJKmainfont{SimHei}
+
+\begin{document}
+\author{Сюй Минчуань - \textbf{ВЫБОР: 13}}
+\title{Задача для домашнего решения }
+\maketitle
+\noindent\textbf{Задача 13}: Найти $u(x,y,t)$
+\begin{equation*}
+\left\{\begin{array}{c}
+u_t(x,y,t)=a^2\left(u_{xx}(x,y,t)+u_{yy}(x,y,t)\right)+f(x,y,t);\quad (x,y,t)\in\text{П}_{bcT};\\
+u(0,y,t)=0;\quad u(b,y,t)=te^{-t};\quad 0<y<c;\quad t_0<t\leqslant T;\\
+u(x,0,t)=\sin t;\quad u(x,c,t)=0;\quad 0<x<b;\quad t_0<t\leqslant T;\\
+u(x,y,t_0)=0;\quad 0<x<b;\quad 0<y<c;
+\end{array}\right.
+\end{equation*}
+Здесь $\text{П}_{bcT}=\{(x,y,t): 0<x<b,0<y<c,t_0<t\leqslant T\}\subset\mathbb{R}^3$.\\
+\\
+$\boxed{\text{Решение.}}$\textbf{\underline{Шаг 1.} Разбиение на две задачи} \\
+Пусть $\bm{u(x,y,t)=v(x,y,t)+w(x,y,t)}$. Тогда можно разбить задачу на две так, чтобы каждая из задачи взяла в себя \underline{неоднородные краевые условия} и \underline{неоднородную часть функции}:
+\begin{equation*}
+(\mathcal{V})\left\{\begin{array}{c}
+v_t=a^2(v_{xx}+v_{yy});\\
+v(0,y,t)=0,\ \bm{v(b,y,t)=te^{-t}};\\
+\bm{v(x,0,t)=\sin t},\ v(x,c,t)=0;\\
+v(x,y,t_0)=0.
+\end{array}\right.
+(\mathcal{W})\left\{\begin{array}{c}
+w_t=a^2(w_{xx}+w_{yy})\bm{+f};\\
+w(0,y,t)=0,\ w(b,y,t)=0;\\
+w(x,0,t)=0,\ w(x,c,t)=0;\\
+w(x,y,t_0)=0.
+\end{array}\right.
+\end{equation*}
+\textbf{\underline{Шаг 2.} Решение уравнения Лапласа} \\
+Рассмотрим однородную задачу ($\mathcal{V}$). Заметим, что у неё есть неоднородные краевые условия. Чтобы избавляться от них, рассмотрим сначала \underline{стационарное тепловое поле} с теми же краевыми условиями, то есть \underline{не зависит от времени} (производная по времени равна нулю):
+\begin{equation*}
+\left\{\begin{array}{c}
+\bar{v}_t=0=\Delta\bar{v}=(\bar{v}_{xx}+\bar{v}_{yy});\\
+\bar{v}(0,y,t)=0,\ \bar{v}(b,y,t)=te^{-t};\\
+\bar{v}(x,0,t)=\sin t,\ \bar{v}(x,c,t)=0;\\
+\end{array}\right.
+\end{equation*}
+Это \underline{уравнение Лапласа} в прямоугольнике с неоднородными условиями. Решение такой задачи строится сдедующим образом: разбить задачу: $\bm{\bar{v}=v_1+v_2}$, где
+\begin{equation*}
+\left\{\begin{array}{c}
+\Delta v_1=0;\\
+v_1(0,y,t)=0,\ v_1(b,y,t)=0;\\
+\bm{v_1(x,0,t)=\sin t},\ v_1(x,c,t)=0;\\
+\end{array}\right.
+\left\{\begin{array}{c}
+\Delta v_2=0;\\
+v_2(0,y,t)=0,\ \bm{v_2(b,y,t)=te^{-t}};\\
+v_2(x,0,t)=0,\ v_2(x,c,t)=0;\\
+\end{array}\right.
+\end{equation*}
+Для задачи $v_1$ будем искать решение в виде $v_1=X(x)Y(y)$. Подставить это в уравнение:
+\begin{equation*}
+\frac{X''_{xx}(x)}{X(x)}=-\frac{Y''_{yy}(y)}{Y(y)}=-\lambda=\text{const}
+\end{equation*}
+получим
+\begin{equation*}
+\left\{\begin{array}{c}
+X''_{xx}(x)+\lambda X(x)=0,0<x<b\\
+X(0)=0,X(b)=0.
+\end{array}\right.
+\left\{\begin{array}{c}
+Y''_{yy}(y)-\lambda Y(y)=0,0<y<c\\
+Y(c)=0;
+\end{array}\right.
+\end{equation*}
+Тогда
+\begin{equation*}
+%\begin{aligned}
+\lambda_n=\left(\frac{\pi n}{b}\right)^2,n\in\mathbb{N},\quad X_n(x)=\sin\frac{\pi nx}{b},\quad Y_n(y)=C_n\sinh\frac{\pi n(c-y)}{b}
+%\end{aligned}
+\end{equation*}
+Решение имеет вид:
+\begin{equation*}
+v_1=\sum_{n=1}^{+\infty}C_n\sin\frac{\pi nx}{b}\sinh\frac{\pi n(c-y)}{b}
+\end{equation*}
+Используя краевое условие и ортогональность собственных функций, найдем постоянные:
+\begin{equation*}
+v_1\big|_{y=0}=\sin t=\varphi(x)=\sum_{n=1}^{+\infty}\varphi_{1,n}X_n(x)=\sum_{n=1}^{+\infty}C_n\sinh\frac{\pi nc}{b}X_n(x)
+\end{equation*}
+где 
+\begin{equation*}
+\begin{aligned}
+\varphi_{1,n}&=\frac{2}{b}\int_{0}^{b}\sin t\sin\frac{\pi n\xi}{b}d\xi=\frac{2}{b}\sin t\left[-\frac{b}{\pi n}\cos\frac{\pi n\xi}{b}\right]\Bigg|^b_0=\left\{\begin{array}{c}
+\frac{4\sin t}{\pi n},\quad n\quad\text{нечет.}\\
+0, \quad n\quad\text{чет.}
+\end{array}\right.\\
+\varphi_{1,n}&=C_n*\sinh\frac{\pi nc}{b}\quad\Rightarrow\quad C_n=\frac{\varphi_{1,n}}{\sinh\frac{\pi nc}{b}}.
+\end{aligned}
+\end{equation*}
+Аналогично решается задача для $v_2$. Следовательно, решение задачи для $\bar{v}$ имеет окончательные вид: 
+\begin{equation*}
+\bar{v}(x,y,t)=\sum_{n=1}^{+\infty}\left(C_n\sinh\frac{\pi n(c-y)}{b}\sin\frac{\pi nx}{b}+\hat{C_n}\sinh\frac{\pi nx}{c}\sin\frac{\pi ny}{c}\right)
+\end{equation*}
+где
+\begin{equation*}
+\begin{aligned}
+C_n&=\frac{\varphi_{1,n}}{\sinh\frac{\pi nc}{b}}, \varphi_{1,n}=\frac{2}{b}\int_{0}^{b}\sin t\sin\frac{\pi n\xi}{b}d\xi=\left\{\begin{array}{c}
+\frac{4\sin t}{\pi n},\quad n\quad\text{нечет.}\\
+0, \quad n\quad\text{чет.}
+\end{array}\right.\\
+\hat{C_n}&=\frac{\varphi_{2,n}}{\sinh\frac{\pi nb}{c}}, \varphi_{2,n}=\frac{2}{c}\int_{0}^{c}te^{-t}\sin\frac{\pi n\xi}{c}d\xi=\left\{\begin{array}{c}
+\frac{4te^{-t}}{\pi n},\quad n\quad\text{нечет.}\\
+0, \quad n\quad\text{чет.}
+\end{array}\right.\\
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+\bar{v}(x,y,t)=\sum_{n\in\mathbb{N}: \text{нечет.}}^{+\infty}\left(\frac{4\sin t}{\pi n\sinh\frac{\pi nc}{b}}\sinh\frac{\pi n(c-y)}{b}\sin\frac{\pi nx}{b}+\frac{4te^{-t}}{\pi n\sinh\frac{\pi nb}{c}}\sinh\frac{\pi nx}{c}\sin\frac{\pi ny}{c}\right)
+\end{equation*}
+\textbf{\underline{Шаг 3.} Решение уравнения с нулевыми граничным условием} \\
+Теперь можно выполнить замену $\bm{v(x,y,t)=\bar{v}(x,y,t)+s(x,y,t)}$, где $s(x,y,t)$ удовлетворяет \underline{однородное} уравнение теплопроводности с \underline{однородными} условиями:
+\begin{equation*}
+\left\{\begin{array}{c}
+s_t=a^2(s_{xx}+s_{yy});\\
+s(0,y,t)=0,\ s(b,y,t)=0;\\
+s(x,0,t)=0,\ s(x,c,t)=0;\\
+s(x,y,t_0)=-\bar{v}(x,y,t_0).
+\end{array}\right.
+\end{equation*}
+Будем искать её решение в виде $s(x,y,t)=X(x)Y(y)T(t)$. После подстановки в исходное уравнение получим:
+\begin{equation}
+\label{2}
+\frac{X''_{xx}(x)}{X(x)}+\frac{Y''_{yy}(y)}{Y(y)}=\frac{T'_{t}(t)}{a^2T(t)}=-\lambda=\text{const}
+\end{equation}
+Поскольку дробь в (\ref{2}) зависит от одной незавмсимой переменной, каждая из них постоянна, пусть равны $\alpha$ и $\beta$ соответственно. Далее, из (\ref{2}) и краевого условия получим задачи Штурма-Лиувилля.
+\begin{equation*}
+\left\{\begin{array}{c}
+X''_{xx}(x)+\alpha X(x)=0;\\
+X(0)=0,\quad X(b)=0.
+\end{array}\right.
+\left\{\begin{array}{c}
+Y''_{yy}(y)+\beta Y(y)=0;\\
+Y(0)=0,\quad Y(c)=0.
+\end{array}\right.
+\end{equation*}
+Причем $\lambda=\alpha+\beta$. Решения задач Штурма-Лиувилля:
+\begin{equation*}
+\alpha_m=\left(\frac{\pi m}{b} \right)^2,X_m(x)=\sin\left(\frac{\pi m}{b}x \right),\quad \beta_n=\left(\frac{\pi n}{c} \right)^2,Y_n(y)=\sin\left(\frac{\pi n}{c}y\right),\quad\lambda_{m,n}=\left(\frac{\pi m}{b} \right)^2+\left(\frac{\pi n}{c} \right)^2
+\end{equation*}
+Итак, для остывания $T(t)$ рассмотрим задачу:
+\begin{equation*}
+T'_t(t)+a^2\lambda_{m,n}T(t)=0\quad\Rightarrow\quad T(t)=C_{m,n}\exp\left\{-\lambda_{m,n}a^2t\right\}=C_{m,n}\exp\left\{-\left(\left(\frac{\pi m}{b} \right)^2+\left(\frac{\pi n}{c} \right)^2\right)a^2t\right\}
+\end{equation*}
+Тогда, имеем
+\begin{equation*}
+s(x,y,t)=\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}C_{m,n}\sin\left(\frac{\pi m}{b}x\right)\sin\left(\frac{\pi n}{c}y\right)\exp\left\{-\left(\left(\frac{\pi m}{b} \right)^2+\left(\frac{\pi n}{c} \right)^2\right)a^2t\right\}
+\end{equation*}
+Используя начальное условие и ортогональность собственных функций, получим:
+\begin{equation*}
+\begin{aligned}
+\varphi(x,y)&=-\bar{v}(x,y,t_0)=\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}\varphi_{m,n}\cdot\sin\left(\frac{\pi m}{b}x\right)\cdot\sin\left(\frac{\pi n}{c}y\right)\\
+\varphi_{m,n}&=\frac{4}{bc}\int_{0}^{b}\int_{0}^{c}\varphi(\eta,\xi)\sin\left(\frac{\pi m}{b}\eta\right)\cdot\sin\left(\frac{\pi n}{c}\xi\right)d\xi d\eta\\
+\varphi_{m,n}&=C_{m,n}\cdot\exp\left\{-\left(\left(\frac{\pi m}{b} \right)^2+\left(\frac{\pi n}{c} \right)^2\right)a^2t_0\right\}
+\end{aligned}
+\end{equation*}
+Тогда, решение для $s(x,y,t)$ можно записаться в виде:
+\begin{equation*}
+\begin{aligned}
+s(x,y,t)&=\frac{4}{bc}\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}\int_{0}^{b}\int_{0}^{c}\varphi(\eta,\xi)\sin\left(\frac{\pi m}{b}\eta\right)\sin\left(\frac{\pi n}{c}\xi\right)d\xi d\eta\times\\
+&\times \sin\left(\frac{\pi m}{b}x\right)\sin\left(\frac{\pi n}{c}y\right)\exp\left\{-\left(\left(\frac{\pi m}{b} \right)^2+\left(\frac{\pi n}{c} \right)^2\right)a^2(t-t_0)\right\}
+\end{aligned}
+\end{equation*}
+\textbf{\underline{Шаг 4.} Решение неоднородного уравнения}\\
+Теперь рассмотрим задачу ($\mathcal{W}$). 
+\begin{equation*}
+\left\{\begin{array}{c}
+w_t=a^2(w_{xx}+w_{yy})\bm{+f};\\
+w(0,y,t)=0,\ w(b,y,t)=0;\\
+w(x,0,t)=0,\ w(x,c,t)=0;\\
+w(x,y,t_0)=0.
+\end{array}\right.
+\end{equation*}
+Разложим функцию $f(x,y,t)$ в ряд Фурье по системе функций $X_m(x),Y_n(y)$:  
+\begin{equation}
+\begin{aligned}
+f(x,y,t)&=\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}f_{m,n}(t)X_m(x)Y_n(y);\\
+f_{m,n}(t)&=\frac{4}{bc}\int_{0}^{b}\int_{0}^{c}f(\eta,\xi,t)\sin\left(\frac{\pi m}{b}\eta\right)\cdot\sin\left(\frac{\pi n}{c}\xi\right)d\xi d\eta
+\end{aligned}
+\end{equation}
+Предположим, что решение имеет вид
+\begin{equation*}
+w(x,y,t)=\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}T_{m,n}(t)X_m(x)Y_n(y)
+\end{equation*}
+Подставить в уравнение, разделяя переменные, получим для каждых $m,n$ \underline{задачу Коши $1$-порядка}:
+\begin{equation*}
+\frac{T'_{m,n}(t)-f_{m,n}(t)}{a^2T_{m,n}(t)}=\frac{X''_{m}(x)}{X_{m}(x)}+\frac{Y''_{n}(y)}{Y_{n}(y)}=-\lambda_{m,n}
+\end{equation*}
+\begin{equation*}
+\left\{\begin{array}{c}
+T'_{m,n}(t)+a^2\lambda_{m,n}T_{m,n}(t)=f_{m,n}(t),\\
+T_{m,n}(t_0)=0.
+\end{array}\right.
+\end{equation*}
+Её решение такое:
+\begin{equation*}
+T_{m,n}(t)=\int_{t_0}^{t}f_{m,n}(\xi)\exp\left\{-\left(\left(\frac{\pi m}{b} \right)^2+\left(\frac{\pi n}{c} \right)^2\right)a^2(t-\xi)\right\}d\xi
+\end{equation*}
+Следовательно
+\begin{equation*}
+w(x,y,t)=\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}\int_{t_0}^{t}f_{m,n}(\xi)\exp\left\{-a^2\left(\left(\frac{\pi m}{b} \right)^2+\left(\frac{\pi n}{c} \right)^2\right)(t-\xi)\right\}d\xi\cdot \sin\left(\frac{\pi m}{b}x\right)\cdot\sin\left(\frac{\pi n}{c}y\right)
+\end{equation*}
+\textbf{\underline{Шаг 5.} Составление итогового решения}\\
+Итак, уже готовы собрать решение $u(x,y,t)=\bar{v}(x,y,t)+s(x,y,t)+w(x,y,t)$ в одну формулу. Итоговое решение можно посмотреть на следующей странице.
+\newpage
+\begin{equation*}
+\begin{aligned}
+&u(x,y,t)=\sum_{n\in\mathbb{N}: \text{нечет.}}^{+\infty}\left(\frac{4\sin t}{\pi n\sinh\frac{\pi nc}{b}}\sinh\frac{\pi n(c-y)}{b}\sin\frac{\pi nx}{b}+\frac{4te^{-t}}{\pi n\sinh\frac{\pi nb}{c}}\sinh\frac{\pi nx}{c}\sin\frac{\pi ny}{c}\right)-\\
+-
+&\frac{4}{bc}\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}\int_{0}^{b}\int_{0}^{c}    \sum_{k\in\mathbb{N}: \text{нечет.}}^{+\infty}\left(\frac{4\sin t_0}{\pi k\sinh\frac{\pi kc}{b}}\sinh\frac{\pi k(c-\xi)}{b}\sin\frac{\pi k\eta}{b}+\frac{4t_0e^{-t_0}}{\pi k\sinh\frac{\pi kb}{c}}\sinh\frac{\pi k\eta}{c}\sin\frac{\pi k\xi}{c}\right)   \times\\
+&\times\sin\left(\frac{\pi m}{b}\eta\right)\sin\left(\frac{\pi n}{c}\xi\right)d\xi d\eta\sin\left(\frac{\pi m}{b}x\right)\sin\left(\frac{\pi n}{c}y\right)\exp\left\{-\left(\left(\frac{\pi m}{b} \right)^2+\left(\frac{\pi n}{c} \right)^2\right)a^2(t-t_0)\right\}\\
++
+&\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}\int_{t_0}^{t}\frac{4}{bc}\int_{0}^{b}\int_{0}^{c}f(\eta,\xi,t)\sin\left(\frac{\pi m}{b}\eta\right)\cdot\sin\left(\frac{\pi n}{c}\xi\right)d\xi d\eta\exp\left\{-\left(\left(\frac{\pi m}{b} \right)^2+\left(\frac{\pi n}{c} \right)^2\right)a^2(t-\tau)\right\}d\tau\times\\
+&\times\sin\left(\frac{\pi m}{b}x\right)\cdot\sin\left(\frac{\pi n}{c}y\right)=\\
+&=\bar{v}(x,y,t)-\frac{4}{bc}\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}\int_{0}^{b}\int_{0}^{c}\bar{v}(\eta,\xi,t_0)X_m(\eta)Y_n(\xi)d\xi d\eta \cdot X_m(x)\cdot Y_n(y)\cdot e^{-(\lambda_{m,n}a^2(t-t_0))}+\\
+&+\frac{4}{bc}\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}\int_{t_0}^{t}\int_{0}^{b}\int_{0}^{c}f(\eta,\xi,t)X_m(\eta)Y_n(\xi)e^{-\lambda_{m,n}a^2(t-\tau)}d\xi d\eta d\tau\cdot X_m(x)\cdot Y_n(y)=\\
+&=\textcolor{blue}{\{\mathbf{U}_{m,n}(x,y,t)=X_m(x)Y_n(y)e^{-\lambda_{m,n}a^2t}\}}=\textcolor{red}{\bar{v}(x,y,t)}+\\
+&+\frac{4}{bc}\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}\textcolor{blue}{\mathbf{U}_{m,n}(x,y,t)}\left(\int_{t_0}^{t}\int_{0}^{b}\int_{0}^{c}f(\eta,\xi,t)\textcolor{blue}{\mathbf{U}_{m,n}(\eta,\xi,-\tau)}d\xi d\eta d\tau-\int_{0}^{b}\int_{0}^{c}\textcolor{red}{\bar{v}(\eta,\xi,t_0)}\textcolor{blue}{\mathbf{U}_{m,n}(\eta,\xi,-t_0)}d\xi d\eta\right)
+\end{aligned}
+\end{equation*}
+$\boxed{\text{Ответ.}}$\\
+\begin{equation*}
+\begin{aligned}
+&u(x,y,t)=\textcolor{red}{\bar{v}(x,y,t)}+\\
+&+\frac{4}{bc}\sum_{m=1}^{+\infty}\sum_{n=1}^{+\infty}\textcolor{blue}{\mathbf{U}_{m,n}(x,y,t)}\left(\int_{t_0}^{t}\int_{0}^{b}\int_{0}^{c}f(\eta,\xi,t)\textcolor{blue}{\mathbf{U}_{m,n}(\eta,\xi,-\tau)}d\xi d\eta d\tau-\int_{0}^{b}\int_{0}^{c}\textcolor{red}{\bar{v}(\eta,\xi,t_0)}\textcolor{blue}{\mathbf{U}_{m,n}(\eta,\xi,-t_0)}d\xi d\eta\right)\\
+&\text{где}\quad \textcolor{red}{\bar{v}(x,y,t)}=\sum_{n\in\mathbb{N}: \text{нечет.}}^{+\infty}\left(\frac{4\sin t}{\pi n\sinh\frac{\pi nc}{b}}\sinh\frac{\pi n(c-y)}{b}\sin\frac{\pi nx}{b}+\frac{4te^{-t}}{\pi n\sinh\frac{\pi nb}{c}}\sinh\frac{\pi nx}{c}\sin\frac{\pi ny}{c}\right)\\
+&\textcolor{blue}{\mathbf{U}_{m,n}(x,y,t)}=X_m(x)Y_n(y)e^{-\lambda_{m,n}a^2t}=\sin\left(\frac{\pi m}{b}x\right)\sin\left(\frac{\pi n}{c}y\right)\exp\left\{-\left(\left(\frac{\pi m}{b} \right)^2+\left(\frac{\pi n}{c} \right)^2\right)a^2t\right\}
+\end{aligned}
+\end{equation*}
+\end{document}
+
