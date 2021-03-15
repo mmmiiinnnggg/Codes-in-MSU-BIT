@@ -1,0 +1,709 @@
+\documentclass[A4]{article}
+\usepackage[T2A]{fontenc}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[russian]{babel}
+\usepackage{xeCJK}% 调用 xeCJK 宏包
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{geometry}
+\geometry{a4paper,scale=0.8}
+\usepackage[pdfborder=000]{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setCJKmainfont{SimHei}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+	backgroundcolor=\color{white}, 
+	basicstyle = \footnotesize,       
+	breakatwhitespace = false,        
+	breaklines = true,                 
+	captionpos = b,                    
+	commentstyle = \color{mygreen}\bfseries,
+	extendedchars = false,             
+	%%frame =shadowbox, 
+	framerule=0.5pt,
+	keepspaces=true,
+	keywordstyle=\color{blue}\bfseries, % keyword style
+	language = C++,                     % the language of code
+	otherkeywords={string}, 
+	 frame=single, 
+	numbers=left, 
+	numbersep=5pt,
+	numberstyle=\tiny\color{mygray},
+	rulecolor=\color{black},         
+	showspaces=false,  
+	showstringspaces=false, 
+	showtabs=false,    
+	stepnumber=1,         
+	stringstyle=\color{mymauve},        % string literal style
+	tabsize=2,          
+	title=\lstname                      
+}
+
+\begin{document}
+\author{Сюй Минчуань}
+\title{Минимизация ДНФ методом Куайна}
+\maketitle
+Данный текст посвящен \emph{решению задачи минимизации ДНФ с помощью метода Куайна}, реализованной на языке Си++.
+\section{Описание метода}
+\textbf{Метод Куайна} - это способ представления функции в ДНФ с минимальным количеством членов и минимальным набором переменных. Преобразование функции можно разделить на два этапа:
+\begin{itemize}
+	\item на первом этапе осуществляется переход от СДНФ к так называемой \textbf{сокращённой форме};
+	\item на втором этапе - переход от сокращённой формы к \textbf{минимальной форме}.
+\end{itemize}
+\subsection{Первый этап - переход к сокращённой форме}
+На первом этапе осуществляются для преобразования функции две операции:
+\begin{itemize}
+	\item Операция склеивания
+	\item Операция поглощения
+\end{itemize}
+\textbf{Схема первого этапа}
+\begin{enumerate}
+	\item \textbf{Операция склеивания} сводится к нахождению пар членов, соответствующих виду $w\cdot x$ или $w\cdot\bar{x}$	и преобразованию их в следующие выражения: 
+	\begin{equation*}
+	w\cdot x\vee w \cdot \bar{x}=w\cdot(x\vee\bar{x})=w
+	\end{equation*}
+	(члены $w\cdot x$ и $w \cdot \bar{x}$ \emph{склеиваются}.) Результаты склеивания $w$ теперь играют роль \textbf{дополнительных членов} исходной функции (допольнительных конъюнкций). Необходимо найти все возможные пары членов (\emph{каждый член с каждым}).
+	\item Потом выполняется \textbf{операция поглощения}. Она основана на равенстве
+	\begin{equation*}
+	w\vee w \cdot z=w\cdot(1\vee z)=w
+	\end{equation*}
+	 (член $w$ \emph{поглощает} выражение $w\cdot z$.)
+	\item Вследствие этого действия из логического выражения, полученной после операции склеивания, вычёркиваются все члены, поглощаемые другими переменными.
+	\item Обе операции первого этапа могут выполняться до тех пор, пока это может быть осуществимо.
+\end{enumerate}
+Применение этих операций продемонстрировано в таблице:\\
+\textbf{Итерация 1.} Составим конъюнкции из СДНФ и проведём операцию склеивания и поглощения. В таблице 2-4, где ячейки столбцы поглощения помечены буквой $+$, означает что соотвествующая элементарная конъюнкция поглощается другим.\\
+\textbf{Итерация 2.} Заметим, что операции склеивания пока осуществимо, поэтому продолжать проводить преобразования.\\
+\textbf{Итерация 3.} Остаются 4 члена, уже нельзя сделать обе операции, заканчивая итерацию и получаем сокращённую форму:
+\begin{equation*}
+f(x_1,x_2,x_3,x_4)=\bar{x}\bar{z}\bar{w}\vee y\bar{z}\bar{w}\vee xz\vee xy
+\end{equation*}
+\begin{table}[]
+	\label{1}
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		$x_1$&0&0&0&0&0&0&0&0&1&1 &1 &1 &1 &1 &1 &1     \\ \hline
+		$x_2$&0&0&0&0&1&1 &1 &1&0&0&0&0&1&1 &1 &1      \\ \hline
+		$x_3$&0&0&1&1&0&0&1&1&0&0&1&1&0&0&1&1         \\ \hline
+		$x_4$&0&1&0&1&0&1&0&1&0&1&0&1&0&1&0&1           \\ \hline
+		$f(x_1,x_2,x_3,x_4)$&1&0&0&0&1&0&0&0&0&0&1&1&1 &1 &1 &1 \\ \hline
+	\end{tabular}
+	\caption{Значения булевой функции}
+\end{table}
+\begin{table}[]
+	\label{2}
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		No.&Элементарная конъюнкция&Поглощение\\\hline
+		1&$\bar{x}\bar{y}\bar{z}\bar{w}$&+  \\ \hline
+		2&$\bar{x}y\bar{z}\bar{w}$&+    \\ \hline
+		3&$x\bar{y}z\bar{w}$&+    \\ \hline
+		4&$x\bar{y}zw$&+    \\ \hline
+		5&$xy\bar{z}\bar{w}$&+    \\ \hline
+		6&$xy\bar{z}w$&+    \\ \hline
+		7&$xyz\bar{w}$&+    \\ \hline
+		8&$xyzw$&+    \\ \hline
+	\end{tabular}
+	\begin{tabular}{|c|c|}
+	\hline
+	No. Склеивание &Результат\\\hline
+	1 - 2&$\bar{x}\bar{z}\bar{w}$\\\hline
+	2 - 5&$y\bar{z}\bar{w}$\\\hline
+	3 - 4&$x\bar{y}z$\\\hline
+	3 - 7&$\bar{x}\bar{z}\bar{w}$\\\hline
+	4 - 8&$xzw$\\\hline
+	5 - 6&$xy\bar{z}$\\\hline
+	5 - 7&$xy\bar{w}$\\\hline
+	6 - 8&$xyw$\\\hline
+	7 - 8&$xyz$\\\hline
+	\end{tabular}
+	\caption{Итерация 1: склеивание и поглощения}
+\end{table}
+\begin{table}[]
+	\label{3}
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		No.&Элементарная конъюнкция&Поглощение\\\hline
+		1&$\bar{x}\bar{z}\bar{w}$&\\\hline
+		2&$y\bar{z}\bar{w}$&\\\hline
+		3&$x\bar{y}z$&+\\\hline
+		4&$\bar{x}\bar{z}\bar{w}$&+\\\hline
+		5&$xzw$&+\\\hline
+		6&$xy\bar{z}$&+\\\hline
+		7&$xy\bar{w}$&+\\\hline
+		8&$xyw$&+\\\hline
+		9&$xyz$&+\\\hline
+	\end{tabular}
+	\begin{tabular}{|c|c|}
+		\hline
+		No. Склеивание &Результат\\\hline
+		3 - 9&$xz$\\\hline
+		4 - 5&$xz$\\\hline
+		6 - 9&$xy$\\\hline
+		7 - 8&$xy$\\\hline
+	\end{tabular}
+	\caption{Итерация 2: склеивание и поглощения}
+\end{table}
+\begin{table}[]
+	\label{4}
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		No.&Элементарная конъюнкция&Поглощение\\\hline
+		1&$\bar{x}\bar{z}\bar{w}$&\\\hline
+		2&$y\bar{z}\bar{w}$&\\\hline
+		3&$xz$&\\\hline
+		4&$xy$&\\\hline
+	\end{tabular}
+	\caption{Итерация 3: склеивание, поглощение пусто, итерация заканчивается}
+\end{table}
+%\newpage
+\subsection{Второй этап - переход к минимальной форме}
+Члены полученной сокращенной формы являются \emph{простыми импликатами}. Переход от сокращённой формы к минимальной форме осуществляется с помощью \textbf{импликатной матрицы}:
+\begin{itemize}
+	\item Члены СДНФ заданной функции вписываются в столбцы, а в строки - простые импликанты. 
+	\item Отмечаются столбцы членов СДНФ, которые поглощаются отдельными простыми импликантами.
+	\item Импликанты, не подлежащие исключению, образуют \textbf{ядро}, то есть для каждой из этих импликант имеется хотя бы один столбец, перекрываемый только этой импликантой.
+	\item Для получения минимальной формы достаточно выбрать из импликантов, \emph{не входящих в ядро}, такое \textbf{минимальное} их число, которое обеспечит \textbf{перекрытие всех столбцов}, не перекрытых членами ядра. То есть можно минимально с ядром перекрыть все столбцы.
+\end{itemize}
+В таблице 5, знаки плюса, помеченные красными цветами, представляют те элемент, который перекрывает данный столбец без другого элемента. Импликанты, помеченные синими цветами, образуют ядро.\\
+Как можно увидеть, импликанты, вошедшие в минимальную форму, являются только импликантами ядра, поскольку ядро уже исчерпывает все столбцы. \textbf{Минимальная форма} этой функции такая:
+\begin{equation*}
+f(x_1,x_2,x_3,x_4)=\bar{x}\bar{z}\bar{w}\vee y\bar{z}\bar{w}\vee xy
+\end{equation*}
+\begin{table}[]
+	\label{5}
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		Простая импликанта&$\bar{x}\bar{y}\bar{z}\bar{w}$&$\bar{x}y\bar{z}\bar{w}$&$x\bar{y}z\bar{w}$&$x\bar{y}zw$&$xy\bar{z}\bar{w}$&$xy\bar{z}w$&$xyz\bar{w}$&$xyzw$\\\hline
+		\color{blue}{$\bar{x}\bar{z}\bar{w}$}&\color{red}{+}&+&&&&&&\\\hline
+		$y\bar{z}\bar{w}$&&+&&&+&&&\\\hline
+		\color{blue}{$xz$}&&&\color{red}{+}&\color{red}{+}&&&+&+\\\hline
+		\color{blue}{$xy$}&&&&&+&\color{red}{+}&+&+\\\hline
+	\end{tabular}
+	\caption{Импликатная матрица}
+\end{table}
+\section{Реализация программы}
+\begin{enumerate}
+	\item \textbf{Построение СДНФ.} $n$ - длина входного вектора. Для составления СДНФ мы проходимся по всем значениям. Длина каждой импликанты в СДНФ равна $log(n) $, тогда СДНФ составляется за $O(nlog(n)) $. По памяти это потребует тоже $O(nlog(n)) $.
+	\item \textbf{Построение сокращенной ДНФ} проходит в два этапа: \textbf{склейка} и \textbf{поглощение}. В каждом из них каждая импликанта сравнивается с каждой другой то есть $O(n^2)$ сравнений. Если склейка произошла то это добавляет еще $O(n^2)$ сравнений. Каждая склейка и поглощение по отдельность работают за $O(log(n))$ . Сложность этого этапа получается $O((n^2)log(n))$. Сложность по памяти оценим $O(nlog(n))$ так, как число импликант в сокращенной ДНФ не может превосходить число импликант в СДНФ.
+	\item \textbf{Составление импликантной матрицы.} Выполняется с помощью $O(n^2)$ операций сравнений импликант из СДНФ с простыми импликантами. Каждое такое сравнение выполняется за $O(log(n))$ . Получаем вычислительную сложность $O((n^2)log(n))$. По памяти матрица займет $O(n^2)$ ячеек.
+	\item \textbf{Нахождение ядра.} Мы проходим $O(n)$ столбцов импликатной матрицы, каждый из которых имеет O(n) ячеек. Сложность этого этапа $O(n^2)$. По памяти в хужшем храним все простые импликанты, которых $O(n)$ и каждая из которых длиной $O(log(n))$. Получаем сложность по памяти $O(nlog(n))$.
+	\item \textbf{Поиск минимального покрытия.} Точную оценку, в общем, случаи здесь дать очень сложно. Поэтому оценим с помощью условных переменных $h_i$. Получим, что сложность равна $O(h_1*h_2*\ldots*h_n)$, где $h_i$ - количество импликант. По памяти в хужшем храним все простые импликанты, которых $O(n)$ и каждая из которых длиной $O(log(n))$. Получаем сложность по памяти $O(nlog(n))$.
+\end{enumerate}
+\textbf{Более детально} прокомментировать эту реализацию:\\\hypertarget{matr back}{}\hypertarget{Mdnf back}{}
+Для хранения СДНФ, простых импликант и имплекантной матрицы был описан класс - \colorbox{lightgray}{ImplMatrix}\hyperlink{matr}{\color{gray}{[смотреть код]}}. В этом классе происходит \textbf{создания импликантной матрицы}, \textbf{поиск ядра} и \textbf{минимального покрытия}. У класса \colorbox{lightgray}{ImplMatrix} самый важный метод - \colorbox{lightgray}{std::vector<std::string> MDNF()}\hyperlink{Mdnf}{\color{gray}{[смотреть код]}}, который получает из импликантной матрицы ядро, а затем ищет покрытие непокрытых столбцов. В заголовочном файле имеются следующие вспомогательные функции:\hypertarget{fill back}{}
+\begin{itemize}
+	\item \colorbox{lightgray}{void fill()}\hyperlink{fill}{\color{gray}{[смотреть код]}}\\ - заполняет инмпликантную матрицу.\hypertarget{own back}{}
+	\item \colorbox{lightgray}{bool Owns(const std::string \&A,const std::string \&B)}\hyperlink{own}{\color{gray}{[смотреть код]}}\\ - эта функция используется в \colorbox{lightgray}{void fill()}. Она ищет похожие строчки. То есть мы передаем в нее две строчки, если в строчке B полнотью лежит A функция возвращает значение true, иначе false.\hypertarget{wei back}{}
+	\item \colorbox{lightgray}{int Weight(const std::string \& a)}\hyperlink{wei}{\color{gray}{[смотреть код]}}\\ - функция считает количество литералов в импликанте. Использыется для подчета весов покрытия.\hypertarget{cover back}{}
+	\item \colorbox{lightgray}{std::vector<std::string> Cover(bool **mat,const std::vector<int> \& nepokr,const std::vector<int> \& ignor,vector\_t \&ADNF)}\\\hyperlink{cover}{\color{gray}{[смотреть код]}} - эта функция ищет минимальное покрытие. Она использует функции \colorbox{lightgray}{Weight} и \colorbox{lightgray}{Implmult}.\hypertarget{mult back}{}
+	\item \colorbox{lightgray}{std::vector<std::vector<int>> Implmult(std::vector<std::vector<int> a, std::vector<std::vector <int> b)}\\\hyperlink{mult}{\color{gray}{[смотреть код]}} - реализует перемножение простых импликант и возвращает его.
+\end{itemize}
+В cpp файле имеются следующие \textbf{вспомогательные функции}:\hypertarget{sdnf back}{}
+\begin{itemize}
+	\item \colorbox{lightgray}{vector\_t Make\_sdnf(std::string \& func\_values)}\hyperlink{sdnf}{\color{gray}{[смотреть код]}}\\ - функция, которая получает строку нулей и единиц и возвращает вектор строк(СДНФ).\hypertarget{bin back}{}
+	\item \colorbox{lightgray}{std::string Bin(int x, int len)}\hyperlink{bin}{\color{gray}{[смотреть код]}}\\ - принимает длину импликанты и ее порядковый номер, возвращает импликанту в виде строки нулей и единиц, где 0 - означает отрицание, а 1 - наоборот. Например, запись 0011 означает !x1!x2x3x4.\hypertarget{abbrd back}{}
+	\item \colorbox{lightgray}{vector\_t Abbreviated\_dnf(vector\_t data)}\hyperlink{abbrd}{\color{gray}{[смотреть код]}}\\  - примает СДНФ, сокращенную ДНФ. В ней вызывает функции отвечающие за склейку и поглощение.\hypertarget{abbr back}{}
+	\item \colorbox{lightgray}{vector\_t Abbreviate(vector\_t data,std::string (*function)(const std::string \&, const std::string \&))}\\\hyperlink{abbr}{\color{gray}{[смотреть код]}}\\ - функция, которая принимает вектор string, в котором записан СДНФ, и функции либо Gluing, либо Absorption, которые либо склеивает импликанты, либо поглощает их.\hypertarget{gluing back}{}
+	\item \colorbox{lightgray}{std::string Gluing(const std::string \&a, const std::string \&b)}\hyperlink{gluing}{\color{gray}{[смотреть код]}}\\ - \textbf{функция склейки.} Принимает две строки, если находит 1 литерал, который отрицательный в одной строке и положительный в другой, заменяет его на 2 и возвращает получившуюся строку. Если нельзя склеить, возвращает пустую строчку.\hypertarget{absor back}{}
+	\item \colorbox{lightgray}{std::string Absorption(const std::string \&a, const std::string \&b)}\hyperlink{absor}{\color{gray}{[смотреть код]}}\\  - \textbf{функция поглощения.} Принимает две строки, если она находит 1 литерал, которого нет в другой строке, оно возвращает ту строчку, в которой меньше литералов. Если нельзя поглотить, возвращает пустую строчку.\hypertarget{make back}{}
+	\item \colorbox{lightgray}{std::string Make\_formula(std::vector<std::string> mdnf)}\hyperlink{make}{\color{gray}{[смотреть код]}}\\  - функция принимает минимальную днф в виде вектора сток нулей и единиц и преобразует её в фурмулу. Например, входные данные - 001 010, выходные данные - !x0!x1x2 U !x0x1!x2.\hypertarget{check back}{}
+	\item \colorbox{lightgray}{bool CheckParam(char *f1, char*f2, char*f3)}\hyperlink{check}{\color{gray}{[смотреть код]}}\\ - проверяет существуют ли все три файла.\hypertarget{read back}{}
+	\item \colorbox{lightgray}{bool Read\_param (char* path,std::string \&bin\_vector)}\hyperlink{read}{\color{gray}{[смотреть код]}}\\ - считывает входные данные из файла и проверяет корректные ли входные данные.\hypertarget{write back}{}
+	\item \colorbox{lightgray}{void Write\_ans(char*path,const std::string \& answer)}\hyperlink{write}{\color{gray}{[смотреть код]}}\\ - записывает минимальный ДНФ в файл.\hypertarget{trashin back}{}
+	\item \colorbox{lightgray}{bool Trash\_in\_function(const std::string \& vect)}\hyperlink{trashin}{\color{gray}{[смотреть код]}}\\ - проверяет входные данные на наличие лишних символов.\hypertarget{test back}{}
+	\item \colorbox{lightgray}{bool Test(char *F1, char *F2)}\hyperlink{test}{\color{gray}{[смотреть код]}}\\ - сравнивает полученные данные с тестовыми.\hypertarget{trash back}{}
+	\item \colorbox{lightgray}{bool Trash (const std::string \&impl)}\hyperlink{trash}{\color{gray}{[смотреть код]}}\\
+	 - проверяет корректность записи импликант.
+\end{itemize}
+\textbf{Функция main в minDNF.cpp}
+\begin{lstlisting}
+int main(int argc, char *argv[]){
+	char in[20] = "1_in.txt";
+	char out[20] = "1_out.txt";
+	char test[20] = "1_test.txt";
+	if (CheckParam(in, out, test)){
+		std::string bin_vector;
+		if (Read_param(in, bin_vector)){
+			std::vector <std::string> cec;
+			vector_t Msdnf = Make_sdnf(bin_vector);
+			vector_t Adnf = Abbreviated_dnf(Make_sdnf(bin_vector));
+			ImplMatrix M(Msdnf,Adnf);
+			//ImplMatrix M(Make_sdnf(bin_vector), Abbreviated_dnf(Make_sdnf(bin_vector)));
+			cec = M.MDNF();
+			Write_ans(out, Make_formula(cec));
+		}
+		if (Test(out, test))	std::cout << "\n Correct work of main algorithm! \n";
+		else	std::cout << "\n Incorrect work of main algorithm! \n";
+	}
+	return 0;
+}
+\end{lstlisting}
+\textbf{Программа minDNF.cpp}
+\begin{lstlisting}
+#include <stdio.h>
+#include <tchar.h>
+#include "Header.h"
+\end{lstlisting}
+\hypertarget{trash}{}\hyperlink{trash back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+bool Trash (const std::string &impl)
+{
+	char last;
+	if (impl == "U")	return false;
+	else{
+		for (int i = 0;i < impl.size();i++){
+			if (i == 0){
+				if (impl[i] != 'x' && impl[i] != '!')
+					return true;
+			}
+			else{
+				if (last == '!' && impl[i] != 'x')		return true;
+				else if ((((int)last >= 48) || ((int)last <= 57)) && (impl[i] != 'x') && (impl[i] != '!') && (((int)impl[i] < 48) || ((int)impl[i] > 57)))
+					return true;
+				else if (last == 'x' && (((int)impl[i] < 48) || ((int)impl[i] > 57)))
+					return true;
+			}
+			last = impl[i];
+		}
+	}
+	return false;
+}
+\end{lstlisting}
+\hypertarget{test}{}\hyperlink{test back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+bool Test(char *F1, char *F2){
+	std::ifstream f_ans(F1);
+	std::ifstream f_test(F2);
+	std::vector <std::string> ans;
+	std::vector <std::string> test;
+	std::string temp;
+	while (!f_ans.eof()){
+		f_ans >> temp;
+		if (temp != "U" && !Trash(temp))	ans.push_back(temp);
+	}
+	temp.clear();
+	while (!f_test.eof()){
+		f_test >> temp;
+		if (temp != "U" && !Trash(temp))	test.push_back(temp);
+	}
+	f_ans.close();	f_test.close();
+	if (test.size() != ans.size())	return false;
+	else{
+		for (auto &x : ans){
+			if (std::find(test.begin(), test.end(), x) == test.end())	return false;
+		}
+		return true;
+	}
+}
+\end{lstlisting}
+\hypertarget{make}{}\hyperlink{make back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+std::string Make_formula(std::vector<std::string> mdnf){
+	std::stringstream result;
+	if (mdnf.size() > 0){
+		int k = 0;
+		for (auto &x : mdnf){
+			k++;
+			int i = 0;
+			for (auto &y : x){
+				if (y == '2'){
+					i++;
+					continue;
+				}
+				else if (y == '1'){
+					result << "x" << i;
+					i++;
+				}
+				else if (y == '0'){
+					result << "!x" << i;
+					i++;
+				}
+			}
+			if (k != mdnf.size())	result << " U ";
+		}
+	}
+	return result.str();
+}
+\end{lstlisting}
+\hypertarget{gluing}{}\hyperlink{gluing back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+std::string Gluing(const std::string &a, const std::string &b){
+	std::string result;
+	int found = -1;
+	int kol = 0, i = 0;
+	while ((kol<2) && (i<a.length())){
+		if ((a[i] != b[i])){
+			kol++;
+			found = i;
+		}
+		i++;
+	}
+	if (kol == 1){
+		result = a;
+		result[found] = '2';
+	}
+	return result;
+}
+\end{lstlisting}
+\hypertarget{absor}{}\hyperlink{absor back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+std::string Absorption(const std::string &a, const std::string &b){
+	std::string result;
+	int found = -1;
+	int kol = 0, i = 0;
+	while ((kol < 2) && (i < a.length())){
+		if (((a[i] == '2') && (b[i] != '2')) || ((b[i] == '2') && (a[i] != '2'))){
+			kol++;
+			found = i;
+		}
+		else if ((a[i] != '2') && (b[i] != '2') && (a[i] != b[i]))	return result;
+		i++;
+	}
+	if (kol == 1){
+		result = a;
+		result[found] = '2';
+	}
+	return result;
+}
+\end{lstlisting}
+\hypertarget{bin}{}\hyperlink{bin back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+std::string Bin(int x, int len){
+	std::string result;
+	while (x > 0){
+		int buf = x & 1;
+		x = x >> 1;
+		result.append(std::to_string(buf));
+	}
+	std::reverse(result.begin(), result.end());
+	if (result.length() < len){
+		int delta = len - result.length();
+		std::string zeros;
+		for (int i = 0; i < delta; ++i)		zeros.append("0");
+		result = zeros + result;
+	}
+	return result;
+}
+\end{lstlisting}
+\hypertarget{sdnf}{}\hyperlink{sdnf back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+vector_t Make_sdnf(std::string & func_values){
+	vector_t sdnf;
+	double len = log2(func_values.size());
+	
+	for (int i = 0; i < func_values.length(); ++i) {
+		if (func_values[i] == '1') {
+			std::string res = Bin(i, len);
+			sdnf.push_back(std::pair<std::string, bool>(res,false));
+		}
+	}
+	return sdnf;
+}
+\end{lstlisting}
+\hypertarget{abbr}{}\hyperlink{abbr back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+vector_t Abbreviate(vector_t data,std::string (*function)(const std::string &, const std::string &)){
+	while (1){
+		vector_t h;
+		bool flag = false;
+		for (auto i = data.begin(); i != data.end(); i++){
+			for (auto j = i + 1; j != data.end(); ++j){
+				if (i != j){
+					std::string buf = function(i->first, j->first);
+					if (!buf.empty()){
+						i->second = true;
+						j->second = true;
+						flag = true;
+						auto object = std::pair<std::string, bool>(buf, false);
+						bool X3 = false;
+						for (auto & x : h){
+							if (x.first == object.first){
+								X3 = true;
+							}
+						}
+						if (!X3)	h.push_back(object);
+					}
+				}
+			}
+			if (i->second == false){
+				bool X3 = false;
+				for (auto & x : h){
+					if (x.first == i->first){
+						X3 = true;
+					}
+				}
+				if (!X3)	h.push_back(*i);
+			}
+		}
+		if (flag != true)	break;
+		data = h;
+	}
+	return data;
+}
+\end{lstlisting}
+\hypertarget{abbrd}{}\hyperlink{abbrd back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+vector_t Abbreviated_dnf(vector_t data){
+	data = Abbreviate(data, Gluing);
+	data = Abbreviate(data, Absorption);
+	return data;
+}
+\end{lstlisting}
+\hypertarget{check}{}\hyperlink{check back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+bool CheckParam(char *f1, char*f2, char*f3){
+	std::ifstream F1(f1);
+	std::ifstream F2(f2);
+	std::ifstream F3(f3);
+	if(!F1.is_open()) {std::cout<<"\n Check Args 1!\n"; return false;}
+	if(!F2.is_open()) {std::cout<<"\n Check Args 2!\n"; return false;}
+	if(!F3.is_open()) {std::cout<<"\n Check Args 3!\n"; return false;}
+	F1.close();
+	F2.close();
+	F3.close();
+	return true;
+}
+\end{lstlisting}
+\hypertarget{trashin}{}\hyperlink{trashin back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+bool Trash_in_function(const std::string & vect){
+	for (auto &x : vect){
+		if (x != '0' && x != '1')
+		return true;
+	}
+	return false;
+}
+\end{lstlisting}
+\hypertarget{read}{}\hyperlink{read back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+bool Read_param (char* path,std::string &bin_vector){
+	std::ifstream fr(path);
+	fr >> bin_vector;
+	fr.close();
+	if (bin_vector.size() == 0){
+		std::cout << "\n Empty file";
+		return false;
+	}
+	if (floor(log2(bin_vector.size())) != log2(bin_vector.size())){
+		std::cout << "\n Check function";
+		return false;
+	}
+	if (Trash_in_function(bin_vector)){
+		std::cout << "\n Unknown ";
+		return false;
+	}
+	return true;
+}
+\end{lstlisting}
+\hypertarget{write}{}\hyperlink{write back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+void Write_ans(char*path,const std::string & answer){
+	std::ofstream wr(path);
+	wr << answer;
+	wr.close();
+}
+\end{lstlisting}
+\textbf{Заголовка Header.h}\\
+\hypertarget{own}{}\hyperlink{own back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+bool Owns(const std::string &A,const std::string &B){
+	for (int i = 0; i < A.size(); i++){
+		if (A[i] != B[i] && A[i] != '2' &&B[i] != '2'){
+			return false;
+		}
+	}
+	return true;
+}
+\end{lstlisting}
+\hypertarget{wei}{}\hyperlink{wei back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+int Weight(const std::string & a){
+	int k = 0;
+	for (int i = 0; i < a.size(); i++){
+		if (a[i] != '2')
+		k++;
+	}
+	return k;
+}
+\end{lstlisting}
+\hypertarget{mult}{}\hyperlink{mult back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+std::vector<std::vector<int>> Implmult(std::vector<std::vector<int>> a, std::vector<std::vector <int>> b){
+	std::vector<std::vector<int>> result;
+	for (auto & x: a)
+	for (auto &y : b){
+		std::vector<int> buff;
+		for (auto &xi:x)
+		buff.push_back(xi);
+		for (auto &yi : y){
+			if (std::find(buff.begin(), buff.end(), yi) == buff.end())
+			buff.push_back(yi);
+		}
+		result.push_back(buff);
+	}
+	return result;
+}
+\end{lstlisting}
+\hypertarget{cover}{}\hyperlink{cover back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+std::vector<std::string> Cover(bool  **mat,const std::vector<int> & nepokr,const std::vector<int> & ignor,vector_t &ADNF){
+	std::vector<std::string> a;
+	std::vector<std::vector<std::vector<int>>> patrik;
+	patrik.resize(nepokr.size());
+	int i = 0;
+	for (auto & x : nepokr){
+		int j = 0;
+		for (auto & y : ignor){
+			std::vector <int> K;
+			if (mat[y][x] == true){
+				K.push_back(y);
+				patrik[i].push_back(K);
+			}
+			j++;
+		}
+		i++;
+	}
+
+	while (patrik.size() > 1){
+		std::vector <std::vector<int>> sets;
+		sets = Implmult(patrik[0], patrik[1]);
+		patrik.erase(patrik.begin(),patrik.begin()+2);
+		if (sets.size())
+			patrik.push_back(sets);
+	}
+	int wei = INT_MAX;
+	int l = -1;
+	int p = -1;
+	for (int i = 0; i < patrik.size(); i++){
+		for (int j = 0; j < patrik[i].size(); j++){
+			int cur_w = 0;
+			for (auto &x : patrik[i][j]){
+				cur_w += Weight(ADNF[x].first);
+			}
+			if (cur_w < wei){
+				wei = cur_w;
+				l = i;
+				p = j;
+			}
+		}
+	}
+	for (auto &x : patrik[l][p]){
+		a.push_back(ADNF[x].first);
+	}
+	return  a;
+}
+\end{lstlisting}
+\hypertarget{matr}{}\hyperlink{matr back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+class ImplMatrix{
+private:
+	bool ** mat;
+	vector_t SDNF;
+	vector_t ADNF;
+	void fill();
+public:
+	ImplMatrix(vector_t &A, vector_t &B);
+	std::vector<std::string> MDNF();
+	~ImplMatrix();
+\end{lstlisting}
+\hypertarget{fill}{}\hyperlink{fill back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+void ImplMatrix:: fill(){
+	for (int i = 0; i < ADNF.size(); i++){
+		for (int j = 0; j < SDNF.size(); j++){
+			if (Owns(ADNF[i].first, SDNF[j].first))
+				mat[i][j] = true;
+			else
+				mat[i][j] = false;
+		}
+	}
+}
+\end{lstlisting}
+\begin{lstlisting}
+ImplMatrix::ImplMatrix(vector_t &A, vector_t &B){
+	SDNF = A;
+	ADNF = B;
+	mat = new bool*[ADNF.size()];
+	for (int i = 0; i < ADNF.size(); i++){
+		mat[i] = new bool[SDNF.size()];
+	}
+	fill();
+}
+\end{lstlisting}
+\hypertarget{Mdnf}{}\hyperlink{Mdnf back}{\color{gray}{[вернуть назад]}}
+\begin{lstlisting}
+std::vector<std::string>  ImplMatrix::MDNF(){
+	std::vector<std::string> mdnf;
+	std::vector<int> pokr;
+	std::vector <int> consider;
+	for (int i = 0; i < SDNF.size(); i++){
+		int kol = 0;
+		int cec;
+		for (int j = 0; j < ADNF.size(); j++){
+			if (mat[j][i] == true){
+				kol++;
+				cec = j;
+			}
+		}
+		if (kol == 1){
+			auto object = std::pair<std::string, bool>(ADNF[cec].first, false);
+			bool X3 = false;
+			for (auto & x : mdnf){
+				if (x == object.first){
+					X3 = true;
+				}
+			}
+			if (!X3){
+				for (int k = 0; k < SDNF.size(); k++){
+					if (mat[cec][k] == true && std::find(pokr.begin(), pokr.end(), k) == pokr.end()){
+						pokr.push_back(k);
+					}
+				}
+				consider.push_back(cec);
+				mdnf.push_back(object.first);
+			}
+		}
+	}
+	if (pokr.size() == SDNF.size())
+		return mdnf;
+	std::vector<int> nepokr;
+	for (int i = 0; i < SDNF.size(); i++){
+		if (std::find(pokr.begin(), pokr.end(), i) == pokr.end())
+		nepokr.push_back(i);
+	}
+	std::vector<int> ignor;
+	for (int i = 0; i < ADNF.size(); i++){
+		if (std::find(consider.begin(), consider.end(), i) == consider.end())
+		ignor.push_back(i);
+	}
+	std::vector <std::string> b = Cover(mat, nepokr, ignor, ADNF);
+	for (auto &x : b){
+		mdnf.push_back(x);
+	}
+	return mdnf;
+}
+\end{lstlisting}
+\begin{lstlisting}
+ImplMatrix::~ImplMatrix(){
+	for (int i = 0; i < ADNF.size(); i++){
+		delete[]mat[i];
+	}
+	delete[]mat;
+}
+\end{lstlisting}
+\end{document}
+
