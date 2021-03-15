@@ -1,0 +1,16 @@
+program
+var a,b,c:int;
+begin
+	read(a);
+	while 1<0 do {empty};
+	if 2>1 then b:=a else {empty};
+	if 2>1 then {empty} else c:=20;
+	begin
+		{empty};
+		{empty};
+		{empty}
+	end;
+	c:=b;
+	{empty};
+	write(c); {empty}
+end@	
