@@ -1,0 +1,569 @@
+\documentclass[A4]{article}
+\usepackage[T2A]{fontenc}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[russian]{babel}
+\usepackage{xeCJK}% 调用 xeCJK 宏包
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[pdfborder=000]{hyperref}
+\usepackage[usenames,dvipsnames]{xcolor}
+\setCJKmainfont{SimHei}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+	backgroundcolor=\color{white}, 
+	basicstyle = \footnotesize,       
+	breakatwhitespace = false,        
+	breaklines = true,                 
+	captionpos = b,                    
+	commentstyle = \color{mygreen}\bfseries,
+	extendedchars = false,             
+	%%frame =shadowbox, 
+	framerule=0.5pt,
+	keepspaces=true,
+	keywordstyle=\color{blue}\bfseries, % keyword style
+	language = C++,                     % the language of code
+	otherkeywords={string}, 
+	 frame=single, 
+	numbers=left, 
+	numbersep=5pt,
+	numberstyle=\tiny\color{mygray},
+	rulecolor=\color{black},         
+	showspaces=false,  
+	showstringspaces=false, 
+	showtabs=false,    
+	stepnumber=1,         
+	stringstyle=\color{mymauve},        % string literal style
+	tabsize=2,          
+	title=\lstname                      
+}
+
+\begin{document}
+\author{Сюй Минчуань}
+\title{Отчёт решения ЗКВ с помощью МВГ}
+\maketitle
+Данный отчет посвящен \emph{решению ЗКВ с помощью МВГ}, реализованной на языке Си++.  Вариант задания: \textbf{А3 Б1 В1}. \tableofcontents
+\newpage
+
+\section{Функция плотности вероятности для случайных данных и её реализация с помощью метода выбора с бросанием}
+\subsection{Вычисление $c_1$}
+Дана функция плотности: $f(x)=c_1(1+x^4),x\in[0,1]$. Для нахождения $c_1$ надо взять интеграл по всей прямой и приравняться к единице, то есть 
+\begin{equation}
+\begin{aligned}
+\int_{-\infty}^{+\infty} c_1 (1+x^4)dx &= \int_{0}^{1} c_1(1+x^4)dx =1;\\
+c_1(x+1/5x^5)|_{x=0}^{x=1}& = 6/5 c_1 = 1; \quad c_1=5/6.
+\end{aligned}
+\end{equation}
+Поэтому, $f(x) = 5/6 (1+x^4)$.\\
+\subsection{Метод выбора с бросанием}
+Генерация любой случайной величины с заданной функцией плотности вероятности может реализоваться с помощью так называемого \emph{метода выбора с бросанием.} (точное название надо уточнить в связи с тем, что переводилось из китайского, а пока используем такое). Этот метод состоит в следующем: Пусть $f(x)$ задана на $[a,b], f(x)\le M,$
+\begin{enumerate}
+	\item Генерировать две независимых случайных величины $u_1, u_2$. (подразумевается с.в. с равномерным распределением. Это легко реализуется с помощью функции \textbf{rand()})
+	\item Вычислять $x_0 = a+u_1(b-a),y_0=M\cdot u_2$.
+	\item Если $y_0\le f(x_0)$, то принять $x_0$ как выходную с.в., иначе бросать эту пару данных и повторить эту процедуру, начиная с 1.
+\end{enumerate}
+В нашем случае $a=0,b=1,M=5/3$. Поэтому алгоритм выглядит так:
+\begin{enumerate}
+	\item Генерировать две независимых случайных величины $u_1, u_2$. 
+	\item Если $u_2\le 3/5*f(u_1)$, то принять $u_1$ как выходную с.в., иначе возвращаем к 1.
+\end{enumerate}
+Реализация на языке Си/Си++:
+\begin{lstlisting}
+double f(double x){ return 1.0/2*(1+x*x*x*x); } // 1/M * f(x)
+double Rnd(){ int x; return x=rand()%100; }
+double GetRnd(){
+	double u1,u2;
+	while(1){
+		u1=Rnd(); u2=Rnd();
+		if(u2<=f(u1)) return u1;
+	}
+}
+\end{lstlisting}
+\section{Реализация и комментарии программы}
+Прокоммнтируем важные части реализации программы. Основная рамка соответствует реализации профессора. 
+\subsection{Генерация случайных данных - InitRnd}
+Для генерации надо задавать размерность матрицы (задачи), и в связи с тем надо изменять имя файла, получающего сгенерированные данные, в функции \textbf{fopen()}. 
+\begin{lstlisting}
+double f(double x);
+double Rnd();
+double GetRnd();
+
+void Task::InitRnd(){
+	FILE* fp1;
+	if((fp1=fopen("test23.txt", "w+")) == NULL){ //coorespond with nDimAll
+		printf("Cannot open test file\n"); exit(0);
+	}
+	int rnd; char str[6]; srand(time(NULL));
+	for(int i=1;i<=nDimAll;i++){
+		for(int j=1;j<=nDimAll;j++){
+			if(i==j){
+				itoa(nInfty,str,10); fputs(str,fp1);
+				if(j!=nDimAll) {fputs(" ",fp1);}
+			}
+			else{ 
+				rnd = GetRnd()*100; itoa(rnd,str,10); fputs(str,fp1);
+				if(j!=nDimAll) fputs(" ",fp1);
+			}
+		}
+		fputs("\n",fp1);
+	}
+	fclose(fp1); 
+}
+\end{lstlisting}
+\subsection{Нахождение наилучшего `` нули '' - BestNull}
+Данный фрагмент посвящен нахождению следующего разделяющего элемента. Пусть $\omega(\bar{Y})=\omega(X)$+(наименьшая в строке $i$, не включая $c_{ij}$) + (наименьшая в столбце $j$, не включая $c_{ij}$). Следовательно, из всех ребер $(i,j)$ с $c_{ij}=0$ в текущем матрице мы выбираем то, которое дает наибольшее значение $\omega(\bar{Y})$. Функция \textbf{BestNull} приписывает выбранные ребра в \textbf{nXdel} и \textbf{nYdel}.
+\begin{lstlisting}
+void SubTask::BestNull(int& nXdel, int& nYdel) {
+	int BestNum = 0;
+	int FirstNum=0;
+	int D, Besti = 1, Bestj = 1;
+	for(int i=1;i<=nDim;i++)
+		for (int j = 1; j <= nDim; j++) {
+			if (Get(i,j) != 0) continue;
+			else { //==0
+				if(!FirstNum) {
+					D = MinLinDva(i) + MinColDva(j); 
+					Besti = i; Bestj = j; BestNum = D; FirstNum = 1; 
+				}
+				else {
+					D = MinLinDva(i) + MinColDva(j);
+					if (D > BestNum) { BestNum = D; Besti = i; Bestj = j; }
+				}
+			}
+		}
+	nXdel = Lin->Get(Besti);
+	nYdel = Col->Get(Bestj);
+}
+\end{lstlisting}
+\subsection{Формирование правой задачи - MakeRight }
+Формируем правую задачу с известным выбранным ребром. При этом она возвращает указатель на новую правую подзадачу, модифицируя себя под левой подзадачей.\\
+\\
+\begin{lstlisting}
+SubTask* SubTask::MakeRight(int nXdel, int nYdel) {
+	SubTask* PtrNewRight = new SubTask(nDim-1);
+
+	//change of Lin/Col number
+	int k_1 = 1; int k_2 = 1;
+	for (int i = 1; i <= nDim; i++) {
+		if (Lin->Get(i) == nXdel) continue;
+		PtrNewRight->Lin->Set(k_1,Lin->Get(i));
+		k_1++;
+	}
+	for (int i = 1; i <= nDim; i++) {
+		if (Col->Get(i) == nYdel) continue;
+		PtrNewRight->Col->Set(k_2,Col->Get(i));
+		k_2++;
+	}
+
+	//Right nGran
+	PtrNewRight->nGran = nGran;
+	//change of matirx
+	k_1 = 1; k_2 = 1;
+	for (int i = 1; i <= nDim; i++) {
+		if (Lin->Get(i) == nXdel) continue;
+		for (int j = 1; j <= nDim; j++) {
+			if (Col->Get(j) == nYdel) continue;
+			PtrNewRight->Set(k_1, k_2,Get(i, j)); k_2++;
+		}
+		k_2=1; k_1++;
+	}
+
+	//Set (nYdel,nXdel) to Infty, if it exists
+	if(PtrNewRight->Lin->GetByNumber(nYdel) != 0 && PtrNewRight->Col->GetByNumber(nXdel) != 0)
+	PtrNewRight->Set(PtrNewRight->Lin->GetByNumber(nYdel),PtrNewRight->Col->GetByNumber(nXdel),nInfty);
+	//Reduction of Right
+	PtrNewRight->Reduction();
+
+	//change of Path - first copy from last subtask
+	for (int i = 1; i <= nDimAll; i++) {
+		PtrNewRight->Next->Set(i,Next->Get(i));	
+		PtrNewRight->Prev->Set(i,Prev->Get(i));
+	}
+	//then set new way
+	PtrNewRight->Next->Set(nYdel, nXdel);
+	PtrNewRight->Prev->Set(nXdel, nYdel);
+
+	//change of left task and pointers
+	//Set choosed way to Infty in the Left
+	Matr[MakeIndex(Lin->GetByNumber(nXdel), Col->GetByNumber(nYdel))] = nInfty;
+	//change of left task nGran;
+	Reduction();
+
+	return PtrNewRight;
+}
+\end{lstlisting}
+\subsection{Получение псевдо-решения перебором - Solve}
+Когда матрица вырождена до размерности $dim = 2$, то можно рассмотреть два оставшегося варианта пути. Сравнив их стоимости, можно получить какое-то псевдо-решение, и записать его в \textbf{Otvet}. При этом сохранить необходимые информации в \textbf{Next} и \textbf{Prev}.
+\begin{lstlisting}
+int SubTask::Solve(Path& Otvet) { 
+	if (nDim != nPereBor) exit(0);
+	int Fir = Matr[MakeIndex(1, 1)] + Matr[MakeIndex(2, 2)];
+	int Sec = Matr[MakeIndex(1, 2)] + Matr[MakeIndex(2, 1)];
+	if (Fir < Sec) {
+		Next->Set(Col->Get(1), Lin->Get(1));
+		Next->Set(Col->Get(2), Lin->Get(2));
+		Prev->Set(Lin->Get(1), Col->Get(1));
+		Prev->Set(Lin->Get(2), Col->Get(2));
+		//get Path "Otvet"
+		for(int i=1;i<=nDimAll;i++){
+			if(i==1) Otvet.Set(1,1);
+			else Otvet.Set(i,Prev->Get(Otvet.Get(i-1)));
+		}
+		return nGran + Fir;
+	}
+
+	else {
+		Next->Set(Col->Get(1), Lin->Get(2));
+		Next->Set(Col->Get(2), Lin->Get(1));
+		Prev->Set(Lin->Get(1), Col->Get(2));
+		Prev->Set(Lin->Get(2), Col->Get(1));
+		//get Path "Otvet"
+		for(int i=1;i<=nDimAll;i++){
+			if(i==1) Otvet.Set(1,1);
+			else Otvet.Set(i,Prev->Get(Otvet.Get(i-1)));
+		}
+		return nGran + Sec;
+	}
+}
+\end{lstlisting}
+\subsection{Извлечение первой задачи из класса Task - ExtractFirst}
+Сделать первую подзадачу (исходную матрицу с редукцией) и возвращает указатель на её.
+\begin{lstlisting}
+SubTask* Task::ExtractFirst() {
+	SubTask* PtrNew = new SubTask(Matr);
+	//extractFirstLeft,then use SolveSubTask
+	nKol++;
+	AddSubTask(PtrNew,1);
+	return PtrNew;
+}
+\end{lstlisting}
+\subsection{Решение подзадачи - SolveSubTask}
+Если применяем метод ППЗ, то \textbf{SolveSubTask} - решить подзадачу до конца (до получения псевдо-решения). Иначе просто сделаем ветвление подзадачи. В случае $dim=2$ в обеих случаях надо получить какое-то решение, но перед тем как получить его надо проверить правильность пути.
+\subsubsection{C использованием ППЗ}
+\begin{lstlisting}
+void Task::SolveSubTask(SubTask*& st, int Position) { //right sequence subtask to the bottom, Position - Num in Zadachi
+	if(st->GetnDim()!=2){
+		int nXdel,nYdel;
+		st->BestNull(nXdel,nYdel);
+		SubTask* Right;
+		Right=st->MakeRight(nXdel,nYdel);//Right - Right SubTask, st - Left SubTask
+	
+		//Print two SubTasks
+		cout<<"#"<<Position<<"   Left"<<endl;
+		cout<<*st<<endl;
+		cout<<"#"<<nKol+1<<"   Right Chosen ("<<nXdel<<","<<nYdel<<")"<<endl;
+		cout<<*Right<<endl;
+		
+		//Add to Zadachi
+		AddSubTask(st,Position);
+		nKol++; //cout<<"nKol: "<<endl;
+		AddSubTask(Right,0);
+		SubTask* RRight = Right;
+		while(RRight->GetnDim()!=2){ // Cycle
+			Right = RRight;
+			Right->BestNull(nXdel,nYdel);
+			RRight=Right->MakeRight(nXdel,nYdel);
+
+			cout<<"#"<<nKol<<"   Left"<<endl;
+			cout<<*Right<<endl;
+			cout<<"#"<<nKol+1<<"   Right Chosen ("<<nXdel<<","<<nYdel<<")"<<endl;
+			cout<<*RRight<<endl;
+
+			AddSubTask(Right,nKol);
+			nKol++; //cout<<"nKol: "<<endl;
+			AddSubTask(RRight,0);
+		}
+		//when nDim=2
+		SolveSubTask(RRight,nKol);
+	}
+	else {
+		Path* Curr; Curr = new Path;
+		int CurrOpt = st->Solve(*Curr);
+		if(CurrOpt < nOpt && st->GetPrevOK()) {
+			nOpt=st->Solve(*pOpt);
+			cout<<"Solving with brute force..."<<endl;
+			cout<<"Current pseudo-path: ";
+			for(int i=1;i<=nDimAll;i++)
+			cout<<Curr->Get(i)<<" ";
+			cout<<endl;
+		}
+		else { //Failed 
+			delete Zadachi[Position];
+			for(int j=Position;j<nKol;j++)
+			Zadachi[j]=Zadachi[j+1];//move
+			Zadachi[nKol]=NULL;
+			nKol--;
+			cout<<"Solving with brute force..."<<endl;
+			cout<<"CurrOpt = "<<CurrOpt<<endl<<"CurrPath: ";
+			for(int i=1;i<=nDimAll;i++) cout<<Curr->Get(i)<<" ";
+			cout<<"\nSOLVING FAILED! GOT BIGGER SOLUTION OR INVALID PATH!"<<endl;
+		}
+		delete Curr;
+	}
+}
+\end{lstlisting}
+\subsubsection{Без использования ППЗ}
+\begin{lstlisting}
+void Task::SolveSubTask(SubTask*& st, int Position) { //divide into two subtask or solve dim=2, Position - Num in Zadachi
+	if(st->GetnDim()!=2){
+		int nXdel,nYdel;
+		SubTask* Right;
+		st->BestNull(nXdel,nYdel);
+		Right=st->MakeRight(nXdel,nYdel);//Right - Right SubTask, st - Left SubTask
+		
+		//Print two SubTasks
+		cout<<"#"<<Position<<"   Left"<<endl;
+		cout<<*st<<endl;
+		cout<<"#"<<nKol+1<<"   Right Chosen ("<<nXdel<<","<<nYdel<<")"<<endl;
+		cout<<*Right<<endl;
+		
+		//Add to Zadachi
+		AddSubTask(st,Position);
+		nKol++;
+		AddSubTask(Right,0);
+	}
+	else {
+		//.... 
+		}
+		else { //Failed 
+			//.....
+		}
+		
+		delete Curr;
+		cout<<"----------------"<<endl;
+		cout<<"nKol= "<<nKol<<" nOpt= "<<nOpt<<endl;
+		cout<<"----------------"<<endl;
+		cout<<"----------------"<<endl;
+	}
+}
+\end{lstlisting}
+\subsection{Добавление, удаление и выбор следующего ветвления - AddSubTask, DelTail, BestNext}
+\emph{Добавление} - Добавить подзадачу \textbf{st} в позицию \textbf{Position} в список указателей на подзадачи. \\
+\emph{Удаление} - Удалить все имеющие в данный момент подзадачи, у которых значения границ больше \textbf{nGran}, соответстветнно сдвигать все остальные подзадачи в списке.\\
+\emph{Выбор следущего ветвления} - Из имеющего списка подзадач выбрать подзададу, у которой имеется наименьшую границу, как следующее ветвление. 
+\begin{lstlisting}
+void Task::AddSubTask(SubTask* st, int Position) {//Add SubTask to Position - if Position == 0 then Add to Last;  
+	if(Position) Zadachi[Position]=st;
+	else Zadachi[nKol]=st;//the nKol's Subtask - st
+}
+
+int Task::DelTail(int gran) { //Delete all branches that bound>=gran
+	int i=1;
+	while(i<=nKol){
+		if(Zadachi[i]->GetGran()>=gran){
+			delete Zadachi[i];
+			for(int j=i;j<nKol;j++)
+			Zadachi[j]=Zadachi[j+1];//move
+			Zadachi[nKol]=NULL;
+			nKol--;
+		}
+		else i++;
+	}
+	return nKol;
+}
+
+int Task::BestNext(){ //Find next branch - Min of bounds
+	int Min = nInfty;
+	int MinNum;
+	for(int i=1;i<=nKol;i++) 
+	if(Zadachi[i]->GetGran()<Min){
+		Min = Zadachi[i]->GetGran();
+		MinNum = i;
+	}
+	return MinNum;
+}
+\end{lstlisting}
+\subsection{Итоговая процедура - Run}
+\subsubsection{C использованием ППЗ}
+\begin{lstlisting}
+void Task::Run() {
+	SubTask* First;
+	First = ExtractFirst();
+	//cout<<"#0 Original task with reduction"<<endl; cout<<*First<<endl;
+	SolveSubTask(First,1);
+	DelTail(nOpt);
+	while(nKol!=0){
+		SolveSubTask(Zadachi[BestNext()],BestNext());
+		DelTail(nOpt);
+	}
+	
+	cout<<"\nEND OF ALGORITHM!";
+	cout<<"\nOptimal solution: "<<nOpt;
+	cout<<"\nOptimal Path: ";
+	for(int i=1;i<=nDimAll;i++)
+		cout<<pOpt->Get(i)<<" ";
+	cout<<endl;
+}
+\end{lstlisting}
+\subsubsection{Без использования ППЗ}
+\begin{lstlisting}
+void Task::Run() {
+	SubTask* First;
+	First = ExtractFirst();
+	AddSubTask(First,1);
+	//cout<<"#0 Original task with reduction"<<endl; cout<<*First<<endl;
+	while(nKol!=0){
+		DelTail(nOpt); 
+		if(nKol==0) break; // After delete all subtasks are cancelled - END 
+		SolveSubTask(Zadachi[BestNext()],BestNext());
+	}
+	
+	cout<<"\nEND OF ALGORITHM!";
+	cout<<"\nOptimal solution: "<<nOpt;
+	cout<<"\nOptimal Path: ";
+	for(int i=1;i<=nDimAll;i++)
+	cout<<pOpt->Get(i)<<" ";
+	cout<<endl;
+}
+\end{lstlisting}
+
+Далее представлен качественный анализа МВГ. Для удобства анализа времени на печать подается вся необходимая информация (размерность, граница, номер в списке задач...) каждой задачи \emph{кроме самой матрицы}. (Конечно, если непечать только финальный результат, то будет ещё быстрое время, но на всякие случаи напечать все подзадачи...)
+\section{Решение задачи без ограничения времени}
+В данной части представлены результаты выполнений программы на двух размерности и двух вида вызова подзадач. Надо заметить, что здесь \emph{разные запуски - разные случайно сгенерированные матрицы!} Подробные результаты см. Таблица 1.\\
+\textbf{T} обшее - среднее арифметическое \textbf{T1}, \textbf{T2} и \textbf{T3}. В качестве \emph{характеристик} берём значения \textbf{T}. Единицей измерения является секунда. Из таблицы видно:
+\begin{enumerate}
+	\item Время выполнения не слабо зависит от данных исходной задачи (хотя размерности задач равны). От задачи к задаче время на выполнение может сильно отклоняться. 
+	\item Размерность задачи существенна для времени выполнения.
+	\item Использование правила ППЗ тоже дает большой вклад в обшее время выполнение. Зато у него своя особенность применения. Это будет обсуждаться ниже.
+\end{enumerate}
+\begin{table}[]
+	\label{1}
+	\centering
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline
+			Размерность& \multicolumn{2}{c|}{23} & \multicolumn{2}{c|}{33} \\ \hline
+			Номер/Метод& Без ППЗ & с ППЗ  & Без ППЗ   & с ППЗ    \\ \hline
+			1 &    1.465& 36.327   &    14.941        &   14.095         \\ \hline
+			2 &    2.759&  21.204    &    15.682        &   37.508         \\ \hline
+			3 &      1.346&  5.926     &     3.478       &    82.188        \\ \hline
+			4&        4.129 &   24.414       &   21.887         &   34.241         \\ \hline
+			5&        9.959    &  21.497     &   2.502         &  43.727          \\ \hline
+			6&         0.561   &   24.252    &    17.424        &    33.471        \\ \hline
+			7&        0.319   &  10.443  &    3.001        &   83.671         \\ \hline
+			8&         1.637   &      4.510  &    2.971        &  42.148          \\ \hline
+			9&         0.640   &   8.896  &      4.727      &  38.729          \\ \hline
+			10&          5.473   &   20.523   &       9.691     &    46.965        \\ \hline
+			\textbf{T}& \textbf{2.829}  & \textbf{17.800}  & \textbf{9.630}   &  \textbf{45.674}       \\ \hline
+			
+		\end{tabular}
+		\caption{Время выполнение тестовых запусков для разных размерностей и разных методов вызова функций. (полное выполнение программы)}
+\end{table}
+
+\section{Решение задачи с ограничением времени}
+Здесь представлены результаты выполнений программы \emph{с ограниченными временами}. В качестве долей возьмём $0.01\cdot$\textbf{T}, $0.03\cdot$\textbf{T}, $0.1\cdot$\textbf{T}, $0.3\cdot$\textbf{T}, $0.5\cdot$\textbf{T}. Зафиксируем значение текущего псевдо-оптимального решения при окончании выделенного времени и значения оптимального решения при окночании всей программы. Подробные результаты см. Таблица 2,3.\\
+
+Единица измерения - секунда. \textbf{пер.псев.} - момент появления \emph{первого псевдорешения}. \textbf{опт.} - время получения \emph{оптимального решения}. \textbf{проц.} - процент \textbf{пер.псев.}  от \textbf{опт.}. \\
+
+Из Таблицы 2 можно увидеть, что при отсутствии использования правила ППЗ момент появления первого размерности \emph{достаточно поздно}, поэтому без смысла подробно исследовать этот случай. Даже при 0.5*\textbf{T} качество решения будет плохой из-за редкости попадания псевдорешения в это время. \\
+
+Таблицы 3 показывает преимущество метода ППЗ: хотя он дает больше время выпонения всей программы, но он \emph{быстрее дает первое псевдорешение}. Этот эффект сильнее при увеличении размерности: При dim = 23 пер.псев. = 28.6805, а при dim = 33 пер.псев. = 2.7174. \\
+\\
+\\
+
+\begin{table}[]
+	\label{2}
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		Размерность& \multicolumn{3}{c|}{23}     & \multicolumn{3}{c|}{33}                \\ \hline
+		Метод & \multicolumn{6}{c|}{Без ППЗ}        \\ \hline
+		Номер   & пер.псев & опт. & проц. & пер.псев. & опт. & проц.  \\ \hline
+		1  & 10.117 & 10.145 & 99.72\% & 29.868 & 29.898 & 99.90\% \\ \hline
+		2  & 2.583  & 2.619  & 98.63\% & 76.275 & 76.344 & 99.91\% \\ \hline
+		3  & 2.533  & 2.56   & 98.95\% & 9.46   & 9.476  & 99.83\% \\ \hline
+		4  & 0.942  & 0.966  & 97.52\% & 37.115 & 37.16  & 99.88\% \\ \hline
+		5  & 4.99   & 5.006  & 99.68\% & 22.797 & 22.842 & 99.80\% \\ \hline
+		6  & 5.018  & 5.034  & 99.68\% & 27.82  & 27.849 & 99.90\% \\ \hline
+		7  & 1.131  & 1.153  & 98.09\% & 2.691  & 2.711  & 99.26\% \\ \hline
+		8  & 3.660  & 3.683  & 99.38\% & 14.856 & 14.900 & 99.70\% \\ \hline
+		9  & 4.154  & 4.173  & 99.54\% & 45.758 & 45.79  & 99.93\% \\ \hline
+		10 & 4.762  & 4.784  & 99.54\% & 20.165 & 20.177 & 99.94\% \\ \hline
+		 \textbf{Среднее} & \textbf{3.989} & \textbf{4.0123} & \textbf{99.07\%} & \textbf{28.6805} & \textbf{28.7147} & \textbf{99.81\%} \\ \hline
+	\end{tabular}
+	\caption{Отношения времени получения первого псевдорешения к времени получения оптимального решения \textbf{без} метода вызова ППЗ. }
+\end{table}
+
+\begin{table}[]
+	\label{3}
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		Размерность& \multicolumn{3}{c|}{23}     & \multicolumn{3}{c|}{33}                \\ \hline
+		Метод & \multicolumn{6}{c|}{С ППЗ}        \\ \hline
+		 Номер  & пер.псев & опт. & проц. & пер.псев. & опт. & проц.  \\ \hline
+		1  & 0.369 & 8.504  & 4.34\%  & 1.493 & 73.005  & 2.05\%  \\ \hline
+		2  & 0.287 & 6.702  & 4.28\%  & 1.88  & 42.659  & 4.41\%  \\ \hline
+		3  & 2.209 & 19.831 & 11.14\% & 1.905 & 20.966  & 9.09\%  \\ \hline
+		4  & 6.643 & 45.126 & 14.72\% & 2.79  & 56.291  & 4.96\%  \\ \hline
+		5  & 0.309 & 4.666  & 6.62\%  & 2.018 & 12.328  & 16.37\% \\ \hline
+		6  & 1.331 & 42.232 & 3.15\%  & 4.086 & 32.725  & 12.49\% \\ \hline
+		7  & 0.568 & 5.344  & 10.63\% & 4.509 & 49.087  & 9.19\%  \\ \hline
+		8  & 0.618 & 14.336 & 4.31\%  & 1.575 & 105.114 & 1.50\%  \\ \hline
+		9  & 1.326 & 10.887 & 12.18\% & 4.545 & 38.476  & 11.81\% \\ \hline
+		10 & 0.328 & 6.344  & 5.17\%  & 2.373 & 7.077   & 33.53\% \\ \hline
+		\textbf{Среднее} & \textbf{1.3988 }& \textbf{16.3972 }& \textbf{7.65\% } & \textbf{2.7174} & \textbf{43.7728} & \textbf{10.54\%} \\ \hline
+	\end{tabular}
+	\caption{Отношения времени получения первого псевдорешения к времени получения оптимального решения для метода вызова ППЗ. }
+\end{table}
+\section{Формирование качества решения задачи}
+Таблица 4 и 5 показывают качества решения задачи при использовании метода ППЗ на разных размерностях. Можно из результатов увидеть:
+\begin{enumerate}
+	\item При 0.01*\textbf{T} и 0.03*\textbf{T} качество решения плохое из-за того, что \emph{за это время редко получить первое псевдорешение} (это можно увидеть из Таблицы 3 нашего анализа), поэтому много $\infty$ получились за псевдорешение. Зато если псевдорешение появится, то оно прямо является оптимальным: это обусловленно тем, что при этом случае заранее получить высокую границу и удалять из списка все имеющие подзадачи, это и есть оптимальное.
+	\item А при  0.1*\textbf{T}, 0.3*\textbf{T} и 0.5*\textbf{T} результат становится всё лучше и лучше, даже при 0.3*\textbf{T} и 0.5*\textbf{T} очень близко к истинному значению. Это показывает достоинство метода ППЗ: \emph{с небольшим затратом времени можно получить достаточное хорошее решение}. 
+	\item Результат лучшее при увеличении размерности. Когда dim = 33 качество уже близко к истинному. (Из таблицы 3 - была 10.54\% для dim = 33 с ППЗ, поэтому дает большой шанс появления первого псевдорешения за 0.1*\textbf{T}.)
+	
+\end{enumerate} 
+\begin{table}[]
+	\label{4}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		Dim& \multicolumn{15}{c|}{23}                                                                                                               \\ \hline
+		M& \multicolumn{15}{c|}{С ППЗ}                                                                                                              \\ \hline
+		*\textbf{T}& \multicolumn{3}{c|}{0.01} & \multicolumn{3}{c|}{0.03} & \multicolumn{3}{c|}{0.1} & \multicolumn{3}{c|}{0.3} & \multicolumn{3}{c|}{0.5} \\ \hline
+		val&   опт.&  псе.& \% &   опт.&  псе.& \%  &   опт.&  псе.    & \%  &  опт.&  псе.    & \%  &   опт.&  псе.    & \%              \\ \hline
+		1  &   - & $\infty$         &  0      &   - & $\infty$     &    0    &   159     & 186   & 86   &   189     &  189      &    100    & 145       &  145      &   100             \\ \hline
+		2   &   - & $\infty$     &  0      &   - & $\infty$   &  0      &   190     & 191  &99     &   186     & 186       &    100    &  160      &   160     &   100            \\ \hline
+		3   &   - & $\infty$     &   0     &   - & $\infty$      & 0      &     208   &  225   & 92  &    168    &    170    &   99     &   172     &   172     &   100             \\ \hline
+		4   &   - & $\infty$     &   0     &  188       &    188    &  100      &   179     & 196    &  91 &  185      &    189    &  98      &    196    &    196    &    100          \\ \hline
+		5   &   - & $\infty$     &   0     &   - & $\infty$     &  0     &    212    &    212 &  100 &   192     &  192      &  100      &   200     & 202       &    99            \\ \hline
+		6   &   - & $\infty$    &   0    &   - & $\infty$     &    0    &     209   &  $\infty$   & 0   &   195     &   195     & 100       &    188    &   188    &   100             \\ \hline
+		7   &   - & $\infty$    &   0     &  221       &   221     & 100    &  176      &  180   &  98 &    142    &  142      &   100     &   198     &  198      &     100        \\ \hline
+		8   &   - & $\infty$      &   0     &  156       &   156     &  100     &  195      &  $\infty$   & 0  &  187      &      193  &    97    &   189     & 189       &   100             \\ \hline
+		9   &   - & $\infty$    &  0       &   - & $\infty$   &  0     &     175   &    175  & 100 &   232     &    234    &    99    &     240   &  240      &  100              \\ \hline
+		10  &   - & $\infty$     &   0     &   - & $\infty$    &  0     &   81     &    89 &  91 &    142    &  144      &    99    &  141      & 144       &     99         \\ \hline
+		\textbf{K}& \multicolumn{3}{c|}{\textbf{0.0\%}} & \multicolumn{3}{c|}{\textbf{30.0\%}} & \multicolumn{3}{c|}{\textbf{75.7\%}} & \multicolumn{3}{c|}{\textbf{99.2\%}} & \multicolumn{3}{c|}{\textbf{99.8\%}} \\ \hline
+	\end{tabular}
+\caption{Качества решения размерности \textbf{23} при разных заказах долей времени методом вызова ППЗ. }
+\end{table}
+
+\begin{table}[]
+	\label{5}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		Dim& \multicolumn{15}{c|}{33}                                                                                                               \\ \hline
+		M& \multicolumn{15}{c|}{С ППЗ}                                                                                                              \\ \hline
+		*\textbf{T}& \multicolumn{3}{c|}{0.01} & \multicolumn{3}{c|}{0.03} & \multicolumn{3}{c|}{0.1} & \multicolumn{3}{c|}{0.3} & \multicolumn{3}{c|}{0.5} \\ \hline
+		val&   опт.&  псе.& \% &   опт.&  псе.& \%  &   опт.&  псе.    & \%  &  опт.&  псе.    & \%  &   опт.&  псе.    & \%              \\ \hline
+		1  &   - & $\infty$         &  0      &   - & $\infty$     &    0    &   154     & 159   & 97   &   206     &  206      &    100    & 197      &  197      &   100             \\ \hline
+		2   &   - & $\infty$     &  0      &   - & $\infty$   &  0      &   154     & 156  &99     &   200     & 200       &    100    &  198      &   200    &   99            \\ \hline
+		3   &   - & $\infty$     &   0     &   - & $\infty$      & 0      &     181   &  183   & 99  &    158    &    158    &   100     &   157     &   157     &   100             \\ \hline
+		4   &   192 & 192     &  100     &  -       &   $\infty$     & 0     &   158     & 161    &  98 &  202      &    202    &  100     &    213    &    213   &    100          \\ \hline
+		5   &   - & $\infty$     &   0     &   192 & 200     &  96     &    184    &    184 &  100 &   237     &  237      &  100      &   229     & 229       &    100            \\ \hline
+		6   &   - & $\infty$    &   0    &   - & $\infty$     &    0    &     175   &  175   & 100   &   183     &   183     & 100       &    187    &   187    &   100             \\ \hline
+		7   &   - & $\infty$    &   0     &  221       &   221     & 100    &  185     &  198  &  93 &    167    &  167      &   100     &   186     &  186     &     100       \\ \hline
+		8   &   - & $\infty$      &   0     &  -       &   $\infty$     &  0    &  165      &  179   & 92  &  189      &      189  &    100    &   162     & 162       &   100             \\ \hline
+		9   &   - & $\infty$    &  0       &   - & $\infty$   &  0     &     199   &    205  & 97 &   232     &    234    &    98   &     190   &  190      &  100              \\ \hline
+		10  &   - & $\infty$     &   0     &   - & $\infty$    &  0     &   178     &  182 &  98 &    192    &  200      &    96    &  140      & 140       &     100        \\ \hline
+		\textbf{K}& \multicolumn{3}{c|}{\textbf{10.0\%}} & \multicolumn{3}{c|}{\textbf{19.6\%}} & \multicolumn{3}{c|}{\textbf{97.3\%}} & \multicolumn{3}{c|}{\textbf{99.4\%}} & \multicolumn{3}{c|}{\textbf{99.9\%}} \\ \hline
+	\end{tabular}
+	\caption{Качества решения размерности \textbf{33} при разных заказах долей времени методом вызова ППЗ. }
+\end{table}
+\end{document}
+
