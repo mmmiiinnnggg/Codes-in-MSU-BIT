@@ -1,0 +1,279 @@
+\documentclass{article}
+\usepackage[T2A]{fontenc}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{xeCJK}% 调用 xeCJK 宏包
+\usepackage{verbatim}
+\usepackage[pdfborder=000]{hyperref}
+\setCJKmainfont{SimHei}
+
+\begin{document}
+\author{Сюй Минчуань}
+\title{Математические Модели в Физике. \\
+Основные результаты}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Классификация линейных уравнений в частных производных 2-го порядка}
+\section{Задача Штурма-Лиувилля}
+\subsection{Определения и теоремы}
+\begin{equation}
+\label{1}
+\begin{aligned}
+Ly=\frac{d}{dx}\left(p(x)\frac{dy(x)}{dx}\right)-q(x)y(x)=-\lambda y(x), \quad 0\le x\le l\\
+\alpha_1y'(0)+\beta_1 y(0)=0,\quad \alpha_2y'(l)+\beta_2 y(l)=0
+\end{aligned}
+\end{equation}
+Известны: самосопряженный оператор $L$ в уравнении $(\ref{1})$ при $p(x)\in C^1[0,l]; q(x)\in C[0,l]; \alpha_1,\beta_1,\alpha_2,\beta_2\in \mathbb{R};p(x)>0\,\forall x\in[0,l];\alpha_i^2+\beta_i^2,i=1,2;\lambda\in \mathbb{C}$.\\
+
+\noindent\textbf{Определение} Если для $\lambda_1\,\exists$ решение $y_1(x)\not\equiv0$ краевой задачи (\ref{1}), то $\lambda_1$ называется \emph{собственным значением}, а $y_1(x)$ - \emph{собственной функцией}.\\
+
+\noindent\textbf{Теорема} Все собственные значения и собственные функции задачи Штурма-Лиувилля (\ref{1}) действительны.\\
+
+\noindent\textbf{Теорема} Каждому собственному значению соответствует только одна собственная функция.\\
+
+\noindent\textbf{Теорема} Собственные функции, соответствующие различным собственным значениям являются ортогональными.\\
+
+\noindent\textbf{Теорема} Пусть $\alpha_1=\alpha_2=0$. Тогда если $\lambda_1$ - собственные значения, а $y_1(x)$ - его собственная функция, то 
+\begin{equation}
+\lambda_1\ge \min_{0\le x\le l} q(x).
+\end{equation}
+
+\subsection{Типичные задачи Штурма-Лиувилля}
+\begin{enumerate}
+	\item  \begin{equation}
+	\left\{\begin{array}{cc}
+	X_n^{\prime \prime}(x)+\lambda_nX_n(x)=0,\quad 0\le x\le l,\\
+	X_n(0)=0,\quad X_n(l)=0,\\
+	\end{array}\right.
+	\end{equation}
+	\begin{equation}
+	X_n(x)=\sqrt{\frac{2}{l}}\sin\frac{\pi nx}{l},\quad\lambda_n=\left( \frac{\pi n}{l}\right)^2,n\in\mathbb{N}.
+	\end{equation}
+	
+	\item  \begin{equation}
+	\left\{\begin{array}{cc}
+	X_n^{\prime \prime}(x)+\lambda_nX_n(x)=0,\quad 0\le x\le l,\\
+	X_n'(0)=0,\quad X_n'(l)=0,\\
+	\end{array}\right.
+	\end{equation}
+	\begin{equation}
+	X_0(x)=\sqrt{\frac{1}{l}},X_n(x)=\sqrt{\frac{2}{l}}\cos\frac{\pi nx}{l},\quad\lambda_0=0,\lambda_n=\left( \frac{\pi n}{l}\right)^2,n\in\mathbb{N}.
+	\end{equation}
+	
+	\item  \begin{equation}
+	\left\{\begin{array}{cc}
+	X_n^{\prime \prime}(x)+\lambda_nX_n(x)=0,\quad 0\le x\le l,\\
+	X_n(0)=0,\quad X_n'(l)=0,\\
+	\end{array}\right.
+	\end{equation}
+	\begin{equation}
+	X_n(x)=\sqrt{\frac{2}{l}}\sin\frac{\pi (n-1/2)x}{l},\quad,\lambda_n=\left( \frac{\pi (n-1/2)}{l}\right)^2,n\in\mathbb{N}.
+	\end{equation}
+	
+	\item  \begin{equation}
+	\left\{\begin{array}{cc}
+	X_n^{\prime \prime}(x)+\lambda_nX_n(x)=0,\quad 0\le x\le l,\\
+	X_n'(0)=0,\quad X_n(l)=0,\\
+	\end{array}\right.
+	\end{equation}
+	\begin{equation}
+	X_n(x)=\sqrt{\frac{2}{l}}\cos\frac{\pi (n-1/2)x}{l},\quad,\lambda_n=\left( \frac{\pi (n-1/2)}{l}\right)^2,n\in\mathbb{N}.
+	\end{equation}
+	
+	\item \begin{equation}
+	\left\{\begin{array}{cc}
+	X_n^{\prime \prime}(x)+\lambda_nX_n(x)=0,\quad 0\le x\le l,\\
+	X_n(0)-\alpha X_n^{\prime}(0)=0,\quad X_n(l)+\beta X_n^{\prime}(l)=0,\\
+	\end{array}\right.
+	\end{equation}
+	\begin{equation}
+	X_n(x)=C_1\cos\sqrt{\lambda_n}x+C_2\sin\sqrt{\lambda_n}x
+	\end{equation}
+	где $\sqrt{\lambda_n}$ - корни уравнении 
+	\begin{equation}
+	\frac{(\alpha+\beta)\sqrt{\lambda_n}}{\alpha\beta\lambda_n-1}=\operatorname{tg}\sqrt{\lambda_n}l,\quad n\in\mathbb{N}.
+	\end{equation}
+	
+	\item \begin{equation}
+	\left\{\begin{array}{cc}
+	X_n^{\prime \prime}(x)+\lambda_nX_n(x)=0,\quad 0\le x\le l,\\
+	X_n(0)=0,\quad X_n(l)+\beta X_n^{\prime}(l)=0,\\
+	\end{array}\right.
+	\end{equation}
+	\begin{equation}
+	X_n(x)=C_1\cos\sqrt{\lambda_n}x+C_2\sin\sqrt{\lambda_n}x
+	\end{equation}
+	где $\sqrt{\lambda_n}$ - корни уравнении $\beta\sqrt{\lambda_n}=\operatorname{tg}\sqrt{\lambda_n}l,\,n\in\mathbb{N}.$
+	
+	\item \begin{equation}
+	\left\{\begin{array}{cc}
+	\Phi_n^{\prime \prime}(\varphi)+\mu_n\Phi_n(\varphi)=0,\quad 0\le \varphi\le 2\pi,\\
+	\Phi_n(0)=\Phi_n(2\pi),\quad \Phi_n^{\prime}(0)=\Phi_n^{\prime}(2\pi),\\
+	\end{array}\right.
+	\end{equation}
+	\begin{equation}
+	\Phi_n(\varphi)\in\left\{ \frac{1}{\sqrt{2\pi}};\frac{1}{\sqrt{\pi}}\cos(n\varphi);\frac{1}{\sqrt{\pi}}\sin(n\varphi)\right\}.
+	\end{equation}
+	\begin{equation}
+	\sqrt{\mu_n}=n\in\mathbb{N}\cup\{0\}.
+	\end{equation}
+\end{enumerate}
+\section{Теорема Стеклова}
+\textbf{Теорема} Если $f(x)\in C^2[0,l]$ и удовлетворяет краевым условиям задачи (\ref{1}), то ряд $\sum_{n=1}^{+\infty} f_ny_n(x)$ сходится равномерно на $[0,l]$ к функции $f(x)$, то есть
+\begin{equation}
+f(x)=\sum_{n=1}^{+\infty} f_ny_n(x),\quad 0\le x\le l.
+\end{equation}
+где $\{y_n(x)\}$ - ортонормированная система функций, $f_n=(f,y_n)/\|y_n\|^2$ - коэффициент Фурье. (Если система уже ортонормированная, то не нужно деление на квадрат нормы собственной функции.)
+\section{Цилиндрические функции}
+\subsection{Уравнение Бесселя на $(0,1)$}
+\begin{equation}
+x^2Z''(x)+xZ'(x)+(x^2-v^2)Z(x)=0
+\label{2}
+\end{equation}
+\textbf{Определение} Всякое решение уравнения Бесселя называется \emph{цилиндрическиой функцией}.\\
+
+\noindent\textbf{Определение} Функция
+\begin{equation}
+J_v(x)=\sum_{k=0}^{\infty} \frac{(-1)^k}{\Gamma(k+v+1)k!}\cdot \left(\frac{x}{2}\right)^{2k+v}
+\end{equation}
+называется \emph{функцией Бесселя порядка $v$} и является на $(0,1)$ решением уравнения (\ref{2}).\\
+
+\noindent\textbf{Определение} \emph{Функция Неймана}
+\begin{equation}
+N_v(x)=\frac{1}{\sin(\pi v)}[J_v(x)\cos(\pi v)-J_{-v}(x)],\quad v\notin \mathbb{Z};
+\end{equation}
+\begin{equation}
+N_n(x)=\frac{1}{\pi} \left[\frac{\partial J_v(x)}{\partial v}-(-1)^n\frac{\partial J_{-v}(x)}{\partial v}\right]_{v=n},\quad n\in\mathbb{Z}.
+\end{equation}
+\textbf{Теорема} Фундаментальную систему решений (ФСР) уравнеия Бесселя (\ref{2}) образует пара функций $\{J_v(x),N_v(x)\}$, и в случае, когда $x\notin \mathbb{Z}: \quad \{J_v(x),J_{-v}(x)\}$. При $n\in \mathbb{Z}:\quad J_{-n}(x)=(-1)^nJ_n$\\
+
+\noindent\textbf{Следствие} Общее решение уравнеия Бесселя (\ref{2}) задается формулой
+\begin{equation}
+Z_v(x)=C_1J_v(x)+C_2N_v(x),\quad v\in\mathbb{R},
+\end{equation}
+или
+\begin{equation}
+Z_v(x)=C_3J_v(x)+C_4J_{-v}(x),\quad v\notin\mathbb{Z}.
+\end{equation}
+\textbf{Рекуррентные формулы цилиндрических функций} 
+\begin{equation}
+\begin{aligned}
+Z_v'(x)&=Z_{v-1}(x)-\frac{v}{x}Z_v(x),\\
+Z_v'(x)&=-Z_{v+1}'(x)+\frac{v}{x}Z_v(x).
+\end{aligned}
+\end{equation}
+Для $v=n\in\mathbb{Z}$ верно
+\begin{equation}
+Z_{-n}(x)=(-1)^nZ_n(x),\quad n\in\mathbb{Z}.
+\end{equation}
+
+\subsection{Задача Штурма-Лиувилля для уравнения Бесселя на $[0,R]$}
+\textbf{Определение} \emph{Задачей Штурма-Лиувилля для уравнения Бесселя на $[0,R]$} называется задача
+\begin{equation}
+\left\{\begin{array}{cc}
+-\frac{\partial}{\partial r}\left( r\frac{\partial u}{\partial r}\right) + \frac{v^2}{r}u=\lambda ru,\quad r\in(0,R),v\ge 0;\\
+|u(+0)|<=\infty;\\
+\alpha u(R) +\beta u'(R)=0,\quad \alpha,\beta\ge 0,\alpha+\beta>0.
+\end{array}\right.
+\end{equation}
+Надо найти $\lambda$ и функци $0\not\equiv u(r)\in C^2[0,R];\frac{L_v(u)}{\sqrt{r}}\in L_2(0,R)$. $\lambda$ - \emph{собственные значения}, $u(r)$ - \emph{собственные функции}. 
+
+\noindent\textbf{Теорема} Все собственные значения задачи Штурма-Лиувилля неотрицательны и кратности $1$. Кроме того, число $\lambda =0$ есть собственное значение тогда и только тогда, когда $v=\alpha=0$, и ему соответствует собственная функция $u(r)=\operatorname{const}$.\\
+
+\noindent\textbf{Теорема} Все положительные собственные значения задачи Штурма-Лиувилля и соответствующие им собственные функции имеют вид
+\begin{equation}
+\lambda_k^{(v)}=\left[\frac{\mu_k^{(v)}}{R}\right]^2,\quad J_v\left(\frac{\mu_k^{(v)}r}{R}\right),\quad k\in \mathbb{N}.
+\end{equation}
+где $\mu_k^{(v)}$ - положительные корни уравнения
+\begin{equation}
+\alpha RJ_v(\mu)+\beta\mu J_v'(\mu)=0.
+\end{equation}
+\subsection{Задача Штурма-Лиувилля для уравнения Бесселя на $[a,b]$}
+\textbf{Теорема(Аналог теоремы Стеклова)} Пусть $\{Z_k\}_{k=1}^{\infty}$ - ортогональная система собственных функций задачи Штурма-Лиувилля. Тогда, $\forall f(x)\in C^2[a,b]$, удовлетворяющей краевым условиям, $\exists\{c_k\}_{k=1}^{\infty}$:
+\begin{equation}
+f=\sum_{k=1}^{\infty} c_kZ_k(x),
+\end{equation}
+причем ряд сходится к $f(x)$ абсолютно и равномерно на $[a,b]$, а для $c_k$ верно
+\begin{equation}
+c_k=\frac{(f,Z_k)}{\|Z_k\|^2}=\frac{\int_{a}^{b}xf(x)Z_k(x)dx}{\int_{a}^{b}xZ_k^2(x)dx}
+\end{equation}
+продолжение следует.....
+\section{Сферические функции}
+\textbf{Определение} \emph{Уравнение Лежандра}:
+\begin{equation}
+\frac{d}{x}\left[(1-x^2)\frac{dy(x)}{x}\right]+\lambda y(x)=0,\quad x\in(-1,1).
+\label{3}
+\end{equation}
+\textbf{Теорема} Ограниченная функция $y(x)\not\equiv0$ есть решение уравнении (\ref{3}).
+\begin{enumerate}
+	\item $\lambda = n(n+1) $, где $n=0,1,2,\ldots;$
+	\item функция $y(x)$ является полиномом степени $n$, называемым \emph{полиномом Лежандра}, и может быть найдена по \emph{формуле Родрига}:
+	\begin{equation}
+	y(x)=P_n(x)=\frac{1}{2^nn!}\cdot \frac{d^n}{dx^n}\left[\left(x^2-1\right)^n\right].
+	\end{equation} 
+\end{enumerate}
+Рекурретные формулы и полезные соотношения, связвнные с полиномом Лежандра, а также первые несколько полиномов.\\
+
+\noindent\textbf{Теорема Ортогональность и норма полиномов Лежандра}
+\begin{equation}
+(P_k(x),P_n(x))=\equiv \int_{-1}^{1}P_k(t)P_n(t)dt=\left\{\begin{array}{l}
+0,\quad k\ne n;\\
+\frac{2}{2k+1},\quad k=n.\\
+\end{array}\right.
+\end{equation} 
+
+\noindent\textbf{Теорема Разложение в ряд по полиномам Лежандра от косинусов} Пусть $f(\theta)\in C^2[0,\theta]$. Тогда $f(\theta)$ разложима в следующий ряд Фурье
+\begin{equation}
+f(\theta)=\sum_{k=0}^{\infty} f_kP_k(\cos\theta),\quad f_k=\frac{2k+1}{2}\int_{0}^{\pi} f(\theta) P_k(\cos\theta) \sin\theta d\theta, \quad \theta\in[0,\pi].
+\label{4}
+\end{equation}
+При этом ряд (\ref{4}) сходится к $f(\theta)$ \emph{равномерно} на всем сегменте $[0,\pi]$. 
+\section{Присоединенные функции Лежандра}
+Будем рассматривать задачу
+\begin{equation}
+\frac{d}{dx}\left[\left(1-x^2\right)\frac{dy(x)}{dx}\right]+\left(\lambda-\frac{m^2}{1-x^2}\right)y(x)=0,\quad x\in(-1,1).
+\label{5}
+\end{equation}
+\textbf{Теорема} Пусть ограниченная функция $y(x)\not\equiv 0$ есть решение уравнения (\ref{5}). Тогда
+\begin{enumerate}
+	\item $\lambda=n(n+1), n=0,1,\ldots,\infty$
+	\item функция $y(x)$, называемая \emph{присоединенной функцией Лежандра порядка $k$}, может быть найдена по формуле:
+	\begin{equation}
+	y(x)=P_n^m(x)=\left(1-x^2\right)^{\frac{m}{2}}\cdot\frac{d^mP_n(x)}{dx^m},\quad m=0,1,\ldots,n.
+	\end{equation}
+	\item при этом $P_n^{(0)}(x)\equiv P_n(x)$ - полиномы Лежандра, $P_n^m(x)\equiv, m>n$.
+\end{enumerate}
+
+\noindent\textbf{Определение} Функции 
+\begin{equation}
+P_n^m(\cos\theta)\cos k\varphi,\quad P_n^m(\cos\theta)\sin k\varphi,\quad m=0,1,\ldots,\infty,n=0,1,\ldots,\infty.
+\end{equation}
+называется \emph{сферическими гармониками}.\\
+
+\noindent\textbf{Теорема Ортогональность и норма присоединенных функций Лежандра}
+\begin{equation}
+(P_k^m(x),P_n^m(x))=\equiv \int_{-1}^{1}P_k^m(t)P_n^m(t)dt=\left\{\begin{array}{l}
+0,\quad k\ne n;\\
+\frac{2}{2k+1}\cdot\frac{(k+m)!}{(k-m)!},\quad k=n.\\
+\end{array}\right.
+\end{equation} 
+
+\noindent\textbf{Теорема Разложение в ряд по сферическим гармоникам} Пусть $g(\theta,\varphi)\in C^2,\theta\in[0,\pi],\varphi\in[0,2\pi],g(\theta,\varphi+2\pi)=g(\theta,\varphi)$. Тогда $g(\theta,\varphi)$ разложима в следующий ряд Фурье
+\begin{equation}
+\begin{aligned}
+g(\theta,\varphi)&=\sum_{k=0}^{\infty} \left[ \frac{\alpha_{k0}}{2} P_k(\cos\theta)+\sum_{m=1}^{k} P_k^m(\cos\theta)(\alpha_{km}\cos(m\varphi)+\beta_{km}\sin(m\varphi))\right],\\
+\alpha_{km}&=\frac{2k+1}{2\pi}\cdot\frac{(k-m)!}{(k+m)!}\int_{0}^{2\pi} d\varphi \cos(m\varphi)\int_{0}^{\pi} g(\theta,\varphi)P_k^m(\cos\theta)\sin\theta d\theta,\\
+\beta_{km}&=\frac{2k+1}{2\pi}\cdot\frac{(k-m)!}{(k+m)!}\int_{0}^{2\pi} d\varphi \sin(m\varphi)\int_{0}^{\pi} g(\theta,\varphi)P_k^m(\cos\theta)\sin\theta d\theta,\\
+\end{aligned}
+\label{6}
+\end{equation}
+При этом ряд  сходится к $g(\theta,\varphi)$ \emph{абсолютно и равномерно} на $\theta\in[0,\pi],\varphi\in[0,2\pi]$. 
+
+\end{document}
+
