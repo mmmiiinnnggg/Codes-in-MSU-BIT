@@ -1,0 +1,7 @@
+program
+var a,b: char;
+begin 
+	a:=`w`;
+	read(b);
+	if b<a then write(a) else write (b)
+end@
