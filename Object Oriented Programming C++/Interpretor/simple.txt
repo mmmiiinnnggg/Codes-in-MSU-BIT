@@ -1,0 +1,8 @@
+program
+var a: char;
+begin
+	a:=`a` ;
+	a:=`b` ;
+	if a<`x` then write(`w`);
+	write(a)
+end@
