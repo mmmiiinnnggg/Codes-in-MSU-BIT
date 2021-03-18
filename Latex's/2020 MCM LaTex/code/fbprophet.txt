@@ -1,0 +1,43 @@
+import pandas as pd  
+import numpy as np
+import matplotlib.pyplot as plt
+from fbprophet import Prophet  
+
+df1 = pd.read_csv(r'C:\Desktop\2020COMAP\reformed_hair_dryer.csv')  
+df2 = pd.read_csv(r'C:\Desktop\2020COMAP\reformed_microwave.csv')
+df3 = pd.read_csv(r'C:\Desktop\2020COMAP\reformed_pacifier.csv')
+
+m1 = Prophet()
+m2 = Prophet()
+m3 = Prophet()
+
+m1.add_country_holidays(country_name='US')
+m2.add_country_holidays(country_name='US')
+m3.add_country_holidays(country_name='US')
+
+m1.fit(df1)
+m2.fit(df2)
+m3.fit(df3)
+
+future1 = m1.make_future_dataframe(periods=365)
+future2 = m2.make_future_dataframe(periods=365)
+future3 = m3.make_future_dataframe(periods=365)
+
+future1.tail()
+future2.tail()
+future3.tail()
+
+forecast1 = m1.predict(future1)
+forecast1[['ds','yhat','yhat_lower','yhat_upper']].tail()
+forecast2 = m2.predict(future2)
+forecast2[['ds','yhat','yhat_lower','yhat_upper']].tail()
+forecast3 = m3.predict(future3)
+forecast3[['ds','yhat','yhat_lower','yhat_upper']].tail()
+
+m1.plot(forecast1,xlabel="year",ylabel="star_rating").show()
+m1.plot_components(forecast1).show()
+m2.plot(forecast2,xlabel="year",ylabel="star_rating").show()
+m2.plot_components(forecast2).show()
+m3.plot(forecast3,xlabel="year",ylabel="star_rating").show()
+m3.plot_components(forecast3).show()
+plt.show()
