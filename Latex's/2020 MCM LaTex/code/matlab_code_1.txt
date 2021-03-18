@@ -1,0 +1,29 @@
+X1=[ones(size(dryer_review)),dryer_review];
+y=dryer_rating;
+[b,bint,r,rint,stats]=regress(y,X1);
+z1=b(1)+b(2)*dryer_rating;
+figure;
+plot(dryer_review,y,'r+',dryer_rating,z1,'b');
+xlabel('reformed review value'),ylabel('star rating');
+title('hair dryer')
+grid on;
+
+X2=[ones(size(micro_review)),micro_review];
+y=micro_rating;
+[b,bint,r,rint,stats]=regress(y,X2);
+z2=b(1)+b(2)*micro_review;
+figure;
+plot(micro_review,y,'r+',micro_review,z2,'b');
+xlabel('reformed review value'),ylabel('star rating');
+title('microwave')
+grid on;
+
+X3=[ones(size(pacifier_review)),pacifier_review];
+y=pacifier_rating;
+[b,bint,r,rint,stats]=regress(y,X3);
+z3=b(1)+b(2)*pacifier_review;
+figure；
+plot(pacifier_review,y,'r+',pacifier_review,z3,'b');
+title('pacifier')
+xlabel('reformed review value'),ylabel('star rating');
+grid on;
