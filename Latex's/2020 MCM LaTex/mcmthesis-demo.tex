@@ -1,0 +1,797 @@
+%%
+%% This is file `mcmthesis-demo.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% mcmthesis.dtx  (with options: `demo')
+%%
+%% -----------------------------------
+%%
+%% This is a generated file.
+%%
+%% Copyright (C)
+%%       2010 -- 2015 by Zhaoli Wang
+%%       2014 -- 2019 by Liam Huang
+%%       2019 -- present by latexstudio.net
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The Current Maintainer of this work is Liam Huang.
+%%
+%%
+%% This is file `mcmthesis-demo.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% mcmthesis.dtx  (with options: `demo')
+%%
+%% -----------------------------------
+%%
+%% This is a generated file.
+%%
+%% Copyright (C)
+%%       2010 -- 2015 by Zhaoli Wang
+%%       2014 -- 2019 by Liam Huang
+%%       2019 -- present by latexstudio.net
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The Current Maintainer of this work is Liam Huang.
+%%
+\documentclass{mcmthesis}
+\mcmsetup{CTeX = false,   % 使用 CTeX 套装时，设置为 true
+        tcn = 2003148, problem = C,
+        sheet = true, titleinsheet = false, keywordsinsheet = true,
+        titlepage = false, abstract = true}
+\usepackage{palatino}
+%\usepackage{newtxtext}
+\usepackage{lipsum}
+%\usepackage[UTF8, nocap]{ctex}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\numberwithin{equation}{section}
+\usepackage{hyperref} 
+\hypersetup{urlcolor=blue, citecolor=red}
+
+\title{The \LaTeX{} Template for MCM Version \MCMversion}
+\author{\small \href{http://www.latexstudio.net/}
+  {\includegraphics[width=7cm]{mcmthesis-logo}}}
+\date{\today}
+\begin{document}
+\begin{abstract}
+With the vigorous development of E-commerce industry, more and more companies like SunShine are constantly emerging, and they hope to hit the market and gain people's hearts with their products. As a result, there is a growing need to help companies make business decisions through data analysis. 
+
+\noindent In this paper, we analyzed the user evaluation behaviors of the three vertical markets (hair dryer, microwave oven and pacifier), and obtained a series of quantitative models based on reviews, rating, helpful votes and time series. We also studied the relationship between certain critical variables. Finally, we derived an evaluation model that could guide the company's decision-making and provide suggestions to make the product successful.
+
+\noindent To be more precise, first, we preprocess the data, including the processing of abnormal values and normalization of the data. We combine the indicators that belong to the same product, and sum up or average the values according to the characteristics of different indicators. In some problems, we normalized data with \emph{``beneficial''} character, which means the higher the value, the greater the indicator.
+
+\noindent Second, we performed sentiment analysis using \emph{Natural Language Processing''}. After processing, we obtain the sentiment value range from -1 to 1 for each text-reviews. The more close to 1, the more satisfaction are expressed in the review; the more close to -1, the more negative emotions are expressed. We use the newly obtained values to describe satisfaction level of the reviews.
+
+\noindent Third, we used \emph{``Multiple Linear Regression Analysis''} to conduct a functional relation between the success of the product and many influence factors. 
+
+\noindent Then, we used \emph{``Principal Component Analysis'' (PCA)} to find the most informative data track, and obtained the formula for the principal components which we need to track in the online marketplace. We used Time Series Model to address the problem related to review data. Combined with holiday factors, we first conducted a predicting model based on the data from the beginning to 2014, and then we used the data of 2015 to test the accuracy of the model. We conclude that the model is quite acceptable. 
+
+\noindent After that, we used \emph{``Linear Fitting''} to discover the combination of text-reviews and ratings, and obtained a good linear regression model with high level of fitness. We draw 2-demensional Scatter Plots to study the relations between specific star rating and text-reviews. The result shows the correctness of our intuitive understanding.
+
+\noindent Finally, we use \emph{``Correlation Analysis''} to determine the relationship between specific descriptors and rating levels. We deduce that there is a significant relationship between those factors. We also provide several advices to the company based on our analysis.
+
+\begin{keywords}
+Market Data Analysis; NLP; Multiple Linear Regression; PCA; Time Series; Linear Fitting; Correlation Analysis
+\end{keywords}
+
+\end{abstract}
+\maketitle
+
+%% Generate the Table of Contents, if it's needed.
+%% \tableofcontents
+%% \newpage
+%%
+%% Generate the Memorandum, if it's needed.
+%% \memoto{\LaTeX{}studio}
+%% \memofrom{Liam Huang}
+%% \memosubject{Happy \TeX{}ing!}
+%% \memodate{\today}
+%% \logo{\LARGE I'm pretending to be a LOGO!}
+%% \begin{memo}[Memorandum]
+%%   \lipsum[1-3]
+%% \end{memo}
+%%
+
+\newpage
+\tableofcontents
+\newpage
+\section*{A Letter to the Marketing Director of Sunshine Company} 
+\noindent Dear Marketing Director of Sunshine Company,
+
+It is our honor to provide you our suggestions after performing data analysis and modeling based on the online product evaluation system.
+
+To begin with, many companies are willing to grasp customers' feedback, but it is really annoying and time-consuming if the colleague tries to dig out quantitative useful information by looking up all the customers' reviews online manually. We solve this problem by implementing ``Natural Language Processing'' technology, which can transform text-reviews into digital numbers, representing the level of customers’ satisfaction. We also use these transformed digital numbers to do other quantitative analysis. We develop a simple linear model, which is easy to understand but provide high accuracy. We also determine a new index though a convincing mathematical analysis. This index can be considered as the most informative and important factor for the success of products.
+
+Second, your company must be interested in how the sales number of product distributed among the year, even among the week. With the help of Time Series Theory and Python library ``fbprophe'', we build a reliable time-based model. We tested our model with real data of 2015, and the model great fits the data of 2015. We obtained several interesting conclusions. For instance, the products usually have the highest reputation on Thursday during the whole week, and the indicator ``star\_rating'' has a huge fluctuate on holiday (Christmas, The Black Friday etc.). 
+
+Third, We prove that there is a relationship between the star rating and text reviews by testing their correlation, determining whether there is a bond between specific descriptors and rating points. Besides, we also studied how these two factors collectively affect the success of the product.
+
+Based on our analysis, we can offer you the following two suggestions:
+\begin{itemize}
+	\item On the one hand, the company should pay more attention on the influence of powerful reviews, especially those have more votes or helpful votes, trying to preserve and enhance exposure of positive reviews and avoid high-spotted negative reviews. On the other hand, company should give more chances to have a taste of newly-published products for loyal customers, and invite them to make great comments on the product.
+	\item By conducting word cloud figures from the data, the main concern of customers are the quality of products. For instance, customers prefer powerful and small hair dryer with retractable body. They are interested in powerful microwave oven with quality warranty. They like small and durable baby parcifiers. Your company can pay more attention to these product characteristics.
+\end{itemize}
+
+We hope that our results would be helpful for you to improve your management and make a better online marketing strategy. Wish you could make greater success in your business. We are looking forward to hearing from you.
+
+Best regard,
+
+Team 2003148
+\newpage
+
+\section{Introduction}
+\subsection{Background}
+\par
+People need to consider lots of things to make a decision of purchasing, one of the essential factors that effect peoples’ decision-making is the feedback from buyers. Assessments from others in a sense represent true feelings of ordinary people towards the product. On the other hand, manufacturers can incorporate and review product attributes when a product is launched and over time correct product issues, understand customer requirements, and maintain customer satisfaction.\cite{5}
+\par
+Digital networks give new opportunity for consumers by allowing them to easily share their opinions and experiences with other members of large-scale online communities instead of traditional “word-of-mouth” social networks. It also provides an effective way for the retailers, vendors and manufacturers to analyze the consumers' interests and demands, in order to better update and construct new products, as well as to support business decision making.
+\par
+Much of the work involved in ratings and reviews analysis have reached several conclusions. Samita, Chen and Smith (2007) found that reviewer information has a stronger impact on less popular products than on more popular ones.\cite{3} Callen (2013) used sentiment analysis to determine which features of text are indicative of the context (positive, negative, objective, subjective, etc.).\cite{5} Cristian (2009) found that a review’s perceived helpfulness depends not just on its content, but also the relation of its score to other scores.\cite{1} L. Jack and Tsai (2015) outlined a method to apply text mining to understand consumer feedback about purchased products.\cite{6}
+
+
+
+\subsection{Problem Restatement}
+\par
+One of the biggest online selling platform Amazon provides customers with three fundamental evaluating funtions: 
+\begin{itemize}
+\item Individual ratings - called \textbf{“star ratings”} - allow purchasers to express their level of satisfaction with a product using a scale of 1 (low rated, low satisfaction) to 5 (highly rated, high satisfaction). 
+\item Text-based messages - called \textbf{“reviews”} - that express further opinions and information about the product.
+\item Ratings on these reviews as being helpful or not - called \textbf{“helpfulness rating”} - towards assisting their own product purchasing decision. 
+\end{itemize}
+In this work, we focus on the following problems:
+\begin{enumerate}
+\item Determine a mathematical model or pattern to best describe the evaluating system and support the company to success in their three new products.
+\item Identify the most informative data measures based on rating and reviews. 
+\item Identify and discuss time-based measures to predict the tendency of the product.
+\item Determine combinations of text-based and ratings-based measures that best indicate a potentially successful or failing product. 
+\item Identify the relations between star ratings and reviews.
+\item Identify whether certain sentiment descriptors associate with rating levels or not. 
+\end{enumerate}
+
+\section{Assumptions and Notations}
+\subsection{Assumptions}
+\begin{itemize}
+	\item The success of the product is determined by the sales volume of the product. Due to the data given in the problem, the impact of product price is not considered.
+	\item The interactions between customers are aviliable only on the Amazon product evaluating system, without any other online platform and offline communications.
+	\item All sales, reviews, and stars are not affected by the seller's preferential strategy (or promotion strategy).
+	
+\end{itemize}
+
+\subsection{Notations}
+The primary notations used in this paper are listed in Table 1.
+\begin{table}[!htbp]
+	\begin{center}
+		\caption{Notations}
+		\begin{tabular}{cc}
+			\toprule
+			\multicolumn{1}{m{3cm}}{\centering Notations}
+			&\multicolumn{1}{m{8cm}}{Definition}\\
+			\midrule
+			$r_{ij}$&each normalized value of one indicator\\
+			$a_{ij}$&the original value\\
+			$\max \limits_{i}a_{ij}$&maximum of all values for the j-th indicator\\
+			$\min \limits_{i}a_{ij}$&minimum of all values for the j-th indicator\\
+			$\beta_{1}, \beta_{2}, ..., \beta_{m}$&regression coefficients\\
+			$F_{1-\alpha/2}, F_{\alpha/2}$&quantile values\\
+			$g(t)$&trend function\\
+			$s(t)$&periodic function\\
+			$h(t)$&function of the effects of holidays\\
+			$\epsilon_{t}$& any idiosyncratic changes which are not recommodated by the model\\
+			
+			\bottomrule
+		\end{tabular}\label{tb:notation}
+	\end{center}
+\end{table}
+
+\section{Data Preprocessing}
+\par
+For data-analysis problem, there are usually some incomplete and abnormal values in the raw data, which may seriously affect the accuracy of analysis. So it is important to preprocess the datasets.
+\subsection{Data Selecting}
+\par
+There are quite a number of  values in the given datasets of the problem. 
+\begin{itemize}
+	\item Some datasets have incomplete data lines, which contain only a few variable values. We delete some of the incomplete lines according to the context, and use different methods to fit the missing values which may useful in future analysis.
+	\item Some datasets have extremely high or low values that are obviously error values. We delete the extreme values and the data lines they belong to, regarding them as abnormal values. 
+	\item Some datasets contain long list of zeros, which may affect the accuarcy of data analysis, and the indicator \emph{``star\_rating''} accepts only five discrete numbers from 1 to 5. Besides, The data is presented in the form of transaction records, which is not convenient for our analysis. Therefore, we combine the indicators that belong to the same product, and sum up or average the values according to the characteristics of different indicators.  This step in a way alleviates the problems mentioned above, and also allows us to perform dimensionality reduction on the data.
+\end{itemize}
+
+\subsection{Data Normalization}
+\par
+In order to better illustrate some conclusions from data insights, and better perform accurate and more reliable data analysis, we normalized datasets in some particular problems. The main method we use to normalize the indicators is expressed by the following formula:
+\begin{equation}
+r_{ij}= \frac{a_{ij}-\min \limits_{i}a_{ij}}{\max \limits_{i}a_{ij}-\min \limits_{i}a_{ij}} 
+\end{equation}
+where $r_{ij}$ represents the each normalized value of one indicator, $a_{ij}$ represents the original value, $\max \limits_{i}a_{ij}$ is the maximum of all values for the j-th indicator, $\min \limits_{i}a_{ij}$ is the minimum of all values for the j-th indicator.
+\par
+The method we apply for the normalization depends on the characteristics of different indicators. In our case, all the indicator have \emph{``beneficial''} character, which means the higher the value, the greater the indicator. After normalization, in particular problems the indicators share the same dimension, which an avoid inaccurate results due to large differences between indicator values.
+
+\section{Models}
+\subsection{Sentiment Analysis of Reviews with NLP}
+\par
+One of the biggest issue of our problem is we need to process thousands of text-reviews, extract from them valuable information, and in some way transform them into measurable numbers that we could handle and use by doing sentiment analysis. The \textbf{Natural Language Processing (NLP)} technology is a powerful tool to deal with this problem. NLP is based on statistical machine learning, automata, formal logic, formal grammar and many other knowledges from Computer Science, Statistics and Linguistics. 
+\par
+We use MATLAB R2019b to perform sentiment analysis. The new version of Matlab update brand new Text Analysis Toolbox in which we can use well-programmed function. After processing, we obtain the sentiment value range from -1 to 1 for each text-reviews. The more close to 1, the more satisfaction are expressed in the review; the more close to -1, the more negative emotions are expressed in the review. We add new column for each dataset named \emph{``review\_value''}, to represent the values we get. In the future analysis we will use the values in this new column instead of raw text-reviews.
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=14cm]{figure-1}
+	\caption{Example of NLP results} \label{fig:01}
+\end{figure}
+
+\subsection{Product Analysis Based On Online Evaluation System}
+\par
+For the marketing department of a company, what they want to know most is what external and internal factors are related to the success of a product, so that they can adopt more precise marketing methods, and learn some key influencing factors, such as how can the characteristics of the product better meet the needs of users, and pass it to other departments of the company to make corresponding actions. To make it clearer mathematically, we need to get the functional relationship between a product's success degree y and many influence factors $x_{1}$, ..., $x_{n}$, that is:
+\begin{equation}
+y = f(x_{1},x_{2},...x_{n}).
+\end{equation}
+\par
+Based on the data provided by the problem, we assume that the success of the product is equivalent to the sales number of the product. According to the datasets, we extract six basic variables: \emph{``star\_rating''}, \emph{``helpful\_votes''}, \emph{``total\_votes''}, \emph{``vine''}, \emph{``review\_value''} and \emph{``review\_length''},The method we use is called \textbf{ Mutilple Linear Regression Analysis }, which it is widely used to solve the problem of multivariate model fitting.
+\par
+The model is expressed by:
+\begin{equation}
+\left\{\begin{matrix}
+y = \beta_{0}+\beta_{1}x_{1}+...+\beta_{m}x_{m}+ \varepsilon , \\
+\varepsilon \sim  N(0,\sigma ^{2}),
+\end{matrix}\right.
+\end{equation}
+where $\beta_{0}$ , $\beta_{1}$ , $...$ , $\beta_{m}$ , $\sigma ^{2}$ are all irrelevant unknown parameters, $\beta_{0}$ , $\beta_{1}$ , $...$ , $\beta_{m}$ are called regression coefficients.
+\par
+The basic steps of MLRA are following:
+\begin{enumerate}
+	\item Estimate parameters $\beta_{0}$ , $\beta_{1}$ , ... ,$\beta_{m}$ in the model using least squares method.
+	\item Test whether there is a strong linear relationship between the dependent variable y and the independent variables $x_{1}$ , $x_{2}$ , ..., $x_{n}$ :  if inequality
+	\begin{equation}
+	F_{1-\alpha/2}(m,n-m-1) <F = \frac{U/m}{Q/(n-m-1)} < F_{\alpha/2}(m,n-m-1)
+	\end{equation}
+	(where $F_{1-\alpha/2}$, $F_{\alpha/2}$ are quantile value, m is number of variables, n is number of samples, $Q = \sum_{i=1}^{n}\varepsilon_{i}^{2}=\sum_{i=1}^{n}(b_{i}-\hat{b_{i}})^{2}$, $U = \sum_{i=1}^{n}(\hat{b_{i}}-\bar{b})^{2}, \hat{b_{i}}$ is regression coefficients, and $\bar{b}$ is average value)
+	is established at significance level $\alpha$, then accept the assumption that there is no linear relationship, otherwise not accept.
+	\item Perform hypothesis testing and interval estimation of regression coefficients: if inequality 
+	\begin{equation}
+	\left | t_{j} = \frac{\hat{\beta_{j}}/\sqrt{c_{jj}}}{\sqrt{Q/(n-m-1)}} 
+	\right | < t_{\alpha/2}(n-m-1)
+	\end{equation}
+	 (where $c_{jj}$ is the $(j,j)$th element of $(X^{T}X)^{-1}$, $t_{\alpha/2}$ is upper $\alpha/2$ quantile value) is established for some compounds of statistical vector, then corresponding coefficients can be abandoned, otherwise they should be accepted.
+	\item Predict dependent variable with regression model.
+\end{enumerate}
+\par
+We applied MLRA in this problem with software Matlab. Based on our analysis and calculation, we get a linear expression which illustrate the relationship between \emph{ verified\_purchase } and other variables: 
+\begin{equation}
+y_{dryer} = 0.616 + 0.703 x_{1} -0.039 x_{2}+0.306 x_{3}+1.775 x_{4}-0.002 x_{5}-0.002 x_{6},
+\end{equation}
+where $x_{1}$ , $x_{2}$ , ..., $x_{6}$ stand for \emph{``star\_rating''}, \emph{``helpful\_votes''}, \emph{``total\_votes''}, \emph{``vine''}, \emph{``review\_value''} and \emph{``review\_length''}. \\
+\\
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=5.5cm,width=13cm]{figure-2}
+	\caption{Plot of Residuals for hair dryer} \label{fig:02}
+\end{figure}
+
+\par
+The relationship between \emph{``verified\_purchase''} and independent variables can be regarded as linear relation, which is confirmed by the hypothesis testing given in the MLRA model. We can alse see from the Figure \ref{fig:02} above that the residual is small, which means a good fit of linear model.
+\par
+From the formula we obtained, it’s turned out that \emph{``star\_rating''}, \emph{``total\_votes''} and \emph{``vine''} are positively related to  \emph{``verified\_purchase''}, and \emph{``helpful\_votes''}, \emph{``review\_value''} and \emph{``review\_length''} are negatively related to \emph{``verified\_purchase''}.
+\par
+In the estimation of regression coefficients, there are three variables which are accepted to be abandoned, leaving \emph{``total\_votes''} and \emph{``vine''} to be the most influential factors of our model.This fact has also been verified by the implementation of MLRA in the statistical software SPSS.
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=5cm,width=14cm]{figure-3}
+	\caption{SPSS Implementation} \label{fig:03}
+\end{figure}
+
+\par
+From the Figure \ref{fig:03} above we can see that there are 4 variables being thrown away, and leave two variables \emph{``total\_votes''} and \emph{``vine''}.
+
+From the discussion above, we can reach some initial conclusions: the most influential factors are the numbers of votes for the reviews and the vines. It indicates that:
+\begin{itemize}
+	\item On the one hand, the company should pay more attention on the influence of powerful reviews, especially those have more votes or helpful votes (because helpful votes is the majority of all votes), trying to preserve and enhance exposure of positive reviews and avoid high-spotted negative reviews, which attract more votes and effect the product’s sale. 
+	\item On the other hand, company should give more chances to have a taste of newly-published products for loyal customers, and invite them to make great comments on the product, because these customers really prove how good the product is to make them be loyal to the company, and their deep insight of product using experience can really impress other customers and help new customers fully understand what are the advantages and disadvantages of the product. 
+\end{itemize}
+
+The other two datasets are analyzed in the same way. Here we give the expression of those two products.
+\begin{equation}
+y_{microwave} = -1.370 + 3.739 x_{1} -0.198x_{2}+0.245 x_{3}-2.939 x_{4}+2.926 x_{5}-0.015 x_{6},
+\end{equation}
+\begin{equation}
+y_{parcifier} = -0.435 + 0.534 x_{1} -0.877 x_{2}+1.124 x_{3}+2.393 x_{4}+0.012 x_{5}--0.003x_{6}.
+\end{equation}
+
+\subsection{The Most Informative Data Track}
+\par
+In determining the most informative tracking measure, we used \textbf{Principal Component Analysis (PCA)}. The main purpose of PCA is to use fewer variables to explain most of the original data, to convert many of the highly relevant variables into a small number of independent variables.
+\par
+Here we use the \emph{``hair\_dryer''} data set for the demonstration of analysis. We apply the same method to the other two datasets. Quantize variables \emph{``review\_value''}, \emph{``star\_rating''}, \emph{``helpful\_votes''}, \emph{``total\_votes''}, \emph{``vine''}, and \emph{``verified\_purchase''} and import them into statistical software SPSS for analysis. Through Factor Analyze in Data Reduction we obtain \textbf{Correlation Matrix} (Figure \ref{fig:04}), \textbf{Total Variance Explained} (Figure \ref{fig:05}), \textbf{Scree Plot} (Figure \ref{fig:06}), and \textbf{Component Matrix} (Figure \ref{fig:07}). Three principal components were finally extracted.
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=14cm]{figure-4}
+	\caption{Correlation Matricx} \label{fig:04}
+\end{figure}
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=4cm,width=14cm]{figure-5}
+	\caption{Total Variance Explained} \label{fig:05}
+\end{figure}
+\par
+Analyzing Figure \ref{fig:04} (Correlation Matrix), we found that there is a significant relationship between \emph{``review\_value''} and \emph{``star\_rating''} , and there is also a relationship between \emph{``helpful\_votes''} and \emph{``total\_votes''}. It turns out that many variables have a strong direct correlation, and they have overlapping information, which can be extracted by dimensionality reduction factors to get principal components. 
+\par
+The rule of principal component extraction is grasping the first m principal components whose corresponding eigenvalues are greater than \emph{one}. The eigenvalue can be regarded as a strength indicator of the principal component. If the eigenvalue is less than 1, it means that the explanatory strength of the principal component is not as good as the average explanatory strength by directly introducing an original variable. So “eigenvalues greater than one” is widely used as inclusion criteria.
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=4cm,width=10cm]{figure-6}
+	\caption{Scree Plot} \label{fig:06}
+\end{figure}
+
+\par
+From Figure \ref{fig:06} (Scree Plot), it can be seen intuitively that there are three components with eigenvalues greater than 1. At the same time, according to Figure \ref{fig:05} (Total Variance Explained), it can be known that 3 principal components are extracted, that is m = 3.
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=5cm,width=10cm]{figure-7}
+	\caption{Component Matrix} \label{fig:07}
+\end{figure}
+
+\par
+From Figure \ref{fig:07} (Component Matrix), it can be seen that the \emph{``helpful\_votes''} and \emph{``total\_votes''} have a higher load on the first principal component, indicating that the first principal component basically reflects the information of these two variables; the \emph{``review\_value''} and \emph{``star\_rating''} have a higher load on the second principal component, indicating that the second principal component basically reflects the information of these two variables; and \emph{``verified\_purchase''} has a higher load on the third principal component, indicating that the third principal component basically reflects the information of this variable. So The extracted 3 principal components basically reflect all the original variables, so we can replace the original six variables with 3 new variables. 
+
+\par
+But the expressions of these three new variables cannot be directly obtained from the output window, because in "Component Matrix", each load amount represents the correlation coefficient between the principal component and the corresponding variable. 
+\par
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=14cm]{figure-8}
+	\caption{Variables Coefficients} \label{fig:08}
+\end{figure}
+Dividing the data in Figure \ref{fig:05} (Total Variance Explained) by the square root of the eigenvalue corresponding to the principal component, we obtain the coefficients corresponding to each of the three principal components (Figure \ref{fig:08}).
+
+\par
+Then, the original six index data are normalized in SPSS and  obtain variables $\tilde{x}_{1}$ , $\tilde{x}_{2}$ , $\tilde{x}_{3}$ , ..., $\tilde{x}_{6}$ , and the normalized data vector is pointwise-multiplied with the obtained eigenvalues coefficients vector. Finally the principal components are expressed by:
+\begin{equation}
+F_{1} = -0.084\times\tilde{x}_{1}+0.688\times\tilde{x}_{2}+0.69\times\tilde{x}_{3}+0.046\times\tilde{x}_{4}-0.156\times\tilde{x}_{5}-0.132\times\tilde{x}_{6},
+\end{equation}
+\begin{equation}
+F_{2}=  0.695\times\tilde{x}_{1}+0.118\times\tilde{x}_{2}+0.108\times\tilde{x}_{3}+0.112\times\tilde{x}_{4}+0.073\times\tilde{x}_{5}+0.688\times\tilde{x}_{6},
+\end{equation}
+\begin{equation}
+F_{3}= -0.061\times\tilde{x}_{1}+0.107\times\tilde{x}_{2}+0.102\times\tilde{x}_{3}-0.707\times\tilde{x}_{4}+0.686\times\tilde{x}_{5}+0.07\times\tilde{x}_{6}.
+\end{equation}
+
+\par
+At last, considering the ontribution rate of each component to the principal component, we obtain the principal component comprehensive model, which is:
+\begin{equation}
+F = 0.416\times F_{1}+0.319\times F_{2}+0.266\times F_{3}.
+\end{equation}
+\par
+The obtained comprehensive evaluation value F can be used as the company's key tracking data.
+\par
+The datasets \emph{``microwave''} and \emph{``parcifier''} are discussed and analyzed in the some way. Here we give the formulas of principal components: \\
+\par
+For \emph{``microwave''}: 
+\begin{equation}
+F_{1} = -0.009\times\tilde{x}_{1}-0.073\times\tilde{x}_{2}+0.657\times\tilde{x}_{3}+0.658\times\tilde{x}_{4}+0.298\times\tilde{x}_{5}-0.202\times\tilde{x}_{6},
+\end{equation}
+\begin{equation}
+F_{2} = 0.575\times\tilde{x}_{1}+0.635\times\tilde{x}_{2}+0.102\times\tilde{x}_{3}+0.095\times\tilde{x}_{4}+0.072\times\tilde{x}_{5}+0.492\times\tilde{x}_{6},
+\end{equation}
+\begin{equation}
+F = 0.523\times F_{1}+0.477\times F_{2}.
+\end{equation}
+
+\par
+For \emph{``parcifier''}:
+\begin{equation}
+F_{1} = -0.103\times\tilde{x}_{1}-0.175\times\tilde{x}_{2}+0.68\times\tilde{x}_{3}+0.685\times\tilde{x}_{4}+0.048\times\tilde{x}_{5}-0.16\times\tilde{x}_{6},
+\end{equation}
+\begin{equation}
+F_{2} = 0.703\times\tilde{x}_{1}+0.679\times\tilde{x}_{2}+0.15\times\tilde{x}_{3}+0.123\times\tilde{x}_{4}+0.083\times\tilde{x}_{5}-0.009\times\tilde{x}_{6},
+\end{equation}
+\begin{equation}
+F_{3} = -0.028\times\tilde{x}_{1}+0.079\times\tilde{x}_{2}+0.117\times\tilde{x}_{3}+0.109\times\tilde{x}_{4}-0.714\times\tilde{x}_{5}+0.676\times\tilde{x}_{6},
+\end{equation}
+\begin{equation}
+F = 0.432\times F_{1}+0.315\times F_{2}+0.253\times F_{3}.
+\end{equation}
+
+\subsection{Time-Based Data Forecast Model}
+\par
+In determining time-based measures to suggest a product's reputation tendency in the online marketplace, we think that the product’s reputation has a positive correlation with \emph{``star\_rating''}, and with the development of technology the average of \emph{``star\_rating''} may go higher year by year, so the first thing we want to do is to find the relationship between \emph{`review\_date''} and \emph{``star\_rating''}.
+\par
+What we use to find the relationship is called \textbf{``fbprophet''}, which is a time series prediction method opensourced by Facebook. According to the paper, we believe that our variables \emph{`review\_date''} and \emph{``star\_rating''} are also satisfied with the model which is called \textbf{``Decomposable Time Series Model''} (Harvey \& Peters 1990). Here in the model we have three components: \emph{trend}, \emph{seasonality} and \emph{holidays}, and they are combined in the following equation:
+\begin{equation}
+y(t)=g(t)+s(t)+h(t)+\epsilon_{t},
+\end{equation}
+where $g(t)$ is the trend function which models non-periodic changes in the value of the time series, $s(t)$ represents periodic changes (e.g., weekly and yearly seasonality), and $h(t)$ represents the effects of holidays which occur on potentially irregular schedules over one or more days. The error term $\epsilon_{t}$ represents any idiosyncratic changes which are not accommodated by the model, later we will make the parametric assumption that $\epsilon_{t}$ is normally distributed.
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=12cm]{figure-9}
+	\caption{\emph{``hair\_dryer''} general trend with holiday} \label{fig:09}
+\end{figure}
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=12cm]{figure-10}
+	\caption{\emph{``hair\_dryer''} component analysis with holiday} \label{fig:10}
+\end{figure}
+
+\par
+We reformed the data into a new form, which has the first column called \emph{ds} and include all \emph{``review\_date''} from earliest to latest, and the second column called \emph{y} and include all \emph{``star\_rating''} corresponding with \emph{``review\_date''}. 
+\par
+We first analyze \emph{``hair\_dryer''}, by programming we get two figures, which are Figure \ref{fig:09} and Figure \ref{fig:10}.\\
+\par
+In the Figure \ref{fig:09}, all black dots are \emph{``star\_rating''} that we have in the datasets; the dark blue line is the prediction of \emph{``star\_rating''} (we make a prediction for next year, which means from 2015/8/15-2016/8/15); and the light blue is flexible area (include all the possibility of \emph{``star\_rating''}). In the Figure \ref{fig:10}, the first picture is called \textbf{``General Trend''}, which directly shows the change of \emph{``star\_rating''}, the second picture takes holiday into consideration, means \emph{``star\_rating''} will fluctuate as a result of holidays, and the value of \emph{``star\_rating''} will be the trend value in figure 1 plus holiday value in Figure \ref{fig:10}. The third and forth picture are similar to the second one.
+\par
+For the microwave and baby pacifier we implement our method in the same way.
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=11cm]{figure-12}
+	\caption{\emph{``microwave''} general trend with holiday} \label{fig:12}
+\end{figure}
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=12cm]{figure-11}
+	\caption{\emph{``microwave''} component analysis with holiday} \label{fig:11}
+\end{figure}
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=11cm]{figure-13}
+	\caption{\emph{``parcifier''} general trend with holiday} \label{fig:13}
+\end{figure}
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=14cm]{figure-14}
+	\caption{\emph{``parcifier''} component analysis with holiday} \label{fig:14}
+\end{figure}
+
+From those figures, we obtain following conclusions:
+\begin{enumerate}
+	\item \emph{``star\_rating''} do raise year by year;
+	\item \emph{``star\_rating''} has a huge fluctuate on holiday (Christmas, The Black Friday etc.);
+	\item \emph{``star\_rating''} usually go higher on Thursday, Friday and Saturday;
+	\item \emph{``star\_rating''} of \emph{``microwave''} is more volatile than \emph{``hair\_dryer''} and \emph{``parcifier''}; 
+\end{enumerate}
+
+\subsection{The Combination Of Texts and Rating}
+\par
+In determining the combination of text-based measures and ratings-based measures that best indicate a potentially successful or failing product, we use \textbf{``Linear Fitting''}, by regarding the success of the product is linear related only to the text-reviews and rating-points. The reason we use linear fitting model instead of non-linear fitting is that the goodness of fitting of linear is better than non-linear fitting. The following analysis shows that the linear expression we obtain has high-level of accuracy.
+\par
+The datasets we use here are normalized, in order to better illustrate and improve the output results. The text-reviews are transformed into numbers from -1 to 1 from Natural Language Processing, in order to describe the satisfaction level of reviews.
+\emph{``Zverified\_purchase''} is the dependent variable representing the sales number of the product, which is the same meaning with previous sub problems. \emph{``Zstar\_rating''} and \emph{``Zreview\_value''} are the variables that we want to give weights to. We input these data into MATLAB and try to find a formula that can describe the relationship between them.
+The linear model we want to fit is
+\begin{equation}
+   f(x,y) = p_{00} + p_{10}x + p_{01}y
+\end{equation}
+where $x$ represents \emph{``Zstar\_rating''}, and $y$ represents \emph{``Zreview\_value''}.
+\par
+In MATLAB we mainly use \textbf{``Curve Fitting Tool''}. After searching, we find that for \emph{``hair\_dryer''}, if we use method \emph{``Polynomial''}, degrees of \emph{``Zstar\_rating''} and \emph{``Zreview\_value''} both equal to 1, then choose \emph{``Bisquare''} on robust, we can get the best formula. 
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=14cm]{figure-15}
+	\caption{The linear-fitting 3-d graph} \label{fig:15}
+\end{figure}
+\par
+Finally we find an expression that best satisfies with most of observation values. We obtain coefficients $p_{00}$ = -0.08383, $p_{10}$ = 0.00007454 and $p_{01}$= 0.00003033 with 95\% confidence bounds. The statistics are SSE=0.1416, R-square=0.9834, RMSE=0.01627, which show that this polynomial can describe the relationship well:
+\begin{equation}
+Z_{dryer}= -0.08383+0.00007\times Z_{star\_rating} + 0.00003\times Z_{review\_value}
+\end{equation}
+\par
+The formula shows that \emph{``Zstar\_rating''} and \emph{``Zreview\_value''} have a positive correlation with \emph{``Zverified\_purchase''}, or simply we can say ``higher star rating with more positive comment can bring more sales''.
+\par
+For the microwave and baby pacifier we do the same job. It has some differences between results, but generally, models are similar to each other. We omit the discussion for the next two datasets, only give the results.
+\begin{equation}
+Z_{microwave}= -0.16383+0.02922\times Z_{star\_rating} + 0.00034\times Z_{review\_value}
+\end{equation}
+\begin{equation}
+Z_{parcifier}= -0.02026+9.97324\times10^{-18}\times Z_{star\_rating} + -3.03876\times10^{-18}\times Z_{review\_value}
+\end{equation}
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=14cm]{figure-16}
+	\caption{The linear-fitting 3-d graph for microwave oven} \label{fig:16}
+\end{figure}
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=14cm]{figure-17}
+	\caption{The linear-fitting 3-d graph for parcifier} \label{fig:17}
+\end{figure}
+
+\subsection{Specific Star Rating And Text-Reviews}
+\par
+It is quite natural to reach an intuitive understanding that, the more stars voted, the more satisfied with the product. To prove that, we draw a 2-dimentional Scatter Plot with \emph{``star\_rating''} and \emph{`review\_date''}, and observe how these points are distributed in the figures.
+The data are normalized thus the are no corresponding relations between values and meanings.
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=8cm,width=12cm]{figure-18}
+	\caption{Scatter Plot of dryer} \label{fig:18}
+\end{figure}
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=8cm,width=12cm]{figure-19}
+	\caption{Scatter Plot of microwave} \label{fig:19}
+\end{figure}
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=8cm,width=12cm]{figure-20}
+	\caption{Scatter Plot of parcifier} \label{fig:20}
+\end{figure}
+\par
+It’s turned out from these figures that most of the points are located at up-right corner, which means high star rating and high review satisfaction, in the Figure \ref{fig:19} we see a clear positive correlation between two variables. Although it’s tough to fit the points with a line, especially in the case of \emph{``hair\_dryer''} and \emph{``percifier''}, but the Scatter Plots show the correctness of our basic intuitive understanding.
+\par
+Many points stand in 5 straight lines, that’s because \emph{``star\_rating''} only accept five discrete values from 1 to 5.
+\par
+In some specific situation, where customers give 5 star to the product, but with negative and short reviews, those customers don’t want to make a trouble and it’s beneficial in their mind for both sides. However the number of these kind of circumstances still remain low.
+\par
+After reading many text-reviews, we also find an interesting fact, that many long reviews have relatively high or low star rating points, which also fits our daily experience. We make long reviews mainly in two situations: To praise the good points of the product and recommend it to others, or to criticize and complain about the bad using experience. 
+
+\subsection{Relationship Between Specific Descriptors And Rating Levels}
+\par
+In determining whether there is a certain relationship between text reviews and rating (that is, whether specific words are related to \emph{``star\_rating''}, because we have obtain \emph{``review\_value''} through NLP, we assume that certain descriptors represent levels of \emph{``review\_value''}, so we can study on the relationship between these two variables), we use SPSS software to qualitatively perform correlation tests and regression analysis on these two variables.
+\par
+\textbf{``Correlation Analysis''} is a commonly used statistical method to study the closeness between variables. \emph{``Linear Correlation Analysis''} studies the strength and direction of the linear relationship between two variables. The \emph{``Correlation Coefficient''} is a statistic value describing this linear relationship. In the correlation test, the \emph{``Pearson Correlation Analysis Method''} was used. Since it was not possible to confirm whether the correlation was positive or negative, the two-tailed t-test was selected as the significance test options. For each data set, we can obtain Correlations (Figure \ref{fig:21}, Figure \ref{fig:22}, Figure \ref{fig:23}). In the table, Sig is the P value, and less than 0.05 is significant, a N is the sample size.
+
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=11cm]{figure-21}
+	\caption{Correlations(``hair\_dryer'')} \label{fig:21}
+\end{figure}
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=10cm]{figure-22}
+	\caption{Correlations(``microwave'')} \label{fig:22}
+\end{figure}
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=10cm]{figure-23}
+	\caption{Correlations(``parcifier'')} \label{fig:23}
+\end{figure}
+
+
+\par
+Analyzing the three correlation coefficient matrices, three values are displayed vertically at the intersection of the variable row and the variable column: the value in the first row is the correlation coefficient matrix of the row variable and the column variable. The row and column variables are the same, and the correlation coefficient is 1. For \emph{``hair\_dryer''}, the correlation between \emph{``review\_value''} and \emph{``star\_rating''} is 0.549, microcave is 0.595, and percifier is 0.501. The values in the second row are Sig. (2-tailed) two-tailed test results (probability that the hypothesis test that makes the correlation coefficient 0 is true), and the results are all 0.000 or less than 0.001. The comment line states that the significance level of the correlation coefficient marked "**" is 0.01. The results in the table show that for the three product datasets, both \emph{``review\_value''} and \emph{``star\_rating''} are significantly positive correlated.
+\par
+The relationship between variables is divided into two types: \emph{``deterministic''} and \emph{``non-deterministic''}. Functions express deterministic relationships. Mathematical statistics methods that study the non-deterministic relationship between variables and construct empirical formulas between variables are called \emph{``Regression Analysis''}. When there is a linear relationship between the independent and dependent variables, we can construct a linear regression equation. Using SPSS software, we performed regression analysis on the scores and quantified text reviews of the three data sets, obtained three regression analysis results tables (Figure \ref{fig:24}, Figure \ref{fig:25}, Figure \ref{fig:26}).\\
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=4cm,width=12cm]{figure-24}
+	\caption{Coefficient(``hair\_dryer'')} \label{fig:24}
+\end{figure}
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=4cm,width=12cm]{figure-25}
+	\caption{Coefficient(``microwave'')} \label{fig:25}
+\end{figure}
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[height=4cm,width=12cm]{figure-26}
+	\caption{Coefficient(``parcifier'')} \label{fig:26}
+\end{figure}
+
+\par
+The table is from left to right. Mldel is the regression equation model number. Here we choose number 1 for analysis, where:
+\begin{itemize}
+	\item \emph{Unstandardized Coefficients} is the non-standardized regression coefficient. 
+	\item \emph{Standardized Coefficients} is standardized regression coefficient. 
+	\item \emph{t} is the t value of the hypothesis test with a partial regression coefficient of 0 (and a constant of 0)
+	\item \emph{Sig.} is the significance level value for a hypothesis test with a partial regression coefficient of 0 (and a constant of 0).
+	\item \emph{B} is partial regression coefficient. It is obtained after controlling other variables. 
+	\item \emph{Beta} is a standardized regression coefficient.
+\end{itemize} 
+\par
+Analyze the regression coefficient table of \emph{``hair\_dryer''}. From the table, we can see the estimated value and its test result. The constant term $b_{0}$ = 3.307, the regression coefficient $b_{1}$ = 1.514, the regression coefficient test statistic $t$ = 70.357, and the significant level value of the equation constant is 0.000. The correlation probability value p < 0.001 indicates that the regression coefficient is significantly different from 0. The regression equation can be expressed as:
+\begin{equation}
+y_{dryer} = 3.307 + 1.514x.
+\end{equation}
+which has statistical significance. Similarly, we can get the regression equation of microcave:
+\begin{equation}
+y_{microwave} = 2.893 + 1.599x
+\end{equation}
+and the regression equation of parcifier:
+\begin{equation}
+y_{parcifier} = 3.516 + 1.359x.
+\end{equation}
+
+\par
+From the results of correlation analysis and regression analysis, it can be known that for the three product data sets, under the condition that the other remains unchanged, when the \emph{``review\_value''} is high, \emph{``star\_rating''} will also be high, and when \emph{``review\_value''} is increased by 1, \emph{``star\_rating''} increased by 1.514, 1.599 and 1.359 respectively. Through the correlation test and regression analysis of the scoring and quantified text reviews in the three data sets, it can be concluded that there is a significant relationship between text reviews and ratings.
+
+\section{Strength and Weakness}
+\subsection{Strength}
+\begin{itemize}
+	\item Based on the conditions of missing data and abnormal values, we take different measures to maintain the authenticity of the data as much as possible.
+	\item We perform sentiment analysis on the text-reviews with NLP, which transforms the texts to measurable numbers, allowing us to do further research.
+	\item We tried different ways to confirm the accuracy of our model, for example, we perform hypothesis testing and interval estimation of regression coefficients in the first problem, and conduct the formula in two platform: Matlab and SPSS. 
+	\item We use different types of mathematical and statistical methods to strength our model and analysis.
+	\item We obtained relatively reliable results for each problems.
+\end{itemize}
+
+\subsection{Weakness}
+\begin{itemize}
+	\item The datasets given in the problem only have transaction records with text-reviews. In the ordinary situation, there are other types of data, which may provide more information and support to the analysis.
+	\item We can only obtain some conclusions from the aspect of analyzing online evaluating system. It will be beneficial if we could analyze the product combined with other data. 
+	\item We didn’t seriously consider the impact of the product price(but lots of customers mentioned and complained about that).
+	\item Some parameters remained to be improved. For example, when using principal component analysis, some statistic like KMO in the first dataset is not quite acceptable, as well as the statistic $R^{2}$ with relatively low correlation in MLRA.
+	
+\end{itemize}
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=12cm]{figure-27}
+	\caption{Inacceptable KMO} \label{fig:27}
+\end{figure}
+
+\subsection{Promotion}
+\par
+To improve the accuracy of statistic KMO, we try to add another set of data: the number of account purchases, that is, the number of repeats of the buyer ID. After adding it to the factor analysis, it was found that the KMO value reached 0.5, which met the requirements.
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=12cm]{figure-28}
+	\caption{Acceptable KMO} \label{fig:28}
+\end{figure}
+
+\section{Conclusions}
+\par
+In this work, based on three markets datum (hair dryer, microwave oven and pacifier) we have developed different mathematical models. By performing rigorous mathematical analysis, we obtain the following conclusions.
+\begin{itemize}
+	\item The relationship success of product and independent variables can be regarded as linear relation with high level of fitness.
+	\item The more stars voted, the more satisfied with the product.
+	\item There is a significant positive correlation between text reviews and ratings.
+	\item Higher star rating with more positive comment can bring more sales.
+	\item \emph{``star\_rating''} raises year by year.
+	\item \emph{``star\_rating''} has a huge fluctuate on holiday (Christmas, The Black Friday etc.).
+	\item \emph{``star\_rating''} usually go higher on Thursday, Friday and Saturday.
+	\item \emph{``star\_rating''} of \emph{``microwave''} is more volatile than \emph{``hair\_dryer''} and \emph{``parcifier''}.
+	\item The company should pay more attention on the influence of powerful reviews, especially those have more votes or helpful votes, trying to preserve and enhance exposure of positive reviews and avoid high-spotted negative reviews, which attract more votes and effect the product’s sale. 
+	\item The company should also give more chances to have a taste of newly-published products for loyal customers, and invite them to make great comments on the product, because these customers really prove how good the product is to make them be loyal to the company, and their deep insight of product using experience can really impress other customers and help new customers fully understand what are the advantages and disadvantages of the product.
+	
+\end{itemize}
+
+\begin{thebibliography}{99}
+\addcontentsline{toc}{section}{References}
+\bibitem{1} C. Danescu-Niculescu-Mizil, G. Kossinets, J. Kleinberg, and L. Lee. "How opinions are received by online communities: a case study on amazon.com helpfulness votes. " In Proceedings of the 18th international conference on World wide web (2009): 141-150.
+
+\bibitem{2} A. Bhatt, A. Patel, H. Chheda and K. Gawande, "Amazon Review Classification and Sentiment Analysis. " International Journal of Computer Science and Information Technologies, Vol. 6, No. 6 (2015): 5107-5110.
+
+\bibitem{3} S. Dhanasobhon, P-Y-. Chen, and M. Smith. "An Analysis of the Differential Impact of Reviews and Reviewers at Amazon.com" ICIS 2007 Proceedings (2007): 94.
+
+\bibitem{4} A. S. Rathor, A. Agarwal, and P. Dimri. "Comparative study of machine learning approaches for Amazon reviews." Computer Science 132 (2018): 1552-1561.
+
+\bibitem{5} C. Rain. "Sentiment Analysis in Amazon Reviews Using Probabilistic Machine Learning", Swarthmore College, 2013.
+
+\bibitem{6} L. Jack, Y.D. Tsai. "Using Text Mining of Amazon Reviews to explore User-Defined Product Highlights and Issues" In Proceedings of International Conference on Data Mining, 2015(01).
+
+\bibitem{7} X-L-. Hui,L. Qiang, F. Hui. Car following safe distance model based on braking process of leading vehicle f. Journal of Guangxi Normal University(Natural Science Edition),2010,28(1):1-5.
+
+\bibitem{8} S.J. Taylor, B. Letham. "Forecasting at scale" The American Statistician, 2017.
+
+\bibitem{9} H.M. Lin, W.l. Zhang. "Similarities and Differences of Principal Component Analysis and Factor Analysis and SPSS Software". Statistical Research, 2005(03).
+
+\bibitem{10} J.X. Liu. "Factor Analysis of Comprehensive Performance of Students with SPSS Statistical Software". Statistical Education, 2006, 16 (1): 53-56.
+
+\bibitem{11} S.H. Yu "On the Application of SPSS in Educational Information Processing". Computer and Telecommunications, 2006, 15 (10): 55-58.
+
+\bibitem{12} S.K. Si, Z.L. Sun. Mathematical Modeling Algorithms and Applications .Second Edition. Beijing: National Defense Industry Press, 2019.150~158
+
+\bibitem{13} \url{https://ww2.mathworks.cn/help/stats/regress.html}
+
+\bibitem{14} \url{https://www.mathworks.com/help/textanalytics/ug/analyze-sentiment-in-text.html}
+
+\end{thebibliography}
+
+\begin{appendices}
+
+\subsection*{Codes}
+Here are some programmes we used in our model as follow.\\
+
+\textcolor[rgb]{0.98,0.00,0.00}{\textbf{Input Matlab source}} for Sentiment analysis of reviews with NLP
+\lstinputlisting[language=Matlab]{./code/nlp_transformation.m}
+
+\textcolor[rgb]{0.98,0.00,0.00}{\textbf{Input Matlab source}} for Product Analysis Based On Online Evaluation System
+\lstinputlisting[language=Matlab]{./code/linear_regress.m}
+
+\textcolor[rgb]{0.98,0.00,0.00}{\textbf{Input Matlab source}} for Specific Star Rating And Text-Reviews
+\lstinputlisting[language=Matlab]{./code/matlab_code_1.txt}
+
+\textbf{\textcolor[rgb]{0.98,0.00,0.00}{Input Python source}} for Product Analysis Based On Online Evaluation System
+\lstinputlisting[language=python]{./code/fbprophet.txt}
+
+\newpage
+\subsection*{Word Cloud images}
+Here are Word Cloud images we created, using them to analysis the demands and focus of the customers.
+
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=11cm]{cloud_1}
+	\caption{Word Cloud Image for hair dryer} \label{fig:31}
+\end{figure} 
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=11cm]{cloud_2}
+	\caption{Word Cloud Image for microwave oven} \label{fig:32}
+\end{figure}
+\begin{figure}[h]
+	\small
+	\centering
+	\includegraphics[width=11cm]{cloud_3}
+	\caption{Word Cloud Image for parcifier} \label{fig:33}
+\end{figure}
+
+\end{appendices}
+
+\end{document}
+%%
+%% This work consists of these files mcmthesis.dtx,
+%%                                   figures/ and
+%%                                   code/,
+%% and the derived files             mcmthesis.cls,
+%%                                   mcmthesis-demo.tex,
+%%                                   README,
+%%                                   LICENSE,
+%%                                   mcmthesis.pdf and
+%%                                   mcmthesis-demo.pdf.
+%%
+%% End of file `mcmthesis-demo.tex'.
